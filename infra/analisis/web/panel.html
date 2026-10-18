@@ -1,0 +1,787 @@
+<title>Qué vídeos hacer</title>
+<style>
+/* Layout: panel de trabajo con la marca RM (Design System, 03/10/2026). Cabecera con logo y
+   pestañas → titular en minúscula + cifras desplegables + qué es la nota → podio → mapa de
+   calor → alcance vs conexión → tarjetas "haz más" / filas "evita" → evolución → comparador.
+   La nota se escribe como multiplicador (×2,9 = 2,9 veces un vídeo normal de ese cliente). */
+@font-face { font-family: "Glacial Indifference"; font-weight: 400; font-display: swap;
+  src: url("GlacialIndifference-Regular.otf") format("opentype"); }
+@font-face { font-family: "Glacial Indifference"; font-weight: 700; font-display: swap;
+  src: url("GlacialIndifference-Bold.otf") format("opentype"); }
+:root {
+  --page: #f7f7f7; --card: #ffffff; --sunk: #efefef; --line: #e3e3e3;
+  --ink: #15121a; --ink-2: #5c5563; --ink-3: #948e9c;
+  --brand: #ff2041; --brand-hover: #e60034; --brand-tint: #ffe0e3; --on-brand: #ffffff;
+  --good: #0b9a7d; --bad: #e60034; --neutral-bar: #d8d4de;
+  --c1: #ff2041; --c2: #7c3aed; --c3: #0b9a7d; --c4: #b07d00;
+  --f: "Glacial Indifference", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r-s: 8px; --r-m: 14px; --r-l: 22px;
+  --shadow-m: 0 4px 12px rgba(21,18,26,.08), 0 2px 4px rgba(21,18,26,.04);
+  --shadow-brand: 0 8px 24px rgba(255,32,65,.28);
+  --ease-bounce: cubic-bezier(.34,1.56,.64,1);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --page: #121016; --card: #1c1822; --sunk: #24202b; --line: #322c3a;
+  --ink: #f3f0f6; --ink-2: #b7b0bf; --ink-3: #8a8492;
+  --brand: #ff3352; --brand-hover: #ff5a73; --brand-tint: #3a1820; --on-brand: #ffffff;
+  --good: #1fd8a8; --bad: #ff5a73; --neutral-bar: #4a4352;
+  --c1: #ff2a4b; --c2: #8f63f3; --c3: #12a886; --c4: #b88500;
+  --shadow-m: 0 4px 12px rgba(0,0,0,.35); --shadow-brand: 0 8px 24px rgba(255,51,82,.32); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --page: #121016; --card: #1c1822; --sunk: #24202b; --line: #322c3a;
+  --ink: #f3f0f6; --ink-2: #b7b0bf; --ink-3: #8a8492;
+  --brand: #ff3352; --brand-hover: #ff5a73; --brand-tint: #3a1820; --on-brand: #ffffff;
+  --good: #1fd8a8; --bad: #ff5a73; --neutral-bar: #4a4352;
+  --c1: #ff2a4b; --c2: #8f63f3; --c3: #12a886; --c4: #b88500;
+  --shadow-m: 0 4px 12px rgba(0,0,0,.35); --shadow-brand: 0 8px 24px rgba(255,51,82,.32); color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--page); color: var(--ink); font: 400 16px/1.45 var(--f); }
+a { color: var(--brand); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+button, select, textarea, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.n { font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; flex: none; }
+
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--page) 90%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 10px 18px; padding-block: 10px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand img { height: 30px; width: auto; }
+.brand b { font-size: 18px; letter-spacing: -.01em; }
+.brand small { display: block; color: var(--ink-3); font-size: 12px; }
+nav.tabs { display: flex; gap: 6px; margin-left: auto; overflow-x: auto; max-width: 100%; scrollbar-width: none; }
+.tab { flex: none; border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+  padding: 6px 14px; cursor: pointer; font-size: 14px; color: var(--ink-2); transition: transform .12s var(--ease-bounce); }
+.tab:hover { border-color: var(--brand); color: var(--ink); }
+.tab:active { transform: scale(.97); }
+.tab[aria-selected="true"] { background: var(--brand); color: var(--on-brand); border-color: var(--brand); box-shadow: var(--shadow-brand); }
+.tab i { font-style: normal; font-size: 11px; opacity: .75; margin-left: 4px; }
+
+main { padding-block: 28px 72px; display: grid; gap: 40px; }
+h2 { margin: 0; font-weight: 700; font-size: 26px; line-height: 1.1; letter-spacing: -.02em; text-wrap: balance; }
+.sub { margin: 6px 0 16px; color: var(--ink-2); max-width: 68ch; }
+.eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: 11px; font-weight: 700; color: var(--ink-3); }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-l); padding: 20px; box-shadow: var(--shadow-m); min-width: 0; }
+
+/* Titular + cifras desplegables + qué es la nota */
+.hero { display: grid; gap: 22px; }
+.hero h1 { margin: 6px 0 0; font-weight: 700; font-size: clamp(34px, 6vw, 64px); line-height: 1.02; letter-spacing: -.02em; max-width: 16ch; text-wrap: balance; }
+.hero h1 em { font-style: normal; color: var(--brand); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; align-items: start; }
+.tile { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-m); padding: 14px 16px; }
+.tile b.n { display: block; font-size: 38px; line-height: 1; color: var(--brand); letter-spacing: -.02em; }
+.tile span.lbl { font-size: 13px; color: var(--ink-2); }
+.tile.dd summary { list-style: none; cursor: pointer; }
+.tile.dd summary::-webkit-details-marker { display: none; }
+.tile.dd:hover { border-color: color-mix(in srgb, var(--brand) 50%, var(--line)); }
+.tile.dd[open] { box-shadow: var(--shadow-brand); border-color: var(--brand); }
+.tile.dd ul { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 14px; }
+.tile.dd li { display: block; }
+.tile.dd li small { display: block; color: var(--ink-3); margin-top: 2px; }
+.tile.dd li .n { color: var(--good); font-weight: 700; }
+.nota-explica { background: var(--brand-tint); border-radius: var(--r-m); padding: 10px 16px; max-width: 86ch; }
+.nota-explica summary { cursor: pointer; font-size: 15px; }
+.nota-explica p { margin: 8px 0 2px; color: var(--ink-2); }
+.note { border-radius: var(--r-m); background: var(--sunk); padding: 12px 16px; color: var(--ink-2); font-size: 15px; max-width: 86ch; }
+.note b { color: var(--ink); }
+
+/* Leyenda de clientes */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--ink-2); margin-bottom: 10px; }
+.legend button { border: 0; background: none; cursor: pointer; padding: 2px 0; color: var(--ink-2); display: inline-flex; align-items: center; }
+.legend button[aria-pressed="false"] { opacity: .35; }
+
+/* Podio legible */
+ol.podio { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
+.prow { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; }
+.prow .pos { font-weight: 700; font-size: 26px; line-height: 1.1; color: var(--ink-3); text-align: right; }
+.prow:nth-child(-n+3) .pos { color: var(--brand); }
+.pmain { display: grid; gap: 7px; min-width: 0; }
+.ptitle { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.ptitle b { font-size: 20px; letter-spacing: -.01em; }
+.pdesc { margin: 0; font-size: 14px; color: var(--ink-2); }
+.pbar { position: relative; height: 30px; background: var(--sunk); border-radius: 8px; }
+.pbar .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--good); border-radius: 8px;
+  display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; min-width: 70px; }
+.pbar .fill b { color: #fff; font-size: 17px; }
+.pbar .one { position: absolute; top: -4px; bottom: -4px; border-left: 2px dashed var(--ink-3); }
+
+/* Mapa de calor */
+.heatwrap { overflow-x: auto; }
+table.heat { border-collapse: separate; border-spacing: 3px; width: 100%; min-width: 520px; font-size: 14px; }
+.heat thead th { font-weight: 700; font-size: 13px; color: var(--ink-2); text-align: center; padding: 4px; }
+.heat th.grp { text-align: left; padding: 16px 4px 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--brand); }
+.heat th.grp small { color: var(--ink-3); text-transform: none; letter-spacing: 0; font-weight: 400; }
+.heat th.rowh { text-align: left; font-weight: 400; color: var(--ink); white-space: nowrap; cursor: help; padding-right: 8px; }
+.heat td { text-align: center; border-radius: 8px; padding: 9px 4px; min-width: 76px; font-weight: 700; }
+.heat td small { display: block; font-weight: 400; font-size: 11px; opacity: .8; }
+.heat td.vacio { background: repeating-linear-gradient(135deg, var(--sunk) 0 5px, transparent 5px 10px); color: var(--ink-3); font-weight: 400; font-size: 12px; }
+.scale { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-3); margin-top: 10px; flex-wrap: wrap; }
+.scale .grad { width: 180px; height: 10px; border-radius: 5px; border: 1px solid var(--line);
+  background: linear-gradient(90deg, var(--bad), color-mix(in srgb, var(--bad) 15%, var(--card)), var(--card), color-mix(in srgb, var(--good) 15%, var(--card)), var(--good)); }
+
+/* SVG: dispersión, evolución, comparador */
+svg.chart { width: 100%; height: auto; display: block; overflow: visible; }
+svg text { fill: var(--ink-3); font-family: var(--f); font-size: 11px; }
+svg .grid { stroke: var(--line); stroke-width: 1; }
+svg .base { stroke: var(--ink-3); stroke-width: 1.2; stroke-dasharray: 4 4; }
+svg .quad { fill: var(--ink-3); font-size: 12px; font-weight: 700; opacity: .75; }
+svg circle.pt { stroke: var(--card); stroke-width: 1.5; fill-opacity: .85; cursor: pointer; }
+svg circle.pt:hover { stroke: var(--ink); }
+svg circle.pt.a { fill: var(--brand); fill-opacity: .55; }
+svg circle.pt.b { fill: var(--c2); fill-opacity: .55; }
+svg path.ln { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+svg circle.ld { stroke: var(--card); stroke-width: 2; }
+svg .medl { stroke-width: 3; } svg .medl.a { stroke: var(--brand); } svg .medl.b { stroke: var(--c2); }
+svg .medt { font-weight: 700; font-size: 12px; } svg .medt.a { fill: var(--brand); } svg .medt.b { fill: var(--c2); }
+
+/* Tarjetas haz más */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-l); padding: 18px;
+  display: flex; flex-direction: column; gap: 10px; min-width: 0; transition: border-color .2s; }
+.card:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); }
+.card .head { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+.card h3 { margin: 2px 0 0; font-size: 21px; line-height: 1.15; letter-spacing: -.01em; overflow-wrap: anywhere; }
+.big { text-align: right; flex: none; }
+.big b { font-size: 34px; line-height: 1; color: var(--good); letter-spacing: -.02em; }
+.big span { display: block; font-size: 12px; color: var(--ink-3); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 13px; border-radius: 999px; padding: 3px 10px; background: var(--sunk); color: var(--ink-2); white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+.chip .sw { width: 8px; height: 8px; margin-right: 2px; }
+.chip.good { background: color-mix(in srgb, var(--good) 16%, var(--card)); color: var(--ink); }
+.chip.bad { background: color-mix(in srgb, var(--bad) 14%, var(--card)); color: var(--ink); }
+.warn { font-size: 13px; color: var(--ink-2); }
+.warn::before { content: "⚠ "; color: var(--brand); }
+.why { margin: 0; font-size: 15px; color: var(--ink-2); border-left: 3px solid var(--brand-tint); padding-left: 10px; }
+.ejemplos { display: grid; gap: 4px; font-size: 14px; }
+.ejemplos a, .ejemplos span.t { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adapt { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 10px; border-top: 1px dashed var(--line); }
+.adapt .lbl { font-size: 13px; color: var(--ink-3); margin-right: 2px; }
+.btn { border: 1.5px solid var(--brand); color: var(--brand); background: transparent; border-radius: var(--r-s);
+  padding: 6px 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: transform .12s var(--ease-bounce), box-shadow .2s; }
+.btn:hover { box-shadow: var(--shadow-brand); }
+.btn:active { transform: scale(.97); }
+.btn.solid { background: var(--brand); color: var(--on-brand); }
+.btn.solid:hover { background: var(--brand-hover); }
+.btn.ghost { border-color: var(--line); color: var(--ink-2); }
+.btn[disabled] { opacity: .4; cursor: not-allowed; box-shadow: none; }
+.draft { background: var(--sunk); border-radius: var(--r-m); padding: 14px; display: grid; gap: 9px; }
+.draft label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); font-weight: 700; display: grid; gap: 4px; }
+.draft input, .draft textarea { width: 100%; border: 1px solid var(--line); border-radius: var(--r-s); background: var(--card);
+  padding: 7px 9px; font-size: 15px; text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--ink); }
+.draft input:focus, .draft textarea:focus { border-color: var(--brand); outline: none; box-shadow: 0 0 0 3px var(--brand-tint); }
+.draft textarea { resize: vertical; min-height: 66px; }
+.draft .acts { display: flex; flex-wrap: wrap; gap: 8px; }
+.status { font-size: 14px; color: var(--ink-2); margin: 0; }
+.status.ok { color: var(--good); } .status.err { color: var(--bad); }
+
+/* Evita */
+.rows { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-l); overflow: hidden; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; padding: 13px 18px; border-top: 1px solid var(--line); }
+.row:first-child { border-top: 0; }
+.row .t { font-weight: 700; overflow-wrap: anywhere; }
+.row .v { font-weight: 700; font-size: 20px; color: var(--bad); text-align: right; }
+.row .meta { grid-column: 1 / -1; font-size: 14px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 6px 12px; min-width: 0; }
+
+/* Barras por etiqueta (pestaña cliente) */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+.bars { display: grid; gap: 7px; align-content: start; }
+.bars h3 { margin: 0 0 6px; font-size: 16px; }
+.bars h3 small { color: var(--ink-3); font-weight: 400; }
+.hb { display: grid; grid-template-columns: minmax(90px, 36%) minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 14px; border-radius: 6px; }
+.hb:hover, .hb:focus { background: var(--sunk); outline: none; }
+.hb .l { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hb .track { position: relative; height: 16px; }
+.hb .fill { position: absolute; left: 0; top: 3px; height: 10px; border-radius: 0 5px 5px 0; }
+.hb .one { position: absolute; top: -2px; bottom: -2px; border-left: 1.5px dashed var(--ink-3); }
+.fill.g { background: var(--good); } .fill.b { background: var(--bad); } .fill.nn { background: var(--neutral-bar); }
+.fill.x { background: repeating-linear-gradient(135deg, var(--neutral-bar) 0 3px, transparent 3px 6px); }
+.hb .v { color: var(--ink-2); font-size: 13px; white-space: nowrap; min-width: 62px; text-align: right; }
+.key { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--ink-3); margin-bottom: 12px; }
+.key i { display: inline-block; width: 12px; height: 9px; border-radius: 3px; margin-right: 5px; }
+
+/* Comparador superpuesto */
+.comp { display: grid; gap: 12px; }
+.cselects { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: center; }
+.cselects label { display: flex; align-items: center; min-width: 0; }
+.cselects select { width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: var(--r-s); background: var(--card); padding: 8px 10px; font-size: 15px; }
+.cselects .vs { font-weight: 700; color: var(--ink-3); }
+.sw.a { background: var(--brand); } .sw.b { background: var(--c2); }
+.cnums { display: flex; gap: 28px; flex-wrap: wrap; color: var(--ink-3); font-size: 14px; }
+.cnums b { font-size: 32px; letter-spacing: -.02em; margin-right: 4px; }
+.cnums .ca { color: var(--brand); } .cnums .cb { color: var(--c2); }
+.cver { margin: 0; font-size: 18px; }
+
+/* Circulares */
+.dsel { display: inline-flex; flex-wrap: wrap; gap: 4px; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--card); margin-bottom: 14px; }
+.dsel button { border: 0; background: none; border-radius: 999px; padding: 6px 14px; font-size: 14px; cursor: pointer; color: var(--ink-2); }
+.dsel button[aria-pressed="true"] { background: var(--ink); color: var(--page); }
+.donuts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; align-items: center; }
+.donuts figure { margin: 0; text-align: center; }
+.donuts figcaption { font-weight: 700; font-size: 15px; margin-top: 4px; }
+svg.donut { max-width: 230px; margin: 0 auto; }
+svg.donut path { cursor: default; }
+svg text.dc { fill: var(--ink); font-size: 17px; font-weight: 700; }
+.dleg { min-width: 0; grid-column: 1 / -1; }
+.dleg th.r { text-align: right; }
+.card.prop h3 { margin: 0; }
+.dleg small.otros { color: var(--ink-3); }
+p.dleg { grid-column: 1 / -1; margin: 0; }
+
+/* Tablas */
+.tablewrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-l); }
+table.t { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 560px; }
+.t th, .t td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+.t th { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); font-weight: 700; border-top: 0; }
+.t td.num { text-align: right; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.split { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 14px; }
+.empty { background: var(--card); border: 1.5px dashed var(--line); border-radius: var(--r-l); padding: 26px; color: var(--ink-2); max-width: 70ch; }
+.empty h3 { margin: 0 0 6px; font-size: 22px; color: var(--ink); }
+
+#tip { position: fixed; z-index: 20; pointer-events: none; background: var(--ink); color: var(--page);
+  font-size: 13px; padding: 8px 11px; border-radius: 8px; max-width: 320px; line-height: 1.35; box-shadow: var(--shadow-m); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 560px) {
+  .hb { grid-template-columns: minmax(80px, 32%) minmax(0, 1fr) auto; }
+  .cselects { grid-template-columns: 1fr; } .cselects .vs { text-align: center; }
+}
+</style>
+
+<header class="top"><div class="wrap">
+  <div class="brand"><img src="data:image/png;base64,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AAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAgeYh8H/z6/U8QOWYTQAAAABJRU5ErkJggg==" alt="rm agency"><div><b>Qué vídeos hacer</b><small id="fecha"></small></div></div>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Vista"></nav>
+</div></header>
+<main class="wrap" id="app"><p class="sub">Cargando datos…</p></main>
+<div id="tip" hidden></div>
+
+<script>
+"use strict";
+// Los datos viven en datos.json, publicado al lado de la página: así la tarea programada diaria
+// solo sube ese archivo y la página (ligera) no cambia (08/10/2026).
+(async () => {
+const D = await fetch("datos.json", { cache: "no-store" }).then(r => r.ok ? r.json() : null).catch(() => null);
+if (!D) { document.getElementById("app").innerHTML = '<p class="sub">No se han podido cargar los datos. Recarga la página en unos segundos.</p>'; return; }
+const U = D.umbrales;
+const ACTIVOS = Object.keys(D.decisiones);
+const CLIENTES = [...ACTIVOS, ...Object.keys(D.clientes).filter(s => !ACTIVOS.includes(s))];
+const COLOR = {}; ["xavi-colomina", "jesus-mora", "newmos", "golossa"].forEach((s, i) => COLOR[s] = `var(--c${i + 1})`);
+CLIENTES.forEach((s, i) => { if (!COLOR[s]) COLOR[s] = `var(--c${(i % 4) + 1})`; });
+const label = s => D.labels[s] || s;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+// La nota es un MULTIPLICADOR: ×1 = un vídeo normal de ese cliente, ×2 = rinde el doble.
+const num = n => (Math.round(n * 10) / 10).toFixed(1).replace(".", ",");
+const fmt = n => "×" + num(n);
+const pct = n => Math.round(n * 100) + "%";
+const med = a => { const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length ? (s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2) : 0; };
+const $ = (sel, el = document) => el.querySelector(sel);
+const DIMS = ["Formato", "Tipo de idea", "Palanca", "Plantilla"];
+const DIMK = { "Tipo de idea": "ti", "Formato": "fo", "Palanca": "pa", "Plantilla": "pl" };
+// Nombre de cada etiqueta en lenguaje de calle: la pregunta que responde + qué es.
+const DIMQ = { "Tipo de idea": "de qué va", "Formato": "qué forma tiene", "Plantilla": "cómo se cuenta", "Palanca": "por qué engancha" };
+const nombre1 = (d, v) => d === "Plantilla" ? (v.charAt(0).toUpperCase() + v.slice(1)).replace(/-/g, " ") : v;
+const partes = g => { const ds = g.dimension.split(" + "), vs = g.valor.split(" + "); return ds.map((d, i) => ({ d, v: vs[i] })); };
+const nombre = g => partes(g).map(p => nombre1(p.d, p.v)).join(" + ");
+const cap = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
+const pregunta = g => partes(g).map(p => DIMQ[p.d] || p.d).join(" + ");
+const queEs1 = (d, v) => ((D.glosario[d] || {})[v] || "").replace(/\s*\(.*?\)\s*$/, "");
+const queEs = g => partes(g).map(p => { const t = queEs1(p.d, p.v); return t ? `${nombre1(p.d, p.v)}: ${t}` : ""; }).filter(Boolean).join(" · ");
+
+let vista = "agencia";
+const ocultos = new Set();
+try { const h = location.hash.slice(1); if (h && (h === "agencia" || D.clientes[h] || ACTIVOS.includes(h))) vista = h; } catch (e) {}
+$("#fecha").textContent = "Datos de Notion + Metricool · " + D.generado.replace("T", " ");
+
+/* ---------- pestañas ---------- */
+function pintarTabs() {
+  $("#tabs").innerHTML = ["agencia", ...CLIENTES].map(id => {
+    const ref = id !== "agencia" && D.clientes[id] && !D.clientes[id].activo ? "<i>Aprendizaje</i>" : "";
+    return `<button class="tab" role="tab" data-id="${id}" aria-selected="${id === vista}">${id === "agencia" ? "Agencia" : esc(label(id))}${ref}</button>`;
+  }).join("");
+}
+$("#tabs").addEventListener("click", e => {
+  const b = e.target.closest(".tab"); if (!b) return;
+  vista = b.dataset.id; try { history.replaceState(null, "", "#" + vista); } catch (er) {}
+  pintar(); window.scrollTo({ top: 0 });
+});
+
+/* ---------- piezas comunes ---------- */
+const videos = slug => D.videos.filter(v => !slug || v.c === slug);
+function ejemploHTML(v) {
+  const t = `${esc(v.titulo || v.t || "(sin título)")} <span class="n">· ${fmt(v.nota ?? v.n)}</span>`;
+  const u = v.url || v.u;
+  return u ? `<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>` : `<span class="t">${t}</span>`;
+}
+function clienteChips(g) {
+  return Object.entries(g.por_cliente).map(([c, r]) => {
+    const cl = r.n < U.min_n ? "" : r.mediana >= U.alto ? "good" : r.mediana < U.bajo ? "bad" : "";
+    return `<span class="chip ${cl}" data-tip="${esc(`${label(c)}: ${fmt(r.mediana)} sobre ${r.n} vídeo${r.n === 1 ? "" : "s"}`)}"><span class="sw" style="background:${COLOR[c]}"></span>${esc(label(c))} <span class="n">${fmt(r.mediana)}</span></span>`;
+  }).join("");
+}
+function leyenda(slugs) {
+  return `<div class="legend">${slugs.map(s => `<button data-leg="${s}" aria-pressed="${!ocultos.has(s)}"><span class="sw" style="background:${COLOR[s]}"></span>${esc(label(s))}</button>`).join("")}</div>`;
+}
+function tileDesplegable(n, txt, items) {
+  return `<details class="tile dd"><summary><b class="n">${n}</b><span class="lbl">${txt} ▾</span></summary><ul>${items.join("") || "<li>—</li>"}</ul></details>`;
+}
+
+/* Podio: qué es cada patrón, cuánto rinde (×) y en qué clientes */
+function podio(lista) {
+  // El podio pide el doble de vídeos que el mínimo: con 3-5 un golpe de suerte sube al nº 1.
+  const top = lista.filter(g => g.veredicto === "haz más" && g.n >= U.min_n * 2).slice(0, 8);
+  if (!top.length) return '<p class="sub">Nada concluyente todavía.</p>';
+  const max = Math.max(3, ...top.map(g => g.mediana));
+  return `<ol class="podio">${top.map((g, i) => `<li class="prow">
+    <span class="pos">${i + 1}</span>
+    <div class="pmain">
+      <div class="ptitle"><b>${esc(nombre(g))}</b><span class="eyebrow">${esc(pregunta(g))}</span></div>
+      ${queEs(g) ? `<p class="pdesc">${esc(queEs(g))}</p>` : ""}
+      <div class="pbar"><span class="fill" style="width:${Math.min(100, g.mediana / max * 100)}%"><b>${fmt(g.mediana)}</b></span><span class="one" style="left:${100 / max}%" data-tip="×1 = un vídeo normal"></span></div>
+      <div class="chips">${clienteChips(g)}<span class="chip">${g.n} vídeos · pegan ${pct(g.pega)}</span></div>
+    </div></li>`).join("")}</ol>`;
+}
+
+/* Mapa de calor: etiquetas (agrupadas por lo que responden) × clientes */
+function celda(r) {
+  if (!r) return `<td class="vacio" data-tip="Este cliente aún no lo ha probado: oportunidad">sin probar</td>`;
+  const t = Math.max(-1, Math.min(1, Math.log2(r.mediana) / 2));
+  const p = Math.round(Math.abs(t) * 100), col = t >= 0 ? "var(--good)" : "var(--bad)";
+  const tinta = p > 55 ? "#fff" : "var(--ink)";
+  const op = r.n < U.min_n ? "opacity:.5;" : "";
+  return `<td style="${op}background:color-mix(in srgb, ${col} ${p}%, var(--card));color:${tinta}" data-tip="${esc(`rinde ${fmt(r.mediana)} frente a un vídeo normal, sobre ${r.n} vídeos${r.n < U.min_n ? " (no concluye)" : ""}`)}">${fmt(r.mediana)}<small>${r.n} víd.</small></td>`;
+}
+function mapaCalor(lista) {
+  const cols = CLIENTES.filter(c => D.clientes[c]);
+  const bloques = DIMS.map(d => ({ d, filas: lista.filter(g => g.dimension === d && g.n >= U.min_n)
+    .sort((a, b) => b.n - a.n).slice(0, 6).sort((a, b) => b.ajustada - a.ajustada) })).filter(b => b.filas.length);
+  return `<div class="heatwrap"><table class="heat"><thead><tr><th></th>${cols.map(c => `<th><span class="sw" style="background:${COLOR[c]}"></span>${esc(label(c))}</th>`).join("")}</tr></thead>
+    ${bloques.map(b => `<tbody><tr><th class="grp" colspan="${cols.length + 1}">${esc(DIMQ[b.d])} <small>(${esc(b.d)})</small></th></tr>
+      ${b.filas.map(g => `<tr><th class="rowh" data-tip="${esc(queEs(g) || nombre(g))}">${esc(nombre(g))}</th>${cols.map(c => celda(g.por_cliente[c])).join("")}</tr>`).join("")}</tbody>`).join("")}
+    </table></div>
+    <div class="scale"><span>peor que lo normal</span><span class="grad"></span><span>mejor que lo normal</span><span>· rayado = sin probar · tenue = menos de ${U.min_n} vídeos</span></div>`;
+}
+
+/* Dispersión: alcance (x) vs conexión (y), escala log */
+function dispersion(slug) {
+  const W = 640, H = 400, m = { l: 44, r: 16, t: 16, b: 38 };
+  const lo = 0.1, hi = 10, lx = v => Math.log10(Math.min(hi, Math.max(lo, v)));
+  const X = v => m.l + (lx(v) - lx(lo)) / (lx(hi) - lx(lo)) * (W - m.l - m.r);
+  const Y = v => H - m.b - (lx(v) - lx(lo)) / (lx(hi) - lx(lo)) * (H - m.t - m.b);
+  const vs = videos(slug).filter(v => v.rv > 0 && v.ri > 0 && !ocultos.has(v.c));
+  const maxV = Math.max(1, ...vs.map(v => v.vi));
+  const ticks = [0.1, 0.3, 1, 3, 10];
+  const pts = vs.sort((a, b) => b.vi - a.vi).map(v => {
+    const r = 3.5 + Math.sqrt(v.vi / maxV) * 11;
+    const tip = `${label(v.c)} · ${v.t} — ${Math.round(v.vi).toLocaleString("es")} vistas · alcance ×${num(v.rv)} · conexión ×${num(v.ri)} · nota ${fmt(v.n)}`;
+    return `<circle class="pt" cx="${X(v.rv).toFixed(1)}" cy="${Y(v.ri).toFixed(1)}" r="${r.toFixed(1)}" fill="${COLOR[v.c]}" data-tip="${esc(tip)}" data-url="${esc(v.u)}"></circle>`;
+  }).join("");
+  const q = (x, y, t, a) => `<text class="quad" x="${x}" y="${y}" text-anchor="${a}">${t}</text>`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Cada vídeo según alcance y conexión">
+    ${ticks.map(t => `<line class="grid" x1="${X(t)}" x2="${X(t)}" y1="${m.t}" y2="${H - m.b}"></line><line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${Y(t)}" y2="${Y(t)}"></line>
+      <text x="${X(t)}" y="${H - m.b + 16}" text-anchor="middle">×${num(t)}</text><text x="${m.l - 8}" y="${Y(t) + 4}" text-anchor="end">×${num(t)}</text>`).join("")}
+    <line class="base" x1="${X(1)}" x2="${X(1)}" y1="${m.t}" y2="${H - m.b}"></line><line class="base" x1="${m.l}" x2="${W - m.r}" y1="${Y(1)}" y2="${Y(1)}"></line>
+    ${q(W - m.r - 6, m.t + 16, "Llega y conecta", "end")}${q(m.l + 8, m.t + 16, "Conecta pero no llega", "start")}
+    ${q(W - m.r - 6, H - m.b - 10, "Llega pero no conecta", "end")}${q(m.l + 8, H - m.b - 10, "Ni llega ni conecta", "start")}
+    ${pts}
+    <text x="${(W + m.l) / 2}" y="${H - 4}" text-anchor="middle">Alcance: vistas frente a lo normal del cliente →</text>
+    <text x="12" y="${(H - m.b) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(H - m.b) / 2})">Conexión: % de interacción →</text></svg>`;
+}
+
+/* Evolución: nota mediana por mes y cliente */
+function evolucion(slug) {
+  const cs = slug ? [slug] : CLIENTES.filter(c => D.clientes[c]);
+  const series = cs.filter(c => !ocultos.has(c)).map(c => {
+    const g = {};
+    videos(c).forEach(v => (g[v.f.slice(0, 7)] = g[v.f.slice(0, 7)] || []).push(v.n));
+    return { c, p: Object.entries(g).filter(([, a]) => a.length >= 2).map(([k, a]) => ({ k, m: med(a), n: a.length })).sort((a, b) => a.k < b.k ? -1 : 1) };
+  }).filter(s => s.p.length);
+  const meses = [...new Set(series.flatMap(s => s.p.map(p => p.k)))].sort();
+  if (meses.length < 2) return '<p class="sub">Aún no hay meses suficientes para ver una tendencia.</p>';
+  const W = 640, H = 260, m = { l: 36, r: 16, t: 14, b: 30 };
+  const ymax = Math.max(2, Math.ceil(Math.max(...series.flatMap(s => s.p.map(p => p.m)))));
+  const X = k => m.l + meses.indexOf(k) / (meses.length - 1) * (W - m.l - m.r);
+  const Y = v => H - m.b - v / ymax * (H - m.t - m.b);
+  const MES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+  const ys = [...Array(ymax + 1).keys()];
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Nota mediana por mes">
+    ${ys.map(t => `<line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${Y(t)}" y2="${Y(t)}"></line><text x="${m.l - 8}" y="${Y(t) + 4}" text-anchor="end">×${t}</text>`).join("")}
+    <line class="base" x1="${m.l}" x2="${W - m.r}" y1="${Y(1)}" y2="${Y(1)}"></line>
+    ${meses.map(k => `<text x="${X(k)}" y="${H - 8}" text-anchor="middle">${MES[+k.slice(5) - 1]} ${k.slice(2, 4)}</text>`).join("")}
+    ${series.map(s => `<path class="ln" stroke="${COLOR[s.c]}" d="${s.p.map((p, i) => (i ? "L" : "M") + X(p.k).toFixed(1) + " " + Y(p.m).toFixed(1)).join(" ")}"></path>
+      ${s.p.map(p => `<circle class="ld" cx="${X(p.k)}" cy="${Y(p.m)}" r="${p === s.p[s.p.length - 1] ? 6 : 4}" fill="${COLOR[s.c]}" data-tip="${esc(`${label(s.c)} · ${p.k}: ${fmt(p.m)} sobre ${p.n} vídeos`)}"></circle>`).join("")}`).join("")}
+  </svg>`;
+}
+
+/* Barras de una dimensión (pestaña cliente) */
+function barras(titulo, items, dim) {
+  if (!items.length) return "";
+  const max = Math.max(2, Math.ceil(Math.max(...items.map(i => i.mediana)) * 2) / 2);
+  const x = v => Math.min(100, v / max * 100);
+  return `<div class="panel bars"><h3>${esc(DIMQ[dim] || titulo)} <small>(${esc(titulo)})</small></h3>${items.map(i => {
+    const k = i.n < U.min_n ? "x" : i.veredicto === "haz más" ? "g" : i.veredicto === "evita" ? "b" : "nn";
+    const desc = dim ? queEs1(dim, i.valor) : "";
+    return `<div class="hb" tabindex="0" data-tip="${esc(`${desc ? desc + " — " : ""}${fmt(i.mediana)} sobre ${i.n} vídeos · pegan ${pct(i.pega)}${k === "x" ? " · no concluye" : ""}`)}">
+      <span class="l">${esc(dim ? nombre1(dim, i.valor) : i.valor)}</span><span class="track"><span class="fill ${k}" style="width:${x(i.mediana)}%"></span><span class="one" style="left:${x(1)}%"></span></span>
+      <span class="v n">${fmt(i.mediana)} · ${i.n}</span></div>`;
+  }).join("")}</div>`;
+}
+const keyHTML = `<div class="key"><span><i style="background:var(--good)"></i>Haz más (${fmt(U.alto)} o más)</span><span><i style="background:var(--neutral-bar)"></i>Normal</span>
+  <span><i style="background:var(--bad)"></i>Evita</span><span><i class="fill x"></i>Menos de ${U.min_n} vídeos</span><span>┆ ×1 = lo normal</span></div>`;
+
+/* Comparador: dos etiquetas SOBRE EL MISMO EJE, superpuestas */
+let compA = null, compB = null;
+function opcionesComp() {
+  const vals = [];
+  DIMS.forEach(d => { const st = new Set(); D.videos.forEach(v => (v[DIMK[d]] || []).forEach(x => st.add(x))); [...st].sort().forEach(x => vals.push(d + "|" + x)); });
+  return vals;
+}
+const etiquetaComp = o => { const [d, v] = o.split("|"); return `${nombre1(d, v)} (${DIMQ[d]})`; };
+function comparador() {
+  const ops = opcionesComp(); if (ops.length < 2) return "";
+  compA = compA || ops.find(o => o === "Plantilla|caso-real") || ops[0];
+  compB = compB || ops.find(o => o === "Formato|Tips") || ops[1];
+  const sel = (id, val) => `<select id="${id}" aria-label="Etiqueta a comparar">${ops.map(o => `<option value="${esc(o)}" ${o === val ? "selected" : ""}>${esc(etiquetaComp(o))}</option>`).join("")}</select>`;
+  const de = o => { const [d, v] = o.split("|"); return videos().filter(x => (x[DIMK[d]] || []).includes(v)); };
+  const A = de(compA), B = de(compB), mA = med(A.map(v => v.n)), mB = med(B.map(v => v.n));
+  const W = 640, H = 170, lo = 0.1, hi = 10, X = v => 30 + (Math.log10(Math.min(hi, Math.max(lo, v))) + 1) / 2 * (W - 60);
+  const pts = (vs, cls) => vs.map((v, i) => `<circle class="pt ${cls}" cx="${X(v.n).toFixed(1)}" cy="${70 + ((i * 37) % 50) - 25}" r="6" data-tip="${esc(`${label(v.c)} · ${v.t} · ${fmt(v.n)}`)}" data-url="${esc(v.u)}"></circle>`).join("");
+  const medLine = (m, cls, txt) => `<line class="medl ${cls}" x1="${X(m)}" x2="${X(m)}" y1="10" y2="${H - 30}"></line><text class="medt ${cls}" x="${X(m)}" y="${H - 14}" text-anchor="middle">${txt} ${fmt(m)}</text>`;
+  const nA = etiquetaComp(compA).split(" (")[0], nB = etiquetaComp(compB).split(" (")[0];
+  const veredicto = (A.length >= U.min_n && B.length >= U.min_n)
+    ? (Math.abs(mA - mB) < 0.05 ? "Rinden igual." : `<b>${esc(mA > mB ? nA : nB)}</b> rinde <b>${num(Math.max(mA, mB) / Math.min(mA, mB))} veces</b> lo que ${esc(mA > mB ? nB : nA)}.`)
+    : `Una de las dos tiene menos de ${U.min_n} vídeos: todavía no concluye.`;
+  return `<div class="panel comp">
+    <div class="cselects"><label><span class="sw a"></span>${sel("compA", compA)}</label><span class="vs">vs</span><label><span class="sw b"></span>${sel("compB", compB)}</label></div>
+    <div class="cnums"><span><b class="ca">${A.length ? fmt(mA) : "—"}</b>${A.length} vídeos</span><span><b class="cb">${B.length ? fmt(mB) : "—"}</b>${B.length} vídeos</span></div>
+    <p class="cver">${veredicto}</p>
+    <svg class="chart" viewBox="0 0 ${W} ${H}" aria-label="Las dos etiquetas superpuestas">
+      ${[0.1, 0.3, 1, 3, 10].map(t => `<line class="grid" x1="${X(t)}" x2="${X(t)}" y1="10" y2="${H - 30}"></line><text x="${X(t)}" y="${H}" text-anchor="middle">×${num(t)}</text>`).join("")}
+      <line class="base" x1="${X(1)}" x2="${X(1)}" y1="10" y2="${H - 30}"></line>
+      ${pts(B, "b")}${pts(A, "a")}
+      ${A.length ? medLine(mA, "a", "A") : ""}${B.length ? medLine(mB, "b", "B") : ""}
+    </svg>
+    <p class="sub" style="margin:0">Cada punto es un vídeo; las líneas gruesas marcan la nota típica de cada etiqueta. A la derecha de la discontinua (×1), mejor de lo normal.</p></div>`;
+}
+
+/* ---------- vista Agencia ---------- */
+function vistaAgencia() {
+  const G = D.general.todo;
+  const haz = G.filter(g => g.veredicto === "haz más").slice(0, 9);
+  const evita = G.filter(g => g.veredicto === "evita").sort((a, b) => a.ajustada - b.ajustada).slice(0, 8);
+  const conDatos = CLIENTES.filter(c => D.clientes[c]);
+  const aprendizaje = conDatos.filter(c => !D.clientes[c].activo);
+  const pocos = ACTIVOS.filter(c => D.clientes[c] && D.clientes[c].etiquetados < D.clientes[c].videos * 0.5)
+    .map(c => `${label(c)} solo tiene ${D.clientes[c].etiquetados} de ${D.clientes[c].videos} vídeos etiquetados`);
+  return `
+  <section class="hero">
+    <div><div class="eyebrow">toda la agencia</div><h1>Lo que <em>funciona</em> y lo que no, en un vistazo</h1></div>
+    <div class="tiles">
+      <div class="tile"><b class="n">${D.videos.length}</b><span class="lbl">vídeos medidos</span></div>
+      ${tileDesplegable(haz.length, "patrones ganadores", haz.map(g => `<li><b>${esc(nombre(g))}</b> <span class="n">${fmt(g.mediana)}</span><small>${esc(cap(pregunta(g)))}</small></li>`))}
+      ${tileDesplegable(ACTIVOS.length, "clientes actuales", ACTIVOS.map(c => `<li><span class="sw" style="background:${COLOR[c]}"></span><b>${esc(label(c))}</b><small>${D.clientes[c] ? D.clientes[c].videos + " vídeos medidos" : "sin datos todavía"}</small></li>`))}
+      ${tileDesplegable(aprendizaje.length, "clientes de aprendizaje", aprendizaje.map(c => `<li><span class="sw" style="background:${COLOR[c]}"></span><b>${esc(label(c))}</b> · ${D.clientes[c].videos} vídeos
+          <small>Lo que nos enseñó: ${D.clientes[c].dimensiones.filter(g => g.veredicto === "haz más").sort((a, b) => b.ajustada - a.ajustada).slice(0, 3).map(g => esc(nombre(g)) + " " + fmt(g.mediana)).join(" · ") || "nada concluyente"}</small></li>`))}
+    </div>
+    <details class="nota-explica"><summary>¿Qué significa <b>×2,9</b>?</summary>
+      <p>Es <b>cuántas veces mejor que un vídeo normal de ese cliente</b> ha funcionado algo, contando a la vez <b>vistas</b> e <b>interacción</b>. <b>×1</b> es un vídeo normal; <b>×2</b>, el doble; <b>×0,5</b>, la mitad. No es una nota sobre 10. Como cada vídeo se compara con su propio cliente, se pueden poner juntos un vídeo de Xavi y uno de Golossa aunque tengan audiencias muy distintas.</p></details>
+    ${pocos.length ? `<div class="note"><b>Ojo:</b> ${esc(pocos.join("; "))}. Lo marcado “solo probado en…” todavía no está comprobado en otros clientes.</div>` : ""}
+  </section>
+  <section><div class="eyebrow">propuestas</div><h2>Listas para implementar</h2>
+    <p class="sub">Lo que propongo después de ver todos los vídeos. Las ideas de vídeo se revisan aquí y, al aceptarlas o rechazarlas con un motivo, van a la Bandeja de Notion.</p>
+    ${D.propuestas ? `<p class="sub" style="margin-top:-8px">${esc(D.propuestas.resumen || "")}</p>` : ""}
+    ${propuestasHTML(null)}</section>
+  <section class="panel"><div class="eyebrow">el podio</div><h2>Los patrones que más pegan</h2>
+    <p class="sub">Lo que mejor ha funcionado en toda la agencia, con al menos ${U.min_n * 2} vídeos detrás de cada uno. Cada patrón dice qué es y en qué clientes se ha probado.</p>
+    ${podio(G)}</section>
+  <section class="panel"><div class="eyebrow">mapa de calor</div><h2>Qué funciona en cada cliente</h2>
+    <p class="sub">Verde: mejor que lo normal de ese cliente. Rojo: peor. Rayado: ese cliente aún no lo ha probado. Pasa el ratón por un nombre para ver qué es.</p>
+    ${mapaCalor(G)}</section>
+  <section class="panel"><div class="eyebrow">esfuerzo vs resultado</div><h2>Lo que hacemos frente a lo que pega</h2>
+    <p class="sub">El círculo de la izquierda reparte todos los vídeos; el de la derecha, solo los que han pegado. Si una porción crece a la derecha, estamos haciendo poco de algo que funciona.</p>
+    ${circulares(null)}</section>
+  <section class="panel"><div class="eyebrow">alcance vs conexión</div><h2>Cada punto es un vídeo</h2>
+    <p class="sub">A la derecha, los que llegaron a más gente de lo normal; arriba, los que más interacción sacaron de quien los vio. El tamaño son las vistas. Pulsa un punto para abrir el vídeo; pulsa un cliente para ocultarlo.</p>
+    ${leyenda(conDatos)}${dispersion(null)}</section>
+  <section><div class="eyebrow">haz más de esto</div><h2>Ideas ganadoras para llevar a otros clientes</h2>
+    <p class="sub">“Llevar a” escribe una versión para un cliente donde aún no se ha probado. Tú la aceptas o la rechazas con un motivo y se guarda en la Bandeja de Notion, con Autor Oli.</p>
+    <div class="cards">${haz.map(cardHaz).join("") || '<div class="empty">Nada concluyente todavía.</div>'}</div></section>
+  <section><div class="eyebrow">evita esto</div><h2>Lo que, repetido, no ha dado resultado</h2>
+    <p class="sub">Por debajo de ${fmt(U.bajo)} y pegando menos que la media.</p>
+    <div class="rows">${evita.map(rowEvita).join("") || '<div class="row"><span>Nada concluyente todavía.</span></div>'}</div></section>
+  <section class="panel"><div class="eyebrow">evolución</div><h2>Cómo va cada cliente mes a mes</h2>
+    <p class="sub">Nota típica de los vídeos de cada mes (con 2 o más vídeos). La línea discontinua es ×1, lo normal.</p>
+    ${leyenda(conDatos)}${evolucion(null)}</section>
+  <section><div class="eyebrow">comparador</div><h2>Enfrenta dos etiquetas</h2>
+    <p class="sub">Elige dos y míralas una encima de la otra, en toda la agencia.</p>
+    ${comparador()}</section>`;
+}
+function cardHaz(g) {
+  const i = D.general.todo.indexOf(g);
+  const porque = (g.ejemplos.find(e => e.por_que) || {}).por_que;
+  const destinos = g.sin_probar.filter(c => ACTIVOS.includes(c));
+  return `<article class="card" data-g="${i}">
+    <div class="head"><div><div class="eyebrow">${esc(pregunta(g))}</div><h3>${esc(nombre(g))}</h3></div>
+      <div class="big"><b class="n">${fmt(g.mediana)}</b><span>${g.n} vídeos · pegan ${pct(g.pega)}</span></div></div>
+    ${queEs(g) ? `<p class="pdesc">${esc(queEs(g))}</p>` : ""}
+    <div class="chips">${clienteChips(g)}</div>
+    ${g.solo_un_cliente ? `<div class="warn">Solo probado en ${esc(label(Object.keys(g.por_cliente)[0]))}</div>` : ""}
+    ${porque ? `<p class="why">${esc(porque.split(" · Gancho:")[0])}</p>` : ""}
+    <div class="ejemplos">${g.ejemplos.slice(0, 2).map(ejemploHTML).join("")}</div>
+    ${destinos.length ? `<div class="adapt"><span class="lbl">Llevar a</span>${destinos.map(c => `<button class="btn" data-adapt="${c}">${esc(label(c))}</button>`).join("")}</div>` : ""}
+    <div class="slot"></div></article>`;
+}
+function rowEvita(g) {
+  const peor = g.peores && g.peores[0];
+  return `<div class="row"><span class="t" data-tip="${esc(queEs(g) || nombre(g))}">${esc(nombre(g))} <span class="eyebrow">${esc(pregunta(g))}</span></span><span class="v n">${fmt(g.mediana)}</span>
+    <div class="meta"><span class="n">${g.n} vídeos · pegan ${pct(g.pega)}</span><span class="chips">${clienteChips(g)}</span>${peor ? `<span>Peor: ${ejemploHTML(peor)}</span>` : ""}</div></div>`;
+}
+
+/* ---------- vista cliente ---------- */
+function vistaCliente(slug) {
+  const c = D.clientes[slug];
+  if (!c) return `<section class="empty"><h3>${esc(label(slug))} todavía no tiene datos</h3>
+    <p>Falta su base “📊 Rendimiento de vídeos”. Mientras tanto, en <b>Agencia</b> puedes llevarle ideas que han funcionado en otros clientes.</p></section>`;
+  const haz = c.dimensiones.filter(g => g.veredicto === "haz más"), evita = c.dimensiones.filter(g => g.veredicto === "evita");
+  const extras = Object.entries(c.extras || {}).filter(([, l]) => l.length).map(([e, l]) => barras(e, l.slice(0, 12), null)).join("");
+  const chipG = (g, cl) => `<span class="chip ${cl}" data-tip="${esc(queEs(g) || nombre(g))}">${esc(nombre(g))} <span class="n">${fmt(g.mediana)}</span></span>`;
+  const tabla = vs => `<div class="tablewrap"><table class="t"><thead><tr><th>Vídeo</th><th>Fecha</th><th>Etiquetas</th><th style="text-align:right">Nota</th></tr></thead><tbody>
+    ${vs.map(v => `<tr><td>${ejemploHTML(v)}</td><td class="n">${esc(v.fecha)}</td>
+      <td><span class="chips">${DIMS.flatMap(d => (v.etiquetas[d] || []).map(t => `<span class="chip" data-tip="${esc(queEs1(d, t))}">${esc(nombre1(d, t))}</span>`)).join("") || '<span class="warn">sin etiquetar</span>'}</span></td>
+      <td class="num">${fmt(v.nota)}</td></tr>`).join("")}</tbody></table></div>`;
+  return `
+  <section class="hero">
+    <div><div class="eyebrow">${c.activo ? "cliente actual" : "cliente de aprendizaje"}</div><h1>${esc(c.label)}</h1></div>
+    <div class="tiles">
+      <div class="tile"><b class="n">${c.videos}</b><span class="lbl">vídeos medidos</span></div>
+      ${tileDesplegable(haz.length, "etiquetas que pegan", haz.map(g => `<li><b>${esc(nombre(g))}</b> <span class="n">${fmt(g.mediana)}</span><small>${esc(queEs(g) || cap(pregunta(g)))}</small></li>`))}
+      ${tileDesplegable(evita.length, "etiquetas a evitar", evita.map(g => `<li><b>${esc(nombre(g))}</b> <span class="n" style="color:var(--bad)">${fmt(g.mediana)}</span><small>${esc(queEs(g) || cap(pregunta(g)))}</small></li>`))}
+    </div>
+  </section>
+  <section class="panel"><div class="eyebrow">en resumen</div><h2>Haz más · Evita</h2><p class="sub">Comparado con lo normal de ${esc(c.label)}. Pasa el ratón por una etiqueta para ver qué es.</p>
+    <div class="chips">${haz.map(g => chipG(g, "good")).join("") || '<span class="chip">Nada concluyente todavía</span>'}</div>
+    <div class="chips" style="margin-top:8px">${evita.map(g => chipG(g, "bad")).join("")}</div></section>
+  <section><div class="eyebrow">propuestas</div><h2>Listas para implementar</h2>${propuestasHTML(slug)}</section>
+  <section class="panel"><div class="eyebrow">esfuerzo vs resultado</div><h2>Lo que hace frente a lo que pega</h2>${circulares(slug)}</section>
+  <section class="panel"><div class="eyebrow">alcance vs conexión</div><h2>Sus vídeos, uno a uno</h2>
+    <p class="sub">Derecha: llegó a más gente de lo normal. Arriba: conectó más. Pulsa un punto para abrir el vídeo.</p>${dispersion(slug)}</section>
+  <section><div class="eyebrow">por etiqueta</div><h2>Qué tiene lo que funciona</h2>${keyHTML}
+    <div class="grid2">${DIMS.map(d => barras(d, c.dimensiones.filter(g => g.dimension === d).sort((a, b) => b.ajustada - a.ajustada).slice(0, 12), d)).join("")}${extras}</div></section>
+  <section class="panel"><div class="eyebrow">evolución</div><h2>Mes a mes</h2>${evolucion(slug)}</section>
+  <section class="split">
+    <div><div class="eyebrow">los 5 mejores</div><h2>Para repetir</h2><p class="sub">Los que más rindieron frente a lo normal.</p>${tabla(c.top)}</div>
+    <div><div class="eyebrow">los 5 peores</div><h2>Para no repetir tal cual</h2><p class="sub">Lo que se quedó por debajo.</p>${tabla(c.peores)}</div>
+  </section>`;
+}
+
+/* ---------- pintar + eventos ---------- */
+function pintar() {
+  pintarTabs();
+  $("#app").innerHTML = vista === "agencia" ? vistaAgencia() : vistaCliente(vista);
+  if (!puedeAdaptar) document.querySelectorAll("[data-adapt]").forEach(b => { b.disabled = true; b.title = "Funciona al abrir la página en claude.ai"; });
+}
+$("#app").addEventListener("click", e => {
+  const l = e.target.closest("[data-leg]");
+  if (l) { const s = l.dataset.leg; ocultos.has(s) ? ocultos.delete(s) : ocultos.add(s); pintar(); return; }
+  const p = e.target.closest("circle.pt"); if (p && p.dataset.url) { window.open(p.dataset.url, "_blank", "noopener"); return; }
+  const dd = e.target.closest("[data-dd]"); if (dd) { dimDonut = dd.dataset.dd; pintar(); return; }
+  const pr = e.target.closest("[data-prop]");
+  if (pr) { const p = D.propuestas.items[+pr.dataset.prop]; pr.disabled = true;
+    formulario($(".slot", pr.closest(".card")), p.cliente, { ...p, tipo: p.tipo_pieza }, `Panel Qué vídeos hacer · propuesta del análisis (${D.propuestas.fecha})`); return; }
+  const a = e.target.closest("[data-adapt]"); if (a) adaptar(a.closest(".card"), a.dataset.adapt);
+});
+$("#app").addEventListener("change", e => {
+  if (e.target.id === "compA") { compA = e.target.value; pintar(); }
+  if (e.target.id === "compB") { compB = e.target.value; pintar(); }
+});
+const tip = $("#tip");
+function mostrarTip(el, ev) {
+  if (!el.dataset.tip) { tip.hidden = true; return; }
+  tip.textContent = el.dataset.tip; tip.hidden = false;
+  const w = tip.offsetWidth, h = tip.offsetHeight, r = el.getBoundingClientRect();
+  const cx = ev && ev.clientX ? ev.clientX : r.left + r.width / 2, cy = ev && ev.clientY ? ev.clientY : r.top;
+  tip.style.left = Math.max(8, Math.min(innerWidth - w - 8, cx - w / 2)) + "px";
+  tip.style.top = (cy - h - 12 < 8 ? cy + 18 : cy - h - 12) + "px";
+}
+document.addEventListener("mouseover", e => { const b = e.target.closest("[data-tip]"); b ? mostrarTip(b, e) : (tip.hidden = true); });
+document.addEventListener("focusin", e => { const b = e.target.closest("[data-tip]"); b ? mostrarTip(b) : (tip.hidden = true); });
+addEventListener("scroll", () => { tip.hidden = true; }, { passive: true });
+
+/* ---------- Adaptar: Claude escribe, Gerard decide, Notion guarda ---------- */
+let sample = null, mcp = null, puedeAdaptar = false;
+const ERR = {
+  not_granted: "Sin permiso para usar Claude o Notion desde esta página.",
+  rate_limited: "Demasiadas peticiones seguidas. Espera un minuto.",
+  invalid_json: "Claude no devolvió una propuesta válida. Prueba otra vez.",
+  server_not_connected: "Notion no está conectado en tu cuenta de claude.ai.",
+  needs_reauth: "Hay que volver a conectar Notion en claude.ai.",
+  tool_error: "Notion rechazó la ficha. Revisa que las etiquetas existan en la Bandeja.",
+};
+const errTxt = e => ERR[e && e.code] || "No se pudo completar. " + ((e && e.message) || "");
+function promptAdaptar(g, slug) {
+  const L = D.listas, dec = (D.decisiones[slug] || []).map(d => `- [${d.estado}] ${d.idea} → ${d.motivo}`).join("\n") || "(ninguna todavía)";
+  const ej = g.ejemplos.map(e => `- ${label(e.cliente)} · nota ${e.nota} · ${e.titulo}${e.por_que ? " · por qué: " + e.por_que : ""}`).join("\n");
+  return `Eres Oli, estratega de contenido de RM Agency. Adapta un patrón que ha funcionado en otro cliente a ${label(slug)}.
+
+PATRÓN GANADOR: ${g.dimension} = ${g.valor} (${queEs(g)}). Rinde ${g.mediana} veces un vídeo normal de su cliente, sobre ${g.n} vídeos.
+Ejemplos reales:
+${ej}
+
+FICHA DEL CLIENTE DESTINO:
+${(D.clientes[slug] && D.clientes[slug].ficha) || "(sin ficha en el panel)"}
+
+LO QUE GERARD YA ACEPTÓ O RECHAZÓ PARA ESTE CLIENTE, CON SU MOTIVO (respétalo, no repitas lo rechazado):
+${dec}
+
+Escribe UNA idea de vídeo concreta para ${label(slug)} que use el mismo mecanismo que hace funcionar el patrón, en su sector y con su tono. Nada genérico: que se pueda grabar.
+Responde solo con un objeto JSON con estas claves:
+{"titulo": "...", "gancho": "frase de los primeros 3 segundos", "desarrollo": "qué pasa en el vídeo, 3-5 frases", "por_que": "por qué debería funcionar, 1-2 frases", "tipo": "Viral o Marca", "tipo_idea": "uno de ${L["Tipo de idea"].join(" | ")}", "formato": "uno de ${L["Formato"].join(" | ")}", "plantilla": "uno de ${L["Plantilla"].join(" | ")}", "soporte": "uno de ${L["Soporte"].join(" | ")}", "palanca": "uno de ${L["Palanca"].join(" | ")}"}`;
+}
+async function adaptar(card, slug) {
+  const g = D.general.todo[+card.dataset.g];
+  const slot = $(".slot", card);
+  card.querySelectorAll("[data-adapt]").forEach(b => b.disabled = true);
+  slot.innerHTML = `<div class="draft"><p class="status">Claude está escribiendo la versión para ${esc(label(slug))}…</p></div>`;
+  let idea;
+  try {
+    idea = await sample.json(promptAdaptar(g, slug), { modelTier: "default", cache: false });
+    if (!idea || typeof idea !== "object" || !idea.titulo) throw { code: "invalid_json" };
+  } catch (e) {
+    slot.innerHTML = `<div class="draft"><p class="status err">${esc(errTxt(e))}</p></div>`;
+    card.querySelectorAll("[data-adapt]").forEach(b => b.disabled = false);
+    return;
+  }
+  formulario(slot, slug, idea, `Panel Qué vídeos hacer · adaptada de ${g.dimension}: ${g.valor} (×${g.mediana}, ${g.n} vídeos)`);
+}
+
+/* Formulario de decisión: la idea se puede retocar; Aceptar/Rechazar con motivo → Bandeja de Notion */
+function formulario(slot, slug, idea, origen) {
+  const L = D.listas, ok = (k, v) => (L[k] || []).includes(v) ? v : "";
+  const etq = { tipo: idea.tipo === "Viral" ? "Viral" : "Marca", tipo_idea: ok("Tipo de idea", idea.tipo_idea),
+    formato: ok("Formato", idea.formato), plantilla: ok("Plantilla", idea.plantilla),
+    soporte: ok("Soporte", idea.soporte) || "Reel", palanca: ok("Palanca", idea.palanca) };
+  const uid = "a" + Math.random().toString(36).slice(2, 8);
+  slot.innerHTML = `<div class="draft">
+    <div class="eyebrow">Propuesta para ${esc(label(slug))} · puedes retocarla</div>
+    <label for="${uid}t">Idea<input id="${uid}t" value="${esc(idea.titulo)}"></label>
+    <label for="${uid}g">Gancho (0-3 s)<input id="${uid}g" value="${esc(idea.gancho || "")}"></label>
+    <label for="${uid}d">Desarrollo<textarea id="${uid}d">${esc(idea.desarrollo || "")}</textarea></label>
+    ${idea.por_que ? `<p class="why">${esc(idea.por_que)}</p>` : ""}
+    <div class="chips">${[etq.tipo, etq.tipo_idea, etq.formato, etq.plantilla && nombre1("Plantilla", etq.plantilla), etq.palanca, etq.soporte].filter(Boolean).map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div>
+    <label for="${uid}m">Motivo (obligatorio, Oli aprende de él)<textarea id="${uid}m" placeholder="Por qué sí o por qué no"></textarea></label>
+    <p class="status">Al decidir se guarda en Notion, en la <b>Bandeja de Ideas</b>, con Autor <b>Oli</b> y Cliente <b>${esc(label(slug))}</b>. Si la aceptas entra como Aprobada y esa noche Coco la guioniza.</p>
+    <div class="acts"><button class="btn solid" data-dec="si" disabled>Aceptar y mandar a la Bandeja</button>
+      <button class="btn ghost" data-dec="no" disabled>Rechazar</button></div>
+    <p class="status" aria-live="polite" data-st></p></div>`;
+  const motivo = $("#" + uid + "m", slot), botones = slot.querySelectorAll("[data-dec]"), st = $("[data-st]", slot);
+  if (!puedeAdaptar) { st.className = "status err"; st.textContent = "Para guardar en Notion, abre la página en claude.ai."; }
+  motivo.addEventListener("input", () => botones.forEach(b => b.disabled = !puedeAdaptar || motivo.value.trim().length < 3));
+  botones.forEach(b => b.addEventListener("click", async () => {
+    const acepta = b.dataset.dec === "si";
+    botones.forEach(x => x.disabled = true); st.className = "status"; st.textContent = "Guardando en Notion…";
+    const props = {
+      "Idea": $("#" + uid + "t", slot).value.trim(), "Cliente": slug, "Autor": "Oli",
+      "Estado": acepta ? "Aprobada" : "Descartada", "Tipo": etq.tipo,
+      "Gancho": $("#" + uid + "g", slot).value.trim(), "Objetivo": idea.por_que || "", "Origen": origen,
+      "Notas": (acepta ? "Aceptada: " : "Rechazada: ") + motivo.value.trim() + (etq.palanca ? ` · Palanca: ${etq.palanca}` : ""),
+    };
+    if (etq.tipo_idea) props["Tipo de idea"] = etq.tipo_idea;
+    if (etq.formato) props["Formato"] = etq.formato;
+    if (etq.plantilla) props["Plantilla"] = etq.plantilla;
+    if (etq.soporte) props["Soporte"] = etq.soporte;
+    try {
+      const r = await mcp.callTool("Notion", "notion-create-pages", {
+        parent: { type: "data_source_id", data_source_id: D.bandeja_ds },
+        pages: [{ properties: props, content: $("#" + uid + "d", slot).value.trim() }],
+      });
+      // El enlace de la ficha creada: se busca en la respuesta, sea cual sea su forma.
+      const crudo = JSON.stringify((r && (r.payload ?? r.content)) || "");
+      const m = crudo.match(/https:\/\/(?:www\.|app\.)?notion\.(?:so|com)\/[^"\\\s)]+/);
+      st.className = "status ok";
+      st.innerHTML = esc(acepta ? "En la Bandeja como Aprobada, Autor Oli. Esta noche se reparte y Coco la guioniza."
+                                : "Guardada como Descartada con tu motivo, Autor Oli. Oli no la repetirá.")
+        + (m ? ` <a href="${esc(m[0])}" target="_blank" rel="noopener">Abrir en Notion →</a>` : "");
+      motivo.disabled = true;
+    } catch (e) {
+      st.className = "status err"; st.textContent = errTxt(e);
+      botones.forEach(x => x.disabled = motivo.value.trim().length < 3);
+    }
+  }));
+}
+
+/* ---------- Circulares: dónde ponemos el esfuerzo vs dónde está el resultado ---------- */
+let dimDonut = "Formato";
+const PAL = ["var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)"];
+function reparto(vs, dim) {
+  const k = DIMK[dim], c = {}; let t = 0;
+  vs.forEach(v => (v[k] || []).forEach(x => { c[x] = (c[x] || 0) + 1; t++; }));
+  return { c, t };
+}
+function donutSVG(partes, total, centro, sub) {
+  const cx = 100, cy = 100, R = 88, r = 56;
+  let a = -Math.PI / 2, out = "";
+  const pt = (ang, rad) => [cx + rad * Math.cos(ang), cy + rad * Math.sin(ang)];
+  partes.forEach(p => {
+    if (!p.v) return;
+    const da = p.v / total * Math.PI * 2, b = a + da, big = da > Math.PI ? 1 : 0;
+    if (da >= Math.PI * 2 - 1e-6) { out += `<circle cx="${cx}" cy="${cy}" r="${(R + r) / 2}" fill="none" stroke="${p.col}" stroke-width="${R - r}"></circle>`; }
+    else {
+      const [x1, y1] = pt(a, R), [x2, y2] = pt(b, R), [x3, y3] = pt(b, r), [x4, y4] = pt(a, r);
+      out += `<path d="M${x1} ${y1}A${R} ${R} 0 ${big} 1 ${x2} ${y2}L${x3} ${y3}A${r} ${r} 0 ${big} 0 ${x4} ${y4}Z" fill="${p.col}" stroke="var(--card)" stroke-width="2" data-tip="${esc(`${p.k}: ${pct(p.v / total)}`)}"></path>`;
+    }
+    a = b;
+  });
+  return `<svg class="chart donut" viewBox="0 0 200 200" role="img" aria-label="${esc(centro)}">${out}
+    <text x="100" y="98" text-anchor="middle" class="dc">${esc(centro)}</text><text x="100" y="118" text-anchor="middle">${esc(sub)}</text></svg>`;
+}
+function circulares(slug) {
+  const todos = videos(slug), pegan = todos.filter(v => v.n >= U.alto);
+  const A = reparto(todos, dimDonut), B = reparto(pegan, dimDonut);
+  if (!A.t) return '<p class="sub">Aún no hay vídeos etiquetados.</p>';
+  const top = Object.entries(A.c).sort((x, y) => y[1] - x[1]).slice(0, 4).map(([k]) => k);
+  const filas = [...top.map((k, i) => ({ k, col: PAL[i] })), { k: "Otros", col: "var(--neutral-bar)" }];
+  const val = (rep, k) => k === "Otros" ? rep.t - top.reduce((s, x) => s + (rep.c[x] || 0), 0) : (rep.c[k] || 0);
+  const nom = k => k === "Otros" ? "Otros" : nombre1(dimDonut, k);
+  const todas = Object.entries(A.c).sort((x, y) => y[1] - x[1]).map(([k]) => k);
+  const sinEtq = todos.filter(v => !(v[DIMK[dimDonut]] || []).length).length;
+  const pa = filas.map(f => ({ k: nom(f.k), col: f.col, v: val(A, f.k) })), pb = filas.map(f => ({ k: nom(f.k), col: f.col, v: val(B, f.k) }));
+  const señal = f => {
+    if (f.k === "Otros" || !B.t) return "";
+    const d = val(B, f.k) / B.t - val(A, f.k) / A.t;
+    return d >= 0.05 ? '<span class="chip good">Hacemos poco de lo que pega</span>' : d <= -0.05 ? '<span class="chip bad">Hacemos mucho y pega poco</span>' : "";
+  };
+  return `<div class="dsel" role="group" aria-label="Qué repartir">${DIMS.map(d => `<button data-dd="${d}" aria-pressed="${d === dimDonut}">${esc(cap(DIMQ[d]))}</button>`).join("")}</div>
+    <div class="donuts">
+      <figure>${donutSVG(pa, A.t, todos.length + " vídeos", "los que hacemos")}<figcaption>Dónde ponemos el esfuerzo</figcaption></figure>
+      <figure>${B.t ? donutSVG(pb, B.t, pegan.length + " vídeos", `los que pegan (${fmt(U.alto)} o más)`) : '<p class="sub">Ninguno pega todavía.</p>'}<figcaption>Dónde está el resultado</figcaption></figure>
+      <table class="t dleg"><thead><tr><th>${esc(cap(DIMQ[dimDonut]))}</th><th class="r">Hacemos</th><th class="r">Pegan</th><th></th></tr></thead><tbody>
+        ${todas.map(k => { const f = { k, col: top.includes(k) ? PAL[top.indexOf(k)] : "var(--neutral-bar)" };
+          return `<tr><td><span class="sw" style="background:${f.col}"></span>${esc(nom(k))}${top.includes(k) ? "" : ' <small class="otros">(en «Otros»)</small>'}</td><td class="num">${pct(val(A, k) / A.t)}</td><td class="num">${B.t ? pct(val(B, k) / B.t) : "—"}</td><td>${señal(f)}</td></tr>`; }).join("")}
+      </tbody></table>
+      <p class="sub dleg">«Otros» no son vídeos sin etiquetar: es la suma de las etiquetas que no caben en el círculo (en gris en la tabla). ${sinEtq ? `${sinEtq} de ${todos.length} vídeos no llevan esta etiqueta${dimDonut === "Tipo de idea" ? ": un tip o una explicación sin otro ángulo va sin Tipo de idea a propósito" : ""}.` : ""}</p>
+    </div>`;
+}
+
+/* ---------- Propuestas listas para implementar (análisis de Claude, propuestas.json) ---------- */
+function propuestasHTML(slug) {
+  const ps = (D.propuestas && D.propuestas.items || []).filter(p => !slug || p.cliente === slug);
+  if (!ps.length) return '<p class="sub">Todavía no hay propuestas.</p>';
+  return `<div class="cards">${ps.map((p, i) => `<article class="card prop" data-p="${(D.propuestas.items).indexOf(p)}">
+    <div class="eyebrow">${esc(p.cliente === "agencia" ? "Toda la agencia" : label(p.cliente))} · ${p.tipo === "idea" ? "Idea de vídeo" : "Cambio de estrategia"}</div>
+    <h3>${esc(p.titulo)}</h3>
+    <p class="pdesc"><b>Por qué:</b> ${esc(p.por_que)}</p>
+    ${p.que_hacer ? `<p class="pdesc"><b>Qué hacer:</b> ${esc(p.que_hacer)}</p>` : ""}
+    ${p.tipo === "idea" ? `<p class="why">${esc(p.gancho || "")}</p>
+      <div class="chips">${[p.tipo_idea, p.formato, p.plantilla && nombre1("Plantilla", p.plantilla), p.palanca].filter(Boolean).map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div>
+      <div class="adapt"><button class="btn solid" data-prop="${(D.propuestas.items).indexOf(p)}">Revisar y decidir</button></div>` : ""}
+    <div class="slot"></div></article>`).join("")}</div>`;
+}
+
+pintar();
+if (window.claude && window.claude.use) {
+  Promise.all([window.claude.use("sample"), window.claude.use("mcp")]).then(([s, m]) => {
+    sample = s; mcp = m; puedeAdaptar = !!(s && m); pintar();
+  }).catch(() => {});
+}
+})();
+</script>

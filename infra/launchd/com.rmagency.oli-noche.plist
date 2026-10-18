@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Oli sola: miércoles 01:30 (noche martes→miércoles). Tanda de los clientes en su semana 📊 Analizar; avisa por WhatsApp + correo.
+  Instalación: cp com.rmagency.oli-noche.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.rmagency.oli-noche.plist
+  Log: infra/olivia/oli-noche.log
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rmagency.oli-noche</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/olivia/oli-noche.sh</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>3</integer>
+        <key>Hour</key>
+        <integer>1</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/olivia/launchd.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/olivia/launchd.err.log</string>
+</dict>
+</plist>

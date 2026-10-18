@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Retención de copies: cada madrugada a las 03:30 borra los registros de copy cuya fecha de
+  publicación ya pasó (infra/mantenimiento/limpiar_copies.py, Python puro, sin Claude).
+  No toca fichas, briefs, config ni secretos: solo ciclos/*/*/copies/*.md vencidos.
+
+  Instalación (con tu usuario, NO root):
+    cp com.rmagency.limpiar-copies.plist ~/Library/LaunchAgents/
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.rmagency.limpiar-copies.plist
+  Probar a mano: launchctl kickstart -k gui/$(id -u)/com.rmagency.limpiar-copies
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rmagency.limpiar-copies</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/mantenimiento/limpiar_copies.py</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>3</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/mantenimiento/limpiar-copies.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/mantenimiento/limpiar-copies.err.log</string>
+</dict>
+</plist>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Cinturón y tirantes: mantiene el sistema despierto aunque se reviertan los ajustes de
+  pmset. `caffeinate -s` evita la suspensión del sistema mientras el proceso vive.
+
+  Instalación:
+    sudo cp com.rmagency.caffeinate.plist /Library/LaunchDaemons/
+    sudo chown root:wheel /Library/LaunchDaemons/com.rmagency.caffeinate.plist
+    sudo launchctl load /Library/LaunchDaemons/com.rmagency.caffeinate.plist
+  (Requiere tu contraseña de admin.)
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rmagency.caffeinate</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/caffeinate</string>
+        <string>-s</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+</dict>
+</plist>

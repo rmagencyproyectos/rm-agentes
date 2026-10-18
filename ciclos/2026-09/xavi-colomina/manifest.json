@@ -1,0 +1,45 @@
+{
+  "cliente": "xavi-colomina",
+  "ciclo": "2026-09",
+  "estrategia": {
+    "estado": "listo",
+    "ref": "programacion/videos.json",
+    "aprobado_gerard": true,
+    "nota": "2026-08-19 (Gerard): arranque de publicación. 3/semana — martes, jueves y domingo a las 15:00, desde el martes 01/09. Días fijados en config/publicacion.json."
+  },
+  "grabacion": {
+    "estado": "parcial",
+    "material": "01/09 teaser de 8s: subido por Gerard. 02/09 carrusel: exportado de Claude Design. 03/09 presentación de 45s: montada por Jaume el 30/08. 06/09 'Xavi explica el proyecto': ENTREGADO por Jaume el 03/09 (vídeo largo de YT, 2:34). Falta la versión de 1 min para IG/TikTok/Shorts. Presentación 2: descartada del calendario."
+  },
+  "edicion": {
+    "estado": "listo",
+    "piezas": 48,
+    "nota": "2026-08-19: inventario REAL de Drive = 51 piezas publicables (34 tips + 9 podcast + 5 ejercicios + 3 explicaciones). Corrige la nota del 11/08 que decía 56: (a) Gerard borró C03/C05/C06/C08/C13 del podcast el 19/08; (b) 'Controlar la profundidad.mp4' (tips) y 'Tanda 3-11.mp4' (ejercicios) están en el disco duro pero NO subidos a Drive. 2026-09-07: 3 piezas a STAND BY por decisión de Gerard ('Posicion de defensa.mp4' y 'Tanda 3-7.mp4' —el del problema con el saque— de TIPS ENTRENO, y 'Tanda 3-20.mp4' de EJERCICIOS): movidas en Drive a XAVI COLOMINA/STAND BY (id 1e0mlZHLleqzqDaSgDB1Eunnqb-ZRKvPj) y quitadas de videos.json. Quedan 48 piezas publicables. NO estaban programadas en Metricool (el firme llega solo al 04/10), así que no hubo nada que retirar del calendario. Al recolocar el calendario salió que la entrada del carrusel (02/09) tenía `fecha: null` en videos.json desde su generación; se le puso su fecha real, la que ya tiene en Metricool. 2026-09-09: C01 re-montado — el corte quedaba a mitad de frase ('pero tienes que haber vivido'); ahora cierra en 'Lo tienes que vivir.' (master IMG_2561 53:37.5 -> 55:00.6, 43s -> 83s). Mismo montaje multicámara que el resto (vertical IMG_9457 de base + ventanas de 3s de la abierta cada 9s, offset 4.131 verificado por correlación); se omite la ventana de los últimos 4s para que el remate caiga en el plano cerrado. Fichero: 'clips recortados/vertical/C01_coaching-mierda_vertical_v2.mp4'.",
+    "pendiente": "Montar la presentación. Subir a Drive los 2 vídeos que faltan. SUBIR A DRIVE (PODCAST) 'C04_relacion-contigo-mismo_vertical_v2.mp4' — el C04 alargado de 25s a 55s — y actualizar `drive_id` de la pieza n=18 en programacion/videos.json al id nuevo. La service account rm-drive@rm-agentes.iam.gserviceaccount.com es de SOLO LECTURA: para que el hub pueda subir vídeos solo hace falta compartirle la carpeta del cliente como Editor. SUBIR A DRIVE (PODCAST) 'C01_coaching-mierda_vertical_v2.mp4' — el C01 alargado de 43s a 83s — actualizar el `drive_id` de la pieza n=6 en programacion/videos.json y CAMBIAR EL VÍDEO EN METRICOOL: la pieza está programada EN FIRME para el 10/09 a las 15:00 con el vídeo viejo."
+  },
+  "copies": {
+    "estado": "en-curso",
+    "ref": "copies/",
+    "nota": "2026-08-30: copies de septiembre escritos desde copy-brief.md sobre la transcripción real de cada vídeo. El teaser del 01/09 lleva copy MÍNIMO a propósito (Gerard): solo reclamo + SEO en hashtags. 2026-09-04: escrito el copy y el Título YT de 'Xavi explica el proyecto' (06/09) sobre su transcripción real y cargado en el borrador de Metricool (id nuevo 370978609). PENDIENTE: copy del corte de 1 min para IG/TikTok/Shorts (post 370966960, aún sin vídeo)."
+  },
+  "qa": {
+    "estado": "pendiente",
+    "incidencias": []
+  },
+  "distribucion": {
+    "estado": "programado",
+    "gate": "WhatsApp+Metricool = Gerard",
+    "aprobado_gerard": true,
+    "nota": "2026-08-30: reordenado el arranque. 15 posts EN FIRME del 01/09 al 04/10. Semana 1: teaser 8s (mar 01), carrusel (MIÉ 02, fuera de cadencia), presentación 45s (jue 03) y el hueco del dom 06 reservado a 'Xavi explica el proyecto', que aún se edita. El stock de vídeo corrió UN SLOT en bloque para no romper el reparto uniforme de series: abre 'Cómo ganar partidos' el mar 08.",
+    "autopublica": true
+  },
+  "cierre": {
+    "estado": "pendiente",
+    "ref": null
+  },
+  "despacho": {
+    "siguiente_agente": "editor",
+    "nota": "2026-09-04: el vídeo largo del dom 06/09 ya está en Metricool con copy, título y etiquetas, en borrador y sin autopublicar (revisar y pasar a firme). Lo único sin material es el corte de 1 min para IG/TikTok/Shorts del mismo día (post 370966960). 2026-09-07: C04 re-montado — el corte quedaba a mitad de frase; ahora cierra en 'Todo está basado en las relaciones.' (master IMG_2561 19:50.5 -> 20:45.9). Fuera del disco no ha cambiado nada. 2026-09-09: C01 alargado a 83s (ver edicion.nota). URGENTE: publica mañana 10/09 a las 15:00 con autopublicación activada y en Metricool sigue el corte de 43s; hay que subir el v2 a Drive y sustituirlo antes de esa hora. El copy no cambia: sigue encajando y ahora el vídeo dice de verdad el 'no puedes aprender de formaciones ni de titulaciones, lo tienes que vivir'.",
+    "lanzamiento": "2026-09-01"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "_comentario": "Lo de las etiquetas que NO está en agentes/guiones/ETIQUETAS.md (esa es la fuente única de las listas comunes y sus definiciones; Plantilla = la carpeta de plantillas). Aquí: lo propio de cada cliente, lo que el etiquetado automático no usa, dónde se escribe cada cosa y lo pendiente de migrar. Lo lee infra/analisis/etiquetas.py.",
+  "migracion": {
+    "_estado_02_10_2026": "Bandeja, Contenido x4 y Rendimiento Golossa YA migrados por Gerard. Queda solo lo de abajo (salida de infra/analisis/etiquetas_check.py).",
+    "Palanca:Emoción": {
+      "destino": "reetiquetar viendo el vídeo (ver_video.py)",
+      "filas": "27 Rendimiento golossa + 1 Contenido newmos",
+      "despues": "quitar la opción de las 5 bases"
+    },
+    "Rendimiento xavi-colomina:Formato": {
+      "destino": "renombrar columna a 'Rodaje' (extra de Xavi: Multicam en pista, Podcast, Análisis de vídeo, Talking-head)",
+      "motivo": "es cómo se graba, no el formato del contenido"
+    }
+  },
+  "extras_por_cliente": {
+    "xavi-colomina": [
+      "Etiquetas del cliente",
+      "Tema",
+      "Línea",
+      "Serie",
+      "A quién habla Xavi",
+      "Tipo de gancho",
+      "Tono",
+      "Rodaje"
+    ],
+    "jesus-mora": [
+      "Etiquetas del cliente"
+    ],
+    "newmos": [
+      "Etiquetas del cliente"
+    ]
+  },
+  "etiquetas_viven_en": {
+    "_nota": "Dónde se ESCRIBEN las etiquetas de cada vídeo. Siempre en la fila de rendimiento (una fila = un vídeo). Xavi se intentó en su base de Contenido y salió mal (02/10/2026): 54 de sus 84 vídeos (el reto mano izquierda) cuelgan de UNA sola ficha, 'SERIE Aprenent esquerra', así que todos heredaban las etiquetas del primero. Sus columnas rollup de la ficha se llaman ahora 'Tipo de idea (ficha)', 'Plantilla (ficha)' y 'Palanca (ficha)'.",
+    "xavi-colomina": "rendimiento",
+    "golossa": "rendimiento"
+  },
+  "no_inferir": {
+    "_nota": "Opciones que el etiquetado automático (Gemini/Claude) NO usa (Gerard, 02/10/2026): 'Oficio' sale en todo vídeo de un cliente que enseña su propio trabajo, así que no distingue nada. Siguen en Notion para uso manual.",
+    "Tipo de idea": [
+      "Oficio"
+    ]
+  },
+  "etiquetas_cliente": {
+    "_nota": "Columna 'Etiquetas del cliente' (multi-select) en la base de rendimiento: lista CERRADA y propia de cada cliente. Es lo que distingue sus vídeos entre sí (en Xavi: golpes y fases del juego). Nunca se compara entre clientes. Gemini solo usa estas opciones.",
+    "xavi-colomina": {
+      "opciones": [
+        "Smash",
+        "Bandeja",
+        "Víbora",
+        "Volea",
+        "Globo",
+        "Rulo",
+        "Dejada",
+        "Paredes",
+        "Saque y resto",
+        "Golpeo",
+        "Ataque",
+        "Defensa",
+        "Posicionamiento",
+        "Movimiento",
+        "Timing",
+        "Dirección de bola",
+        "Ejercicio",
+        "Mentalidad",
+        "Reto mano izquierda",
+        "Marca personal",
+        "Promo YouTube"
+      ],
+      "desde_tema": {
+        "Paredes de fondo": [
+          "Paredes"
+        ],
+        "Ataque/Posición": [
+          "Ataque",
+          "Posicionamiento"
+        ],
+        "Movimiento corporal": [
+          "Movimiento"
+        ],
+        "Comparativa manos": [
+          "Reto mano izquierda"
+        ],
+        "Coaching/Mentalidad": [
+          "Mentalidad"
+        ],
+        "Presentación": [
+          "Marca personal"
+        ],
+        "Otro": []
+      },
+      "desde_linea": {
+        "Reto mano izquierda": [
+          "Reto mano izquierda"
+        ],
+        "Ejercicio": [
+          "Ejercicio"
+        ],
+        "Promo YouTube": [
+          "Promo YouTube"
+        ],
+        "Mentalidad": [
+          "Mentalidad"
+        ]
+      }
+    },
+    "jesus-mora": {
+      "opciones": [
+        "Cocina",
+        "Armario/Vestidor",
+        "Puertas",
+        "Suelos/Parquet",
+        "Baño",
+        "Salón",
+        "Mueble a medida",
+        "Materiales",
+        "Color/Acabados",
+        "Almacenaje",
+        "Taller/Fabricación",
+        "Instalación",
+        "Diseño/Presupuesto"
+      ],
+      "_nota": "Propuesta aceptada por Gerard 02/10/2026 'de momento': revisable."
+    },
+    "newmos": {
+      "opciones": [
+        "Horno mixto",
+        "Abatidor",
+        "Multifunción",
+        "Extracción/Campana",
+        "Averías/Mantenimiento",
+        "Seguridad",
+        "Ahorro de tiempo",
+        "Cocinado/Receta",
+        "Obrador",
+        "Restaurante/Hotel",
+        "Formación"
+      ],
+      "_nota": "Propuesta aceptada por Gerard 02/10/2026 'de momento': revisable."
+    }
+  }
+}

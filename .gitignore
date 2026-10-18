@@ -1,0 +1,26 @@
+# Secretos e infra local
+infra/.env
+.env
+
+# Sistema
+.DS_Store
+__pycache__/
+*.pyc
+
+# Generados en cada ejecución (no son fuente)
+infra/estado/estado.txt
+infra/responder/tmp-*
+infra/winston/tmp-*
+infra/responder/sent-ids.log
+*.log
+
+# Nada de vídeos/material pesado en el hub (solo punteros)
+*.mp4
+*.mov
+*.MOV
+*.wav
+infra/.env.winston
+infra/.env.bak*
+infra/.env.*
+!infra/.env.example
+output/

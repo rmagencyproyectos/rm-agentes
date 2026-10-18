@@ -1,0 +1,25 @@
+{
+ "cliente": "midtown",
+ "ciclo": "2026-08",
+ "objetivo": "Tanda abierta por Coco al guionizar. Revisa el objetivo y las restricciones a mano.",
+ "restricciones": [],
+ "piezas": [
+  {
+   "id": "m-08-1",
+   "titulo": "Te perdono, pero no gratis",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Identidad",
+   "apuesta": "humor de situación reconocible (el gag del 'perdón condicionado a comida') sostenido solo con reacción — cara seria + texto en pantalla —, sin que nadie tenga que actuar un personaje",
+   "porque": "el top vídeo de Midtown en 180 días es un POV de reacción natural (10.080 vistas, 'et demanen 2 canyes'), y el aprendizaje del cliente confirma que reacción supera a sketch actuado (Pantera rinde peor). El humor de situación reconocible es además la palanca más fuerte medida en toda la agencia (Golossa, 'es normal la indecisión': 2,1M vistas)",
+   "etiquetas": [
+    "humor",
+    "pov",
+    "situacion-reconocible",
+    "reaccion"
+   ]
+  }
+ ]
+}

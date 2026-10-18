@@ -1,0 +1,58 @@
+{
+ "entradas": [
+  {
+   "fecha": "2026-07-24",
+   "cliente": "golossa",
+   "agente": "analisis",
+   "tipo": "aprendizaje",
+   "que": "Un reel viral ('Es normal la indecisión') concentró ~90% del engagement del mes.",
+   "porque": "El humor/relato identificable dispara el alcance mucho más que el producto solo.",
+   "comoAplicarlo": "Doblar la apuesta por formatos de humor/situación reconocible, no solo cortes de producto."
+  },
+  {
+   "fecha": "2026-07-24",
+   "cliente": "midtown",
+   "agente": "analisis",
+   "tipo": "aprendizaje",
+   "que": "Los sketches de la Pantera funcionan peor; los POV con camarero (cámara al pecho) rinden y dan muchas piezas.",
+   "porque": "Lo natural/improvisado conecta más que el personaje forzado.",
+   "comoAplicarlo": "Priorizar POV de camarero; usar la Pantera como gancho puntual, no como formato principal."
+  },
+  {
+   "fecha": "2026-07-24",
+   "cliente": "newmos",
+   "agente": "analisis",
+   "tipo": "aprendizaje",
+   "que": "El mejor formato es grabar en obrador industrial explicando una máquina; 'educar a cámara' no funciona.",
+   "porque": "La demostración real genera más confianza que la charla.",
+   "comoAplicarlo": "Crear formatos repetibles de demostración; evitar talking-head educativo."
+  },
+  {
+   "fecha": "2026-08-11",
+   "cliente": "jesus-mora",
+   "agente": "analisis",
+   "tipo": "aprendizaje",
+   "que": "Lo de 'a Jesus Mora no le funciona nada' es sobre todo una caida de TikTok, no un problema del contenido. Mediana mensual TikTok 4133->2159->978; Instagram 1186->1260->1527 (plano o subiendo).",
+   "porque": "Medido con termometro.py sobre 40 publicaciones de 180 dias. El mismo video sale x1.6 en Reels y x0.2 en TikTok el mismo dia: una red suelta es ruido.",
+   "comoAplicarlo": "Valorar cada pieza por la suma Instagram+TikTok contra la mediana del cliente, nunca por una red suelta. No rediseniar el contenido de Instagram como si fallara."
+  },
+  {
+   "fecha": "2026-08-11",
+   "cliente": "todos",
+   "agente": "sistema",
+   "tipo": "regla",
+   "que": "Ninguna pieza se produce sin hipotesis escrita (apuesta + porque) en ciclos/YYYY-MM/<cliente>/hipotesis.json.",
+   "porque": "Se opinaba sobre que funcionaba sin haber apuntado nunca que se esperaba, asi que ningun resultado ensenaba nada.",
+   "comoAplicarlo": "Al guionizar se rellena la hipotesis; al publicar se pone la fecha; en la fase de analisis se cierra con termometro.py --cerrar y el aprendizaje es el input de las ideas del mes siguiente. Ver ciclos/HIPOTESIS.md."
+  },
+  {
+   "fecha": "2026-08-11",
+   "cliente": "jesus-mora",
+   "agente": "gerard",
+   "tipo": "regla",
+   "que": "Con Jesus Mora se graba UN SOLO DIA, en el taller. Nada que exija seguir una obra o instalacion real, ni actuar (no es actor). Sin precios en pantalla. No se ensena trabajo mal hecho porque no lo hay.",
+   "porque": "Gerard lo corrigio al revisar la primera tanda de hipotesis de septiembre: tres de ocho eran imposibles de grabar.",
+   "comoAplicarlo": "Validar toda idea contra '¿sale del taller en un dia?'. Escrito en el campo restricciones de ciclos/2026-09/jesus-mora/hipotesis.json."
+  }
+ ]
+}

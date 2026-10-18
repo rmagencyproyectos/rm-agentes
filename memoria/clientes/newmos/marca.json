@@ -1,0 +1,20 @@
+{
+  "cliente": "newmos",
+  "sector": "equipamiento-hosteleria",
+  "render": {
+    "engine": "capcut (edicion por persona)",
+    "tipografiaTitulo": "TBD",
+    "tipografiaSub": "TBD",
+    "colores": { "principal": "TBD", "secundario": "TBD", "texto": "TBD" },
+    "animaciones": "profesional, clara, muy entendible (edicion trabajada)",
+    "formato": "vertical 1080x1920 (TikTok/IG) + carruseles"
+  },
+  "textosFijos": { "kicker": null, "lugar": null },
+  "cta": { "generico": "TBD (Newmos quiere ver los copies)" },
+  "hashtagsFijos": ["#equiposprofesionales", "#cocinaprofesional"],
+  "reglas": ["no mostrar marcas de competencia", "cuidado conflictos entre proveedores", "el cliente revisa los copies"],
+  "tiposVideo": ["demostracion-obrador", "comparativa", "caso-de-uso", "carrusel"],
+  "material": { "fuentes": "TBD", "camaras": "estudio/showroom/obrador industrial" },
+  "salida": { "dir": "TBD", "naming": "TBD" },
+  "distribucion": { "canal": "Metricool · TikTok + Instagram", "cadencia": "~1 video/semana", "responsable": "Andrea" }
+}

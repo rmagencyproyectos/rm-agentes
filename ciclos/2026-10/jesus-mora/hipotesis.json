@@ -1,0 +1,26 @@
+{
+ "cliente": "jesus-mora",
+ "ciclo": "2026-10",
+ "objetivo": "Tanda abierta por Coco al guionizar. Revisa el objetivo y las restricciones a mano.",
+ "restricciones": [],
+ "piezas": [
+  {
+   "id": "jm-10-1",
+   "titulo": "El encargo más raro que nos han pedido",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "caso-real",
+   "metodologia": "valor-directo",
+   "compartible": "Utilidad",
+   "apuesta": "contar un encargo real poco habitual (petición → necesidad → decisiones → resultado), narrado a cámara y apoyado solo con imágenes fijas del encargo, sin reenactment ni grabación del proceso completo",
+   "porque": "caso-real es una de las cuatro mecánicas con alcance medido en el banco de referencia (ficha.md, datos de Golossa); en jesus-mora el top post actual (18.648 vistas, Reel 27/09) ya funciona con curiosidad sobre una decisión de diseño poco intuitiva, y la ficha señala que aún no hay formato ganador claro para este cliente — vale la pena probar esta variante con apoyo mínimo de imágenes",
+   "etiquetas": [
+    "caso",
+    "proceso",
+    "curiosidad-oficio"
+   ],
+   "tipo_idea": "Cliente",
+   "formato": "Explicación"
+  }
+ ]
+}

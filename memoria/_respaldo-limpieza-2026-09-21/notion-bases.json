@@ -1,0 +1,59 @@
+{
+  "_comentario": "Mapa slug -> ids de Notion. La Bandeja es la entrada central; cada cliente tiene su base Contenido <Cliente>. Creado 28/07/2026 (bases desde cero, esquema limpio de 12 props). Lo usan infra/notion/distribuir.py y guionizar.py.",
+  "bandeja": {
+    "database_id": "1a033425-f195-46ed-bccd-b29b2e6163bb",
+    "data_source_id": "c7d4aedf-833c-4a49-9925-15b43a9b96d3"
+  },
+  "clientes": {
+    "golossa": {
+      "label": "Golossa",
+      "database_id": "c8ac7335-d5e4-4616-9ca0-d2cc20119e01",
+      "data_source_id": "752c2c94-c5b3-46c8-8edf-8addf05350bf",
+      "page_id": "26a496ca-6d51-803d-a5fa-f51ff2286523"
+    },
+    "jesus-mora": {
+      "label": "Jesús Mora",
+      "database_id": "a542185f-2982-4c37-9cab-a10bb8678479",
+      "data_source_id": "01faaead-97aa-4f5f-a2f8-51d5876412a4",
+      "page_id": "35e496ca-6d51-8059-ab98-c912331775fa"
+    },
+    "midtown": {
+      "label": "Midtown",
+      "database_id": "b90d66c2-0cc4-452f-aea6-086bb0bea728",
+      "data_source_id": "6a3552f2-5853-4ad1-b662-7c2aa9e86363",
+      "page_id": "34a496ca-6d51-802a-916f-d4a19a19bdc3"
+    },
+    "newmos": {
+      "label": "NewMos",
+      "database_id": "2667e89b-76e9-47f9-9526-de70e4d88e72",
+      "data_source_id": "ec0ca8b2-7823-4ca0-8630-3e9c83943ff1",
+      "page_id": "276496ca-6d51-808b-992b-cf1163531cb8"
+    },
+    "msm": {
+      "label": "MsM Models",
+      "database_id": "dede99d5-f925-4a59-89dd-bffa73042ce9",
+      "data_source_id": "c32b46be-5c79-47ed-9e65-6efb295ff6a8",
+      "page_id": "387496ca-6d51-80fd-87d9-d472bd8cc03b"
+    },
+    "xavi-colomina": {
+      "label": "Xavi Colomina",
+      "database_id": "5d8ed9a1-1b74-45ef-ad29-6d66f55b69a1",
+      "data_source_id": "5ebb8bff-f1df-47dc-a55d-ebc4ec8298ab",
+      "page_id": "342496ca-6d51-80fc-99b8-c068490617ea"
+    },
+    "algoritmo": {
+      "label": "Algoritmo",
+      "database_id": "a64724a6-1df2-4652-9bab-845d33ec2a26",
+      "data_source_id": "3db5c692-1f18-4a1b-93af-a1278d76150f",
+      "page_id": "3bb496ca-6d51-8094-8356-f0ea5c7374fd",
+      "_nota": "Alta 26/08/2026. Eventos / fiesta electronica; sus paginas estan en catalan pero las propiedades van en castellano como el resto (las leen los scripts). Ubicacion: Recinto/Pista/Backstage/Exterior — cambiar por los venues reales cuando se sepan. Sin brief de copy todavia ni marca en metricool-marcas.json: hasta que los tenga, Coco escribe con el tono estandar y NO se puede programar en Metricool."
+    },
+    "rm-agency": {
+      "label": "RM Agency",
+      "database_id": "c8d4b008-a7d7-48e3-809a-f95587dc9baa",
+      "data_source_id": "b73bbc23-f5ad-47c6-b712-8758e57d3e20",
+      "page_id": "231496ca-6d51-80fc-b486-dd5244123a40",
+      "_nota": "Cuenta propia de la agencia, no un cliente que paga. Enchufada a la fabrica el 26/08/2026: hasta entonces las ideas marcadas 'RM' en la Bandeja hacian fallar a distribuir.py cada noche con 'Cliente desconocido en config'. La opcion de la Bandeja se renombro 'RM' -> 'rm-agency' para que case con metricool-marcas.json (brand_id 5747122, en fuera_de_roster_v1). page_id apunta a CLIENTES porque la base 'Contenido RM' cuelga directamente de ahi, no de una pagina propia. FUERA del reloj de ciclo-mensual.json y fuera de chequeo_cobertura (que solo recorre roster_v1)."
+    }
+  }
+}

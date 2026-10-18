@@ -1,0 +1,226 @@
+{
+ "cliente": "xavi-colomina",
+ "ciclo": "2026-10",
+ "piezas": [
+  {
+   "id": "xc-10-oli1",
+   "titulo": "El detalle de la muñeca en la volea que nadie corrige",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "criterio-detalle",
+   "formato": "Explicación",
+   "tipo_idea": "Oficio",
+   "apuesta": "Mostrar en cámara lenta un detalle cerrado y concreto de técnica (la muñeca en la volea) genera más retención/guardados que explicar la volea en general.",
+   "porque": "medición — criterio-detalle hace x1,89 sobre 5 piezas en el termómetro de Xavi y nota 1,65 sobre 9 en el panel ('Haz más'); coincide con el formato validado de ficha 'análisis de vídeo, Xavi marca el error en primer plano'.",
+   "etiquetas": [
+    "criterio-detalle",
+    "explota",
+    "martes-jueves"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/El-detalle-de-la-mu-eca-en-la-volea-que-nadie-corrige-3f1496ca6d518135b40cfc7fadbcae8f"
+  },
+  {
+   "id": "xc-10-oli2",
+   "titulo": "¿Por qué pierdo el punto justo cuando subo a la red?",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "pregunta-real",
+   "formato": "Explicación",
+   "tipo_idea": "Oficio",
+   "apuesta": "Responder una pregunta real y concreta sobre la subida a la red genera más retención que un tip genérico de posición.",
+   "porque": "pregunta-real tiene nota 1,81 sobre 5 vídeos en el panel ('Haz más'); no llega a 3 piezas cruzadas en el termómetro de Notion todavía, así que repite, no concluye.",
+   "etiquetas": [
+    "pregunta-real",
+    "repite"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Por-qu-pierdo-el-punto-justo-cuando-subo-a-la-red-3f1496ca6d5181128032c7c33571f03c"
+  },
+  {
+   "id": "xc-10-oli3",
+   "titulo": "Te han dicho que juegues siempre cruzado. Es mentira.",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "error-mito",
+   "formato": "Explicación",
+   "tipo_idea": "Oficio",
+   "apuesta": "Nombrar explícitamente el mito 'jugar siempre cruzado' antes de corregirlo, con el gancho de error/mito que pide Gerard para martes/jueves, genera más guardados que explicarlo sin nombrar la creencia.",
+   "porque": "regla de Gerard del 04/10/2026 — martes y jueves con gancho de error/mito (x2,5) es lo que mejor funciona con este cliente; el ángulo está aprobado en el brief de copy (segundo ángulo) pero nunca se ha usado (agosto usó empuñadura, revés, bascular y posición en ataque, no este).",
+   "etiquetas": [
+    "error-mito"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Te-han-dicho-que-juegues-siempre-cruzado-Es-mentira-3f1496ca6d518137a784cae0eab627f0"
+  },
+  {
+   "id": "xc-10-oli4",
+   "titulo": "Especializarte en un lado te está limitando (y no lo sabes)",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "error-mito",
+   "formato": "Tips",
+   "tipo_idea": "Oficio",
+   "apuesta": "Presentar la especialización de lado como mito en formato Tips (lista corta y concreta de qué hacer en su lugar) genera más guardados que un mito explicado en prosa (pieza 3), aislando si lo que empuja es el mito o el formato de lista.",
+   "porque": "Tips es formato 'Haz más' para Xavi: nota 1,54 sobre 8 piezas en el panel, x1,31 sobre 3 en el termómetro. Variante de error-mito cambiando formato de Explicación a Tips deliberadamente, para separar la señal.",
+   "etiquetas": [
+    "error-mito",
+    "tips"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Especializarte-en-un-lado-te-est-limitando-y-no-lo-sabes-3f1496ca6d51811d9de4c953dddac255"
+  },
+  {
+   "id": "xc-10-oli5",
+   "titulo": "Una sesión real de entreno con Xavi, sin cortes de guion",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "pov-trabajador",
+   "formato": "Vlog / Crónica de evento",
+   "tipo_idea": "Día de trabajo",
+   "apuesta": "Una sesión de entreno real en pista (día de trabajo) genera más alcance que una pieza guionizada de tip aislado, trasladando el patrón de pov-trabajador que funciona en Midtown.",
+   "porque": "aprendizaje agencia (24/07/2026): los POV de trabajo real rinden y dan muchas piezas en Midtown. Para Xavi, el tipo_idea 'Día de trabajo' y el formato 'Vlog/Crónica' no tienen ninguna medición propia todavía — es apuesta trasladada de otro cliente, no confirmada con este.",
+   "etiquetas": [
+    "pov-trabajador",
+    "exploracion",
+    "formato-nuevo"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Una-sesi-n-real-de-entreno-con-Xavi-sin-cortes-de-guion-3f1496ca6d5181e2b52bc224e5b8e6c6"
+  },
+  {
+   "id": "xc-10-oli6",
+   "titulo": "Resumen del domingo: lo último de EL RETO, desde dentro",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "historia-a-camara",
+   "formato": "Explicación",
+   "tipo_idea": "Producto",
+   "apuesta": "Resumir en el reel del domingo el vídeo largo de YouTube que se sube ese día, con Xavi contando (no explicando) el avance de EL RETO, repite el patrón de la pieza del 06/09 (nota 2,72, segundo mejor histórico del cliente).",
+   "porque": "medición directa — la pieza del 06/09/2026 (tipo_idea Producto, plantilla historia-a-camara) hizo nota 2,72; Producto hace x2,36 sobre 3 piezas en el termómetro y nota 1,98 sobre 3 en el panel ('Haz más'). Sigue también la nueva regla editorial de Gerard (04/10/2026): domingo = resumen del vídeo largo de YouTube.",
+   "etiquetas": [
+    "domingo",
+    "producto",
+    "explota"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Resumen-del-domingo-lo-ltimo-de-EL-RETO-desde-dentro-3f1496ca6d5181a19e48ea83949d31e0"
+  },
+  {
+   "id": "xc-10-oli7",
+   "titulo": "Corrijo en directo el gesto que te frena en el remate",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "demostracion",
+   "formato": "Explicación",
+   "tipo_idea": "Oficio",
+   "apuesta": "Corregir un gesto técnico concreto sobre vídeo real de un alumno (análisis de vídeo) repite el patrón de demostracion que ya dio x1,71 sobre 2 piezas.",
+   "porque": "termómetro Xavi: demostracion x1,71 sobre 2 piezas — aún no concluye (1-2 piezas), toca repetir antes de explotarlo o descartarlo. Coincide con el formato validado de ficha 'análisis de vídeo, preferido'.",
+   "etiquetas": [
+    "demostracion",
+    "repite"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Corrijo-en-directo-el-gesto-que-te-frena-en-el-remate-3f1496ca6d5181ef98bddca6d1163ca9"
+  },
+  {
+   "id": "xc-10-oli8",
+   "titulo": "Opinión sin pista de fondo: lo que de verdad decide un punto, dicho a cámara y nada más",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "opinion-marcada",
+   "formato": "Explicación",
+   "tipo_idea": "Opinión",
+   "apuesta": "Una opinión de mentalidad fuerte grabada en talking-head puro, sin ningún plano de pista o demostración visual, retiene y guarda MENOS que las piezas de criterio-detalle o pregunta-real que sí muestran el gesto — aunque 'Opinión' puntúa alto en el histórico (x2,91 termómetro, 1,28 panel), esas piezas medidas probablemente llevaban vídeo de pista de fondo.",
+   "porque": "sin evidencia — apuesta ciega en cuanto al resultado numérico de talking-head puro: la ficha lo marca '⚠️ sin soporte visual, baja prioridad' pero nunca se ha medido aislado de la demostración en pista. Es la pieza de control: si falla, confirma que los formatos validados (multicam / análisis de vídeo) son insustituibles y se deja de proponer talking-head puro sin imagen de apoyo.",
+   "etiquetas": [
+    "control",
+    "talking-head",
+    "opinion"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Opini-n-sin-pista-de-fondo-lo-que-de-verdad-decide-un-punto-dicho-a-c-mara-y-nada-m-s-3f1496ca6d5181dc846dc45fbb91789d"
+  },
+  {
+   "id": "xc-10-9",
+   "titulo": "Si la bandeja se te va a la pared de fondo, el problema no es la fuerza",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "criterio-detalle",
+   "metodologia": "valor-directo",
+   "compartible": "Utilidad",
+   "apuesta": "enseñar el mismo golpe mal y bien, lado a lado, genera más confianza y guardados que explicar solo la teoría del golpe sin mostrar el contraste",
+   "porque": "la plantilla criterio-detalle ya dio x1,6 sobre mediana con Jesús Mora (herrajes, 26/07); y para Xavi los tips técnicos con gancho de error/mito rinden Explicación ×2,5 y palanca Problema ×2,6 (ficha.md, panel 04/10/2026)",
+   "etiquetas": [
+    "detalle",
+    "criterio",
+    "tips"
+   ],
+   "tipo_idea": "Oficio",
+   "formato": "Tips"
+  }
+ ],
+ "objetivo": "Confirmar si el patrón ganador de Xavi (criterio-detalle, pregunta-real, formato Explicación/Tips, tipo_idea Producto en el resumen de domingo) aguanta separando formato de contenido, abrir una vía nunca medida aislada (día de trabajo / pov-trabajador), y cerrar de una vez si el talking-head puro sin apoyo visual sostiene la retención de Xavi o no.",
+ "restricciones": [
+  "Xavi no actúa: reacciona o cuenta, nunca interpreta guion.",
+  "Sin CTA ni mención a diagnóstico/clínics/servicios — fase de autoridad (regla 07/09/2026).",
+  "Toda pieza técnica cierra con la capa de mentalidad (regla que manda del brief de copy).",
+  "Formatos validados a priorizar: multicam en pista y análisis de vídeo con corrección en primer plano; talking-head puro queda reservado solo a la pieza de control.",
+  "Martes y jueves = tips/consejos técnicos-tácticos; domingo = resumen del vídeo largo de YouTube (regla de Gerard, 04/10/2026).",
+  "El reto de la mano izquierda ya no es pieza diaria: solo entra si cabe dentro del resumen del domingo.",
+  "No repetir los 5 mitos ya usados en la tanda de agosto (empuñadura, revés a dos manos, bascular, posición en ataque, sentido común) ni ninguna idea de la lista 'en marcha'."
+ ],
+ "riesgos": "Dos de las ocho piezas (los dos mitos nuevos) y el control dependen de que Xavi se moje con opinión/mito a cámara con naturalidad, algo que apenas hemos visto fuera de los análisis puramente técnicos — si no sale natural, penaliza más de lo que ayuda. Además estoy dando por buena la cifra de Gerard del 04/10 sobre el gancho de error/mito (x2,5) sin poder verla desglosada yo misma en el termómetro propio (no aparece como plantilla medida para Xavi); si ese número viene de otra lectura, dos piezas están apostando sobre un dato que no he podido verificar.",
+ "datos_que_faltan": [
+  "Qué plantilla y tema llevaba cada una de las 5 piezas de criterio-detalle ya medidas para Xavi — sin saberlo, no puedo garantizar que el nuevo tema (muñeca en la volea) no se solape con una ya publicada.",
+  "Si hay un vídeo largo de YouTube efectivamente programado para publicarse en octubre, para que la pieza de resumen del domingo encaje con contenido real y no genérico.",
+  "Si hay una sesión de entreno agendada este mes grabable como 'día de trabajo' sin forzar una grabación extra solo para esta pieza.",
+  "Qué alumno está disponible para la pieza de análisis de vídeo real (demostracion) — depende de agenda, no de guion inventado."
+ ],
+ "descartadas": [
+  {
+   "idea": "Repetir empuñadura/revés/bascular/posición de ataque/sentido común",
+   "motivo": "ya están en marcha (tanda de agosto o Notion), no se duplican"
+  },
+  {
+   "idea": "Caso real de un alumno con nombre de club/ciudad (traducción directa de Golossa)",
+   "motivo": "la ficha lo sugiere como ángulo a explotar, pero el dato propio de Xavi del panel (02/10) ya mide caso-real en 0,75 sobre 4 piezas — 'Evita'. El dato específico del cliente manda sobre la traducción genérica de otro sector"
+  },
+  {
+   "idea": "Reto al espectador (formato)",
+   "motivo": "ya confirmado perdedor para Xavi, 0,81 sobre 5 piezas en el panel — repetirlo sin razón nueva no enseña nada"
+  },
+  {
+   "idea": "Vídeo con el reto de la mano izquierda como pieza suelta",
+   "motivo": "Gerard ya bajó su frecuencia (04/10/2026): deja de ser diaria, solo entra dentro del resumen del domingo si sale de forma natural"
+  },
+  {
+   "idea": "Carrusel de servicios",
+   "motivo": "aparcado por regla fija hasta que Gerard lo reabra; no se toca sin su OK"
+  },
+  {
+   "idea": "Objecion (plantilla de conversión)",
+   "motivo": "choca con la regla de no-venta de la fase actual (autoridad, no captación); sin evidencia y sin margen para probarla ahora"
+  }
+ ],
+ "oli_auto": {
+  "generado": "2026-10-07 01:34",
+  "piezas": 8
+ }
+}

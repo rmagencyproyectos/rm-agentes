@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/usr/bin/python3 -c \"import sys;sys.path.insert\\(0,'infra/web'\\);sys.argv=['x'];import blog;wp=blog.WP\\(blog.load_env\\(\\)\\);[print\\(p['link'],p['date']\\) for p in wp.pedir\\('GET','/posts?status=publish&per_page=50'\\)];[print\\(p['link']\\) for p in wp.pedir\\('GET','/pages?status=publish&per_page=50'\\)]\")"
+    ]
+  }
+}

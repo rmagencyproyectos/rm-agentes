@@ -1,0 +1,39 @@
+{
+  "cliente": "rm-agency",
+  "sector": "Agencia de contenido para redes sociales (cuenta propia)",
+  "render": {
+    "engine": "TBD",
+    "tipografiaTitulo": "TBD",
+    "tipografiaSub": "TBD",
+    "colores": {
+      "principal": "TBD",
+      "secundario": "TBD",
+      "texto": "TBD"
+    },
+    "animaciones": "TBD",
+    "formato": "TBD"
+  },
+  "textosFijos": {
+    "kicker": null,
+    "lugar": null
+  },
+  "cta": {
+    "generico": "TBD"
+  },
+  "hashtagsFijos": [],
+  "tiposVideo": [
+    "TBD"
+  ],
+  "material": {
+    "fuentes": "TBD",
+    "camaras": "TBD"
+  },
+  "salida": {
+    "dir": "TBD",
+    "naming": "TBD"
+  },
+  "distribucion": {
+    "canal": "Instagram + TikTok (brand_id Metricool 5747122)",
+    "cadencia": "_default de publicacion.json: miercoles y domingo 15:00 — CONFIRMAR con Gerard"
+  }
+}

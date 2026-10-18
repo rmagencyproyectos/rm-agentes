@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mantiene a Winy "no disponible" ante WhatsApp para que las notificaciones sigan llegando al
+  móvil de Gerard. Baileys reconecta solo cada cierto tiempo (sin reiniciar el contenedor) y al
+  hacerlo vuelve a registrar presencia: por eso hay que reaplicarlo, no basta con hacerlo una vez.
+
+  Instalación (con tu usuario, NO root):
+    cp com.rmagency.presencia.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.rmagency.presencia.plist
+  Parar:  launchctl unload ~/Library/LaunchAgents/com.rmagency.presencia.plist
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rmagency.presencia</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/responder/presencia.sh</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StartInterval</key>
+    <integer>300</integer>
+    <key>StandardOutPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/responder/presencia.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/responder/presencia.err.log</string>
+</dict>
+</plist>

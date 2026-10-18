@@ -1,0 +1,89 @@
+{
+ "cliente": "xavi-colomina",
+ "ciclo": "2026-08",
+ "objetivo": "Tanda abierta por Coco al guionizar. Revisa el objetivo y las restricciones a mano.",
+ "restricciones": [],
+ "piezas": [
+  {
+   "id": "xc-08-1",
+   "titulo": "Empuñadura NO continental",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "error-mito",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "nombrar el mito de forma explícita en el gancho ('te han enseñado la empuñadura mal') sube guardados/compartidos frente a explicar el cambio de agarre sin nombrar antes la creencia equivocada",
+   "porque": "la propia plantilla error-mito cita 'la continental no es la única empuñadura' como idea ya aprobada en el banco de Xavi (ficha.md) pero nunca se había nombrado como mito explícito ni medido con este marco — sin evidencia de rendimiento aún, apuesta ciega sobre el formato",
+   "etiquetas": [
+    "mito",
+    "criterio",
+    "valor-gratis"
+   ]
+  },
+  {
+   "id": "xc-08-2",
+   "titulo": "Sentido comun en el padel",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "criterio-detalle",
+   "metodologia": "valor-directo",
+   "compartible": "Utilidad",
+   "apuesta": "un detalle físico cerrado y concreto (el pie de apoyo en cámara lenta) genera más retención y confianza que explicar 'sentido común' de forma abstracta o motivacional",
+   "porque": "sin evidencia propia de Xavi (Metricool sin publicaciones aún) — se apoya en el patrón cross-cliente de esta misma plantilla: el post de herrajes de Jesús Mora (26/07) hizo x1,6 sobre su mediana enseñando 'calidad que no se ve'. Es apuesta trasladada, no confirmada con este cliente",
+   "etiquetas": [
+    "detalle",
+    "criterio",
+    "mentalidad"
+   ]
+  },
+  {
+   "id": "xc-08-3",
+   "titulo": "Reves a 2 manos",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "error-mito",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "nombrar el mito con las palabras exactas del que se lo cree ('es de cuando no llegas') antes de corregirlo genera más guardados que un tip técnico que no nombra ninguna creencia previa",
+   "porque": "sin evidencia de métricas propias (Metricool sin datos para xavi-colomina, 0 publicaciones) — pero el ángulo mito ya está validado como línea de contenido en el banco de ideas del cliente (revés a dos manos, empuñadura no continental, mito del primer palo); es apuesta ciega en cuanto a resultado numérico",
+   "etiquetas": [
+    "mito",
+    "criterio",
+    "valor-gratis"
+   ]
+  },
+  {
+   "id": "xc-08-4",
+   "titulo": "Basculas mal en el fondo",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "error-mito",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "El ángulo de mito técnico (desmontar una creencia extendida sobre cómo bascular) genera más guardados/compartidos que un tip de técnica genérico sin creencia previa que tumbar.",
+   "porque": "sin evidencia — apuesta ciega (Metricool no tiene publicaciones registradas para xavi-colomina; 'bascular en el fondo' está en el banco de ideas aprobadas de ficha.md pero sin dato de rendimiento todavía)",
+   "etiquetas": [
+    "mito",
+    "criterio",
+    "valor-gratis",
+    "mentalidad"
+   ]
+  },
+  {
+   "id": "xc-08-5",
+   "titulo": "Mala posicion de ataque",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "error-mito",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "un mito de colocación corregido con comparación visual mal/bien (sin argumentarlo solo de palabra) retiene y se guarda más que una explicación hablada",
+   "porque": "sin evidencia — apuesta ciega (Metricool sin histórico para xavi-colomina); el ángulo 'mito del primer palo / posición en ataque' ya está en el banco de ideas aprobadas del cliente, pero aún no se ha medido",
+   "etiquetas": [
+    "mito",
+    "criterio",
+    "valor-gratis"
+   ]
+  }
+ ]
+}

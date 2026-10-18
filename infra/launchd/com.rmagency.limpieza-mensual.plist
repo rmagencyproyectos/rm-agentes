@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Limpieza mensual del sistema (Nova automatizado): día 1 de cada mes a las 03:00 (madrugada).
+  Corre infra/mantenimiento/limpieza.sh (bash puro, sin Claude). No toca datos de negocio.
+
+  Instalación (con tu usuario, NO root):
+    cp com.rmagency.limpieza-mensual.plist ~/Library/LaunchAgents/
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.rmagency.limpieza-mensual.plist
+  Probar a mano: launchctl kickstart -k gui/$(id -u)/com.rmagency.limpieza-mensual
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rmagency.limpieza-mensual</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/mantenimiento/limpieza.sh</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Day</key>
+        <integer>1</integer>
+        <key>Hour</key>
+        <integer>3</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/mantenimiento/limpieza.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/mantenimiento/limpieza.err.log</string>
+</dict>
+</plist>

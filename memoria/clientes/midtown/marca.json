@@ -1,0 +1,20 @@
+{
+  "cliente": "midtown",
+  "sector": "hamburgueseria-americana",
+  "render": {
+    "engine": "capcut (edicion por persona)",
+    "tipografiaTitulo": "TBD",
+    "tipografiaSub": "TBD",
+    "colores": { "principal": "TBD", "secundario": "TBD", "texto": "TBD" },
+    "animaciones": "muy TikTok, rapido, natural, improvisado",
+    "formato": "vertical 1080x1920 (TikTok/IG)"
+  },
+  "textosFijos": { "kicker": null, "lugar": "📍#Reus, Carrer de la Mar 30" },
+  "cta": { "generico": "naturales, nunca comerciales (Amb qui vindries?, Team smash o classica?)" },
+  "hashtagsFijos": ["#smashburger", "#restaurant", "#tarragona", "#panterareus"],
+  "reglas": ["hashtags fijos NO se cambian ni se anaden otros", "idioma = el del video, nunca mezclar", "La Pantera es personaje", "no mostrar cocina sucia"],
+  "tiposVideo": ["pov-camarero", "cocina", "reto-trabajadores", "reto-velocidad", "pantera", "delivery", "pet-friendly", "curiosidades"],
+  "material": { "fuentes": "TBD", "camaras": "POV camara al pecho del camarero" },
+  "salida": { "dir": "TBD", "naming": "TBD" },
+  "distribucion": { "canal": "Metricool · TikTok + Instagram", "cadencia": "TBD", "responsable": "Gerard y Andrea" }
+}

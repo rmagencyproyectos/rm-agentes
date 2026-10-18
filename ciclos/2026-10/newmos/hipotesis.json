@@ -1,0 +1,26 @@
+{
+ "cliente": "newmos",
+ "ciclo": "2026-10",
+ "objetivo": "Tanda abierta por Coco al guionizar. Revisa el objetivo y las restricciones a mano.",
+ "restricciones": [],
+ "piezas": [
+  {
+   "id": "n-10-1",
+   "titulo": "La avería que pudo cerrar un restaurante",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "historia-a-camara",
+   "metodologia": "bucle-abierto",
+   "compartible": "Identidad",
+   "apuesta": "Narrar una historia real en primera persona (sin explicar nada técnico) sostiene la pieza igual que sostiene obrador+máquina",
+   "porque": "sin evidencia — apuesta ciega: es la pieza de control de historia-a-camara en Newmos, nunca probada; solo sabemos que 'educar a cámara' no funciona (ficha de cliente), esto prueba si narrar sí",
+   "etiquetas": [
+    "a-camara",
+    "historia",
+    "control"
+   ],
+   "tipo_idea": "Cliente",
+   "formato": "Explicación"
+  }
+ ]
+}

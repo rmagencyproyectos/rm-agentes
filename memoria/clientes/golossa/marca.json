@@ -1,0 +1,20 @@
+{
+  "cliente": "golossa",
+  "sector": "pasteleria-cheesecakes",
+  "render": {
+    "engine": "capcut (edicion por persona)",
+    "tipografiaTitulo": "TBD",
+    "tipografiaSub": "TBD",
+    "colores": { "principal": "TBD", "secundario": "TBD", "texto": "TBD" },
+    "animaciones": "dinamico, primeros planos, ASMR, queso cayendo",
+    "formato": "vertical 1080x1920 (TikTok/IG)"
+  },
+  "textosFijos": { "kicker": null, "lugar": null },
+  "cta": { "generico": "invitar al local / comentar / guardar / compartir", "estilo": "natural, nunca agresivo" },
+  "hashtagsFijos": ["#Reus", "#Salou", "#Cambrils", "#cheesecakes", "#cookies"],
+  "reglas": ["nunca usar 'favorita' con cheesecake (competencia La Favorita)", "nunca negritas en copy", "formato copy :::writing con las 5 ubicaciones"],
+  "tiposVideo": ["reaccion-cliente", "pov-empleado", "proceso-rapido", "corte-cheesecake", "cheeseshake", "humor"],
+  "material": { "fuentes": "TBD", "camaras": "producto visual, primeros planos" },
+  "salida": { "dir": "TBD", "naming": "TBD" },
+  "distribucion": { "canal": "Metricool · TikTok + Instagram (+Facebook)", "cadencia": "TBD", "responsable": "Gerard y Andrea" }
+}

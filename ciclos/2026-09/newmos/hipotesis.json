@@ -1,0 +1,189 @@
+{
+ "cliente": "newmos",
+ "ciclo": "2026-09",
+ "piezas": [
+  {
+   "id": "n-09-oli1",
+   "titulo": "Demostración en directo: la máquina funcionando en un servicio real, no explicada a cámara",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "demostracion",
+   "formato": null,
+   "tipo_idea": "Producto",
+   "apuesta": "un vídeo mostrando la máquina funcionando en cocina real genera más contacto/confianza que explicar sus características a cámara",
+   "porque": "medición — catálogo de plantillas: demostracion es 'Newmos: su mejor formato medido'; refuerza el aprendizaje del 2026-07-24 (obrador+máquina > talking-head)",
+   "etiquetas": [
+    "obrador",
+    "producto"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Demostraci-n-en-directo-la-m-quina-funcionando-en-un-servicio-real-no-explicada-a-c-mara-3e3496ca6d5181ea9387cc6f8df0250d"
+  },
+  {
+   "id": "n-09-oli2",
+   "titulo": "Antes y después: el mismo servicio con y sin el equipo adecuado, cronometrado",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "antes-despues",
+   "formato": "Comparación",
+   "tipo_idea": "Producto",
+   "apuesta": "enseñar el ahorro de tiempo con un cronómetro en pantalla vende mejor la promesa real de Newmos (ahorrar tiempo, no máquinas) que hablar de 'eficiencia' en abstracto",
+   "porque": "sin evidencia — apuesta ciega (antes-despues no está medido en Newmos; en Jesús Mora es 🟡 pero sin repetir, no traslada directo a este cliente)",
+   "etiquetas": [
+    "formato-nuevo"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Antes-y-despu-s-el-mismo-servicio-con-y-sin-el-equipo-adecuado-cronometrado-3e3496ca6d5181b99aadebceb4994454"
+  },
+  {
+   "id": "n-09-oli3",
+   "titulo": "Lo que diferencia una extracción/campana bien instalada de una que solo 'cumple'",
+   "tipo": "Marca",
+   "soporte": "Carrusel",
+   "plantilla": "criterio-detalle",
+   "formato": null,
+   "tipo_idea": "Educativa",
+   "apuesta": "mostrar el detalle técnico invisible de una instalación bien hecha genera más confianza profesional que un carrusel de producto genérico",
+   "porque": "sin evidencia directa en Newmos — señal cruzada débil: criterio-detalle en Jesús Mora (herrajes) x1,6, un solo cliente y sin repetir",
+   "etiquetas": [
+    "tipo-idea-nuevo"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Lo-que-diferencia-una-extracci-n-campana-bien-instalada-de-una-que-solo-cumple-3e3496ca6d51819fa062c6d14a250b64"
+  },
+  {
+   "id": "n-09-oli4",
+   "titulo": "Dos soluciones Newmos para el mismo cuello de botella: cuál encaja mejor según el servicio",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "comparativa-criterio",
+   "formato": "Comparación",
+   "tipo_idea": "Producto",
+   "apuesta": "comparar dos productos propios de Newmos según el escenario real de uso ayuda a la decisión de compra mejor que presentar cada máquina por separado",
+   "porque": "sin evidencia para Newmos — señal cruzada débil (catálogo: comparativa-criterio 🟡 hipótesis jm-09-4 de Jesús Mora, aún sin cerrar)",
+   "etiquetas": [
+    "revisar-guion-con-aleix"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Dos-soluciones-Newmos-para-el-mismo-cuello-de-botella-cu-l-encaja-mejor-seg-n-el-servicio-3e3496ca6d51812eb887ef1e0ca2b26e"
+  },
+  {
+   "id": "n-09-oli5",
+   "titulo": "Un día con el técnico instalador de Newmos, desde dentro",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "pov-trabajador",
+   "formato": null,
+   "tipo_idea": "Detrás de cámaras",
+   "apuesta": "el punto de vista del técnico instalador genera confianza profesional igual que el POV de camarero en Midtown, sin depender de que nadie actúe a cámara",
+   "porque": "sin evidencia directa en Newmos — señal cruzada del aprendizaje 2026-07-24: en Midtown los POV rinden y los sketches no",
+   "etiquetas": [
+    "tipo-idea-nuevo"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Un-d-a-con-el-t-cnico-instalador-de-Newmos-desde-dentro-3e3496ca6d5181f1a764c12ab6fb9435"
+  },
+  {
+   "id": "n-09-oli6",
+   "titulo": "El error más caro al comprar equipo de cocina profesional (y cómo evitarlo)",
+   "tipo": "Viral",
+   "soporte": "Reel",
+   "plantilla": "error-mito",
+   "formato": null,
+   "tipo_idea": "Storytelling",
+   "apuesta": "un vídeo en tono de advertencia real, como el mejor vídeo histórico del cliente, consigue más alcance que un vídeo de producto puro",
+   "porque": "medición — el vídeo de mayor alcance histórico de Newmos (87.983 vistas en TikTok, 02/08/2026, 'ojalá este video le ahorre a alguien un buen disgusto') tiene justo este tono de advertencia, no es una demo de producto (memoria/metricas/newmos.md)",
+   "etiquetas": [
+    "viral",
+    "top-historico"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/El-error-m-s-caro-al-comprar-equipo-de-cocina-profesional-y-c-mo-evitarlo-3e3496ca6d518180b114fe84612289be"
+  },
+  {
+   "id": "n-09-oli7",
+   "titulo": "El montaje de una máquina Newmos, de la caja al servicio, sin una palabra",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "proceso-sin-voz",
+   "formato": null,
+   "tipo_idea": "Producto",
+   "apuesta": "un proceso visual sin narración transmite ahorro de tiempo por pura velocidad de edición, sin depender de que alguien hable bien a cámara",
+   "porque": "sin evidencia — apuesta ciega (catálogo: proceso-sin-voz 🔴 sin probar en ningún cliente)",
+   "etiquetas": [],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/El-montaje-de-una-m-quina-Newmos-de-la-caja-al-servicio-sin-una-palabra-3e3496ca6d518182880ff80e79581f36"
+  },
+  {
+   "id": "n-09-oli8",
+   "titulo": "Aleix o Jaume cuentan, a cámara, un pedido que cambió cómo trabaja un cliente",
+   "tipo": "Marca",
+   "soporte": "Reel",
+   "plantilla": "historia-a-camara",
+   "formato": null,
+   "tipo_idea": "Storytelling",
+   "apuesta": "si el cliente cuenta una anécdota real a cámara (sin explicar, sin educar) rinde igual o peor que la demostración en obrador; si falla otra vez, se cierra la discusión de que a Newmos el talking-head no le funciona ni siquiera en formato historia",
+   "porque": "medición — historia-a-camara ya midió x0,13 en Newmos (1 pieza, no concluye) + aprendizaje 2026-07-24: educar a cámara no funciona en Newmos. Esta pieza es la segunda medición para cerrar la duda",
+   "etiquetas": [
+    "control"
+   ],
+   "autor": "Oli",
+   "publicado": null,
+   "resultado": null,
+   "bandeja": "https://app.notion.com/p/Aleix-o-Jaume-cuentan-a-c-mara-un-pedido-que-cambi-c-mo-trabaja-un-cliente-3e3496ca6d5181ecbe63f6d268e6c0c8"
+  }
+ ],
+ "objetivo": "saber si el patrón obrador+máquina sigue siendo el que más confianza/contacto genera cuando se le enfrenta a otras mecánicas (antes-después, comparativa entre productos propios, proceso sin voz, historia a cámara), y dejar la primera tanda de Newmos etiquetada por plantilla/formato/tipo_idea para que el termómetro tenga con qué medir de aquí en adelante.",
+ "restricciones": [
+  "un solo día de grabación disponible (o muy pocos): aprovechar la sesión para sacar varias piezas de la tanda a la vez, como con Jesús Mora",
+  "no mostrar marcas de la competencia en ningún plano",
+  "si se graba en un restaurante/obrador cliente, comprobar antes que no trabaja con un proveedor competidor de Newmos",
+  "los protagonistas (Aleix, Jaume, técnicos, clientes) no son actores: pueden reaccionar y contar, no actuar un guion forzado",
+  "nada técnico en exceso a cámara — estilo sencillo y entendible (ficha)",
+  "los carruseles los aprueba RM Agency internamente; los vídeos los aprueban Aleix y Jaume; Newmos quiere ver los copies antes de publicar"
+ ],
+ "riesgos": "cinco de las ocho piezas dependen de acceso a obrador/showroom, y la ficha dice que Newmos tiene poca disponibilidad: si no hay fecha pronto, la mayor parte de la tanda no se puede rodar. Newmos no tenía ninguna plantilla/formato/tipo_idea etiquetados hasta hoy, así que esta tanda introduce varios valores nuevos a la vez (Educativa, Detrás de cámaras, Storytelling) en vez del máximo de uno que marca la regla del ciclo — es inevitable al arrancar desde cero, pero fragmenta la medición; a partir de la tanda siguiente sí toca respetar el tope. La pieza 4 (comparativa-criterio entre dos productos propios) puede leerse como decir que una máquina de Newmos 'rinde peor' que otra — hay que suavizarla con Aleix antes de grabar. Y casi toda la evidencia citada es de una sola pieza o de otro cliente: nada de esto es concluyente todavía.",
+ "datos_que_faltan": [
+  "brief de copy (PENDIENTE en la ficha) — sin él no sé el tono exacto ni el CTA",
+  "fecha y lugar confirmados de la próxima sesión de grabación (showroom propio vs. restaurante cliente) para saber qué piezas son viables este ciclo",
+  "si el restaurante donde se grabaría trabaja con algún proveedor competidor de Newmos",
+  "qué producto quiere priorizar Newmos este ciclo (ficha: 'sin producto único prioritario, en revisión de formato')",
+  "el detalle pieza a pieza de las 3 publicaciones ya medidas de Newmos en el termómetro — solo tengo el agregado, no sé cuál es cuál para aprender de ellas una por una"
+ ],
+ "descartadas": [
+  {
+   "idea": "Un escenario más de avería tipo 'grifo con fugas — la explicación'",
+   "motivo": "ya hay 25 piezas de escenarios de avería (La explicación/Llamada falsa) en marcha; añadir otra satura la tanda sin aportar variedad de mecánica"
+  },
+  {
+   "idea": "Ficha técnica pura de una máquina a cámara (specs, potencia, medidas)",
+   "motivo": "choca con el aprendizaje de que educar a cámara no funciona en Newmos y con la ficha ('nada técnico en exceso')"
+  },
+  {
+   "idea": "Comparar una máquina Newmos con una marca de la competencia",
+   "motivo": "regla de marca — no se muestran marcas de la competencia"
+  },
+  {
+   "idea": "Seguir una instalación completa de varios días en un restaurante",
+   "motivo": "poca disponibilidad del cliente; no hay margen para un proceso multi-día, mismo criterio que se aplicó con Jesús Mora"
+  }
+ ],
+ "oli_auto": {
+  "generado": "2026-09-23 01:33",
+  "piezas": 8
+ }
+}

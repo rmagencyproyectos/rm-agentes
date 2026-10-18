@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tanda nocturna de Notion: todos los días 00:45 (madrugada, detrás del check-in de las 00:30).
+  Corre noche.sh -> distribuir.py (Bandeja->cliente) + guionizar.py (Coco escribe guiones).
+
+  Instalación (con tu usuario, NO root, para que herede tu login de Claude):
+    cp com.rmagency.notion-noche.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.rmagency.notion-noche.plist
+  Probar a mano: launchctl start com.rmagency.notion-noche
+  Ver log:       tail -f "infra/notion/noche.log"
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rmagency.notion-noche</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/notion/noche.sh</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>0</integer>
+        <key>Minute</key>
+        <integer>45</integer>
+    </dict>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/notion/launchd.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/notion/launchd.err.log</string>
+</dict>
+</plist>

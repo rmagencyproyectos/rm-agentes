@@ -1,0 +1,15 @@
+{
+  "cliente": "jesus-mora",
+  "ciclo": "2026-07",
+  "copies": {
+    "estado": "en-curso",
+    "ref": "copies/",
+    "nota": "27/07: copy de 'promoVR versio1' escrito por Coco para el borrador de Metricool del 29/07. Los registros de copies/ se autoborran tras su fecha (limpiar_copies.py)."
+  },
+  "distribucion": {
+    "estado": "en-curso",
+    "gate": "WhatsApp+Metricool = Gerard",
+    "aprobado_gerard": false,
+    "nota": "27/07: primera prueba del flujo 'vamos a programar vídeos' (copy de Coco + vídeo VR de Drive → borrador). Ver ciclos/2026-07/jesus-mora/programacion/."
+  }
+}

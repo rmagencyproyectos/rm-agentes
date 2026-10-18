@@ -1,0 +1,219 @@
+{
+ "cliente": "golossa",
+ "ciclo": "2026-08",
+ "objetivo": "Tanda abierta por Coco al guionizar. Revisa el objetivo y las restricciones a mano.",
+ "restricciones": [],
+ "piezas": [
+  {
+   "id": "g-08-1",
+   "titulo": "Obrador · El encargo, de principio a fin",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "caso-real",
+   "metodologia": "valor-directo",
+   "compartible": "Plan",
+   "apuesta": "Seguir un encargo real de principio a fin genera más comentarios pidiendo presupuesto/DM que un vídeo de proceso genérico sin historia detrás",
+   "porque": "sin evidencia medida para Golossa — el catálogo marca caso-real como la única plantilla del set del obrador pensada para conversión directa, pero es la primera vez que se prueba con este cliente",
+   "etiquetas": [
+    "caso",
+    "servicio",
+    "proceso"
+   ]
+  },
+  {
+   "id": "g-08-2",
+   "titulo": "Obrador · Cómo sabemos que está lista",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "pregunta-real",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "una pregunta real de oficio respondida con prueba visual (el hilo de chocolate al partir la cookie caliente) genera más comentarios/guardados que enseñar el producto ya terminado",
+   "porque": "sin evidencia medida en Golossa para esta mecánica — apuesta ciega en esta plantilla con este cliente. Se apoya en que el estilo visual (producto en primer plano, ASMR) sí está validado en Golossa (hipótesis jm-09-8)",
+   "etiquetas": [
+    "pregunta",
+    "utilidad",
+    "valor-gratis",
+    "criterio"
+   ]
+  },
+  {
+   "id": "g-08-3",
+   "titulo": " Obrador · Solo sonido INVENTADO",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "proceso-sin-voz",
+   "metodologia": "valor-directo",
+   "compartible": "ninguno",
+   "apuesta": "El sonido inventado (foley marcado, no real) sobre el mismo proceso de 'De masa a cookie' retiene más que el sonido real limpio que pide por defecto la plantilla proceso-sin-voz.",
+   "porque": "El ASMR con producto en primer plano ya es el estilo visual validado de Golossa (evidencia citada en la propia plantilla proceso-sin-voz), pero la variante de sonido INVENTADO/foley no se ha probado nunca con este cliente — sin evidencia propia, apuesta ciega apoyada solo en la referencia aportada.",
+   "etiquetas": [
+    "sin-voz",
+    "proceso",
+    "asmr",
+    "satisfying",
+    "foley"
+   ]
+  },
+  {
+   "id": "g-08-4",
+   "titulo": "Estas trabajando y empieza a sonar tu cancion fav",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "valor-directo",
+   "compartible": "Identidad",
+   "apuesta": "Humor de situación reconocible (currar + que suene tu canción favorita) funciona igual de bien con un empleado real reaccionando, sin necesidad de actuar ni de sketch construido",
+   "porque": "Es la palanca más fuerte medida en Golossa: 'Es normal la indecisión' hizo 2,1M en TikTok (~90% del engagement del mes) y 'Trabajar en una pastelería tiene dos versiones' hizo 631k — ambos por reconocimiento, no por gag construido",
+   "etiquetas": [
+    "humor",
+    "situacion-reconocible",
+    "pov"
+   ]
+  },
+  {
+   "id": "g-08-5",
+   "titulo": "POV: el cliente que viene siempre a desayunar",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Identidad",
+   "apuesta": "Que el reconocimiento del cliente habitual (rutina, timing, sin nadie actuando) sostiene un viral de humor situacional igual que la indecisión ante dos productos, sin necesidad de un giro fuerte ni de guion cerrado",
+   "porque": "Humor de situación reconocible es la palanca más fuerte medida en Golossa: 'Es normal la indecisión' hizo 2,1M en TikTok y ~90% del engagement del mes; y 'el cliente que solo mira' ya es un tipo de gag reconocido en su copy-brief. Esta pieza es una variante nueva del mismo patrón (el cliente recurrente en vez del indeciso)",
+   "etiquetas": [
+    "humor",
+    "pov",
+    "identificacion",
+    "dia-a-dia"
+   ]
+  },
+  {
+   "id": "g-08-6",
+   "titulo": "Trabajador atiende de mas cerca a cliente",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "valor-directo",
+   "compartible": "Identidad",
+   "apuesta": "La escalada física de cercanía (proxemia incómoda) como motor cómico, en vez del duelo de elección clásico, sostiene la retención igual de bien",
+   "porque": "El patrón de indecisión del cliente es el más fuerte medido en Golossa (\"Es normal la indecisión\", 2,1M vistas TikTok, ~90% del engagement del mes) y \"el trabajador intentando convencerte\" está explícitamente en el listado de qué funciona de la ficha. Esta pieza cruza ambos, pero cambia el mecanismo de duelo por el de cercanía progresiva — esa parte concreta no está medida",
+   "etiquetas": [
+    "humor",
+    "identificacion"
+   ]
+  },
+  {
+   "id": "g-08-7",
+   "titulo": "Comiendo despues de publicar reel viral",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Identidad",
+   "apuesta": "Que el mecanismo 'reacciono comiendo sin control mientras algo bueno pasa en la pantalla' retiene y se comparte igual que el humor de situación reconocible, sin necesitar guion hablado ni actuación",
+   "porque": "sin evidencia — apuesta ciega. Se apoya de forma indirecta en que 'humor de situación reconocible' es la palanca más fuerte medida en Golossa (Es normal la indecisión, 2,1M en TikTok; Trabajar en una pastelería tiene dos versiones, 631k), pero esta mecánica concreta de reaccionar-mientras-comes no se ha probado nunca.",
+   "etiquetas": [
+    "reaccion",
+    "humor",
+    "situacion-reconocible",
+    "pov"
+   ]
+  },
+  {
+   "id": "g-08-8",
+   "titulo": "Escojan ustedes, me dedico a vender cheesecakes o al break dance",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "pov-trabajador",
+   "metodologia": "valor-directo",
+   "compartible": "Identidad",
+   "apuesta": "Un talento ajeno al oficio (breakdance real, no actuado) dentro del propio local genera más interacción que un POV de trabajo sin ese contraste",
+   "porque": "El único contenido de Golossa que ha roto escala es el mecanismo de indecisión/duelo con CTA de pregunta directa: \"Es normal la indecisión\" hizo 2,1M en TikTok y concentró ~90% del engagement del mes (ficha.md). Esta pieza usa el mismo gancho de indecisión pero aplicado a persona en vez de producto — es la variable que se prueba",
+   "etiquetas": [
+    "pov",
+    "dia-a-dia",
+    "identificacion",
+    "humor"
+   ]
+  },
+  {
+   "id": "g-08-9",
+   "titulo": "Tu tiene hambre, tu no tiene comida, yo tengo comida",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "replica-referencia",
+   "metodologia": "bucle-abierto",
+   "compartible": "Identidad",
+   "apuesta": "El formato de frases secas y deadpan (sin actuación, tono plano tipo trend) genera más comparticiones que el humor actuado habitual de Golossa",
+   "porque": "el histórico de Golossa muestra que el humor de situación reconocible es la palanca más fuerte de toda la agencia: 'Es normal la indecisión' hizo 2,1M en TikTok (~90% del engagement del mes) y 'Trabajar en una pastelería tiene dos versiones' hizo 631k — ambas ganan por reconocimiento, no por gag elaborado",
+   "etiquetas": [
+    "humor",
+    "reconocible"
+   ]
+  },
+  {
+   "id": "g-08-10",
+   "titulo": "Que le pasa a tu cuerpo si estas un mes sin comer cheesecake / cookies (nombrar problemas graciaosos)",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Identidad",
+   "apuesta": "Formato parodia de vídeo de salud (síntomas semana a semana) aplicado a un antojo, en vez del gag de una sola escena — se prueba si la estructura de 'semanas que empeoran' retiene más que un gag corto",
+   "porque": "sin evidencia — apuesta ciega (aunque se apoya en el patrón medido de humor de situación reconocible: 'Es normal la indecisión' 2,1M TikTok / 'Trabajar en una pastelería tiene dos versiones' 631k, ambos por reconocimiento, no por gracia forzada)",
+   "etiquetas": [
+    "humor",
+    "pov",
+    "situacion-reconocible"
+   ]
+  },
+  {
+   "id": "g-08-11",
+   "titulo": "Historia con IA: por culpa del producto pasa algo inesperado y al final acaba en promoción (el novio hace un brindis en medio de un restaurante gracias a las cartas) — engancha porque es algo que todos querríamos vivir",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "replica-referencia",
+   "metodologia": "bucle-abierto",
+   "compartible": "Plan",
+   "apuesta": "una historia narrativa con giro emocional (no humor de situación) retiene y se comparte tanto como el humor, que es la palanca dominante medida hasta ahora en Golossa",
+   "porque": "sin evidencia propia — apuesta ciega. Se adapta de la referencia de Instagram aportada por Gerard, cuyo enganche declarado es que 'es algo que todos querríamos vivir'; toda la evidencia medida en Golossa (2,1M vistas, ~90% del engagement del mes) viene de humor de situación, no de narrativa emocional, así que esta pieza prueba un ángulo distinto",
+   "etiquetas": [
+    "referencia",
+    "adaptacion",
+    "historia"
+   ]
+  },
+  {
+   "id": "g-08-12",
+   "titulo": "Cuando preguntan si el cheesecake es caliente. El chesecake no… ",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "valor-directo",
+   "compartible": "Identidad",
+   "apuesta": "una reacción de trabajadora ante una pregunta absurda de cliente, sin actuar (solo reacciona), funciona igual de bien que el gag de indecisión ya medido",
+   "porque": "humor de situación reconocible es la palanca más fuerte medida en toda la agencia con este cliente: 'Es normal la indecisión' hizo 2,1M en TikTok (~90% del engagement mensual) y 'Trabajar en una pastelería tiene dos versiones' hizo 631k — ambas sin actuación, solo reacción",
+   "etiquetas": [
+    "humor",
+    "situacion-reconocible",
+    "reaccion"
+   ]
+  },
+  {
+   "id": "g-08-13",
+   "titulo": "Video explicando que hace pero a base de tomas falsas + texto “lo que cuesta hacer uun video para que no lo valoreis” (1)",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "valor-directo",
+   "compartible": "Identidad",
+   "apuesta": "el humor autoparódico sobre lo difícil que es grabar un vídeo (bloopers falsos) genera más comentarios/comparticiones que un vídeo de producto ya pulido",
+   "porque": "Humor de situación reconocible es la palanca más fuerte medida en Golossa (2,1M vistas en TikTok y ~90% del engagement del mes con \"Es normal la indecisión\"): funciona por reconocimiento, no por gag elaborado. Aquí se aplica el mismo patrón al proceso de grabar contenido, que es igual de reconocible para cualquiera que haya intentado grabar algo con el móvil.",
+   "etiquetas": [
+    "humor",
+    "proceso"
+   ]
+  }
+ ]
+}

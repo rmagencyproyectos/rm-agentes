@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sábado 10:00: recuerda a Gerard las ideas de Oli que siguen sin revisar (solo si hay).
+  Instalación: cp com.rmagency.oli-recordatorio.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.rmagency.oli-recordatorio.plist
+  Log: infra/olivia/oli-noche.log
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rmagency.oli-recordatorio</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/olivia/oli-noche.sh</string>
+        <string>--recordatorio</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>6</integer>
+        <key>Hour</key>
+        <integer>10</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/olivia/launchd.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/olivia/launchd.err.log</string>
+</dict>
+</plist>

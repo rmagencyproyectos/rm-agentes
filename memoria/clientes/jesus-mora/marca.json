@@ -1,0 +1,22 @@
+{
+  "cliente": "jesus-mora",
+  "sector": "carpinteria-a-medida",
+  "render": {
+    "engine": "capcut (edicion por persona)",
+    "tipografiaTitulo": "TBD",
+    "tipografiaSub": "TBD",
+    "colores": { "principal": "TBD", "secundario": "TBD", "texto": "TBD" },
+    "animaciones": "reforzar claridad, renders y recursos visuales, muchos cortes",
+    "formato": "vertical 1080x1920 (TikTok/IG)"
+  },
+  "textosFijos": { "kicker": null, "lugar": null },
+  "cta": { "generico": "natural (¿Que harias tu?, ¿Que estancia transformarias?)" },
+  "hashtagsFijos": [],
+  "hashtagsPool": ["#Carpintería", "#CocinasAMedida", "#MueblesAMedida", "#DiseñoDeInteriores", "#Hogar", "#Interiorismo", "#Reformas", "#Parquet", "#ArmariosAMedida"],
+  "reglas": ["max 5 hashtags, ir variando", "copy 100-170 palabras", "no repetir el video", "espanol de Espana"],
+  "tiposVideo": ["problemas", "errores", "consejos", "curiosidades", "comparativas"],
+  "material": { "fuentes": "TBD", "camaras": "oficina/exposicion, mucho render y explicacion" },
+  "salida": { "dir": "TBD", "naming": "TBD" },
+  "distribucion": { "canal": "Metricool · TikTok + Instagram", "cadencia": "TBD", "responsable": "Gerard y Andrea" },
+  "notas": "Jesus dice los guiones casi calcados y le cuesta hablar a camara -> guion cerrado y claro"
+}

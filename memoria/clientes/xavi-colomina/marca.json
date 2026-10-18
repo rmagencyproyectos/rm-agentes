@@ -1,0 +1,72 @@
+{
+  "cliente": "xavi-colomina",
+  "sector": "padel",
+  "render": {
+    "engine": "remotion:CaptionedVideo",
+    "tipografiaTitulo": "VarsityTeam-Bold",
+    "tipografiaSub": "Montserrat-Black",
+    "colores": {
+      "principal": "#F2C94C",
+      "secundario": "#FFFFFF",
+      "texto": "#FFFFFF"
+    },
+    "animaciones": "titulo escala 90->100 + fade 0.25s sin rebote; subtitulo pop 0.85->1; una palabra a la vez",
+    "formato": "1080x1920@60"
+  },
+  "textosFijos": {
+    "kicker": null,
+    "lugar": null
+  },
+  "cta": {
+    "destino": null,
+    "porCanal": null,
+    "wording": null,
+    "_nota": "Sin CTA (Gerard, 07/09/2026). Los copys no llevan cierre de venta ni nada que lo parezca: ni DM, ni diagnóstico, ni firma con el arroba. Terminan en la última línea de contenido. Única excepción: una acción del jugador consigo mismo ('pruébalo esta semana'), que no pide nada a cambio. Excepción: el carrusel de servicios, aparcado, conserva su CTA para cuando se abran los servicios. Regla completa en copy-brief.md § 3."
+  },
+  "tiposVideo": [
+    "tip-vertical-single-cam",
+    "clip-podcast-16-9",
+    "multicam-entreno"
+  ],
+  "material": {
+    "fuentes": "/Volumes/DD 2 TB WORK/Xavi Colomina/Videos/",
+    "camaras": "podcast 16:9 (IMG_2561 general + IMG_9457 cerrada, offset audio +4.131s); entreno multicam (POV/ + IMG_249X fija con solapa)"
+  },
+  "salida": {
+    "dir": "/Volumes/DD 2 TB WORK/Xavi Colomina/Videos/<bloque>/Video Editado IA/",
+    "naming": "Xavi Colomina - {Gancho}.mp4"
+  },
+  "distribucion": {
+    "principal": "instagram",
+    "canales": [
+      "instagram",
+      "tiktok",
+      "youtube-shorts"
+    ],
+    "podcast": "youtube",
+    "cadencia": "3/semana desde 01/09/2026: martes, jueves y domingo a las 15:00 (fuente: config/publicacion.json)",
+    "notas": "podcast intercalado con videos de pista; sin segmentar por nivel (nivel implicito en el material). Mezcla de arranque: 2 piezas de pista + 1 de podcast/ejercicio/explicacion por semana.",
+    "redes_metricool": [
+      "instagram",
+      "tiktok",
+      "youtube"
+    ],
+    "youtube": {
+      "canal": "UC61A3C7otlidAHlkRujI7CQ",
+      "shorts": "Todas las piezas van también a YouTube Shorts desde el 21/08/2026 (Gerard).",
+      "titulo": "OBLIGATORIO por pieza: gancho + palabra clave, <=100 car. YouTube no usa el caption. Vive en la propiedad 'Título YT' de Notion y en yt_titulo del videos.json. Reglas en copy-brief.md.",
+      "audiencia": "NO creado para niños (madeForKids=false). Fijo en config/metricool-marcas.json.",
+      "categoria": "Deportes (category=SPORTS). Fijo en config/metricool-marcas.json.",
+      "etiquetas": "Los hashtags del copy, sin # y con el CamelCase partido en palabras. Las saca sola programar.py; por eso los hashtags multipalabra se escriben en CamelCase."
+    }
+  },
+  "seo": {
+    "generales": [
+      "pádel",
+      "técnica de pádel",
+      "entrenamiento de pádel",
+      "coach de pádel"
+    ],
+    "regla": "Copy trabajado a fondo con SEO (Gerard, 21/08/2026): generales SIEMPRE + específicas del tema del vídeo, sacadas de su transcripción. 8-10 hashtags. Detalle en copy-brief.md."
+  }
+}

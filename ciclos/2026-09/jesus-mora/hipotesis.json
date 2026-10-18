@@ -1,0 +1,87 @@
+{
+ "cliente": "jesus-mora",
+ "ciclo": "2026-09",
+ "objetivo": "8 vídeos deliberadamente distintos entre sí. No se busca que funcionen los 8: se busca saber CUÁL funciona. Hasta ahora todo su contenido es el mismo formato (voz en off + B-roll educativo), así que no había nada que comparar.",
+ "restricciones": [
+  "UN SOLO DÍA de rodaje, en el taller. Nada que dependa de seguir una obra o una instalación real.",
+  "Jesús no es actor: nada que exija interpretar. Reaccionar y contar, sí.",
+  "Sin precios en pantalla (decisión de Gerard, 11/08/2026).",
+  "No se enseña trabajo mal hecho: no lo hay. El criterio se transmite enseñando lo bueno de cerca."
+ ],
+ "_estado": "PROPUESTA v2 — rehecha el 11/08/2026 con las correcciones de Gerard. Cayeron la 2 (instalación), la 4 (precios) y la 5 (trabajo mal hecho). Nada cerrado.",
+ "_como_se_usa": "ciclos/HIPOTESIS.md",
+ "piezas": [
+  {
+   "id": "jm-09-1",
+   "titulo": "Una máquina, treinta segundos",
+   "apuesta": "Una sola máquina del taller trabajando. Sin abrirla, sin desmontar nada: se enciende, corta, se acabó.",
+   "porque": "Es el formato que mejor funciona en Newmos (obrador enseñando una máquina). Un taller es un sitio donde no entra nadie, y eso solo ya retiene. Al no tocar la máquina no cuesta nada de montar ni interrumpe el trabajo.",
+   "etiquetas": ["taller", "demostracion", "proceso"],
+   "publicado": null,
+   "resultado": null
+  },
+  {
+   "id": "jm-09-2",
+   "titulo": "Lo que no se ve de un mueble bueno",
+   "apuesta": "Abrir un cajón ya montado y enseñar el interior de cerca: la guía, el canto, el ensamblaje. Lo que queda escondido.",
+   "porque": "Sustituye a la idea de enseñar trabajo mal hecho, que no tenemos. Da el mismo criterio al espectador —aprende a distinguir— pero enseñando lo bueno, y el contraste lo pone él solo. Su post de herrajes del 26/07 fue de lo mejor del mes en Instagram (x1,6), así que el ángulo 'calidad que no se ve' ya dio señal.",
+   "etiquetas": ["detalle", "criterio", "calidad"],
+   "publicado": null,
+   "resultado": null
+  },
+  {
+   "id": "jm-09-3",
+   "titulo": "El mueble raro: para qué demonios es esto",
+   "apuesta": "Una pieza de forma extraña, en el taller, antes de instalarla. Se enseña primero la pieza y después el problema que resuelve.",
+   "porque": "Su publicación con más vistas de los 180 días (9.940 en TikTok) era 'espacios que parecen imposibles de aprovechar', y nunca se ha repetido a propósito. Es la única pista real que tenemos de él. Resuelve el 'a ver qué inventamos': no hace falta ir a la obra ni tener el antes, la pieza rara ya cuenta la historia sola.",
+   "etiquetas": ["antes-despues", "problema-solucion", "curiosidad"],
+   "publicado": null,
+   "resultado": null
+  },
+  {
+   "id": "jm-09-4",
+   "titulo": "Tres tableros que parecen el mismo",
+   "apuesta": "Tres muestras en la mano, aparentemente iguales. Qué las diferencia y cuál acaba hinchándose.",
+   "porque": "Demostración, no charla: se ve la diferencia, no se explica. Es la versión honesta de hablar de calidad sin hablar de precio, y le da al espectador algo que puede usar mañana. Sustituye a la pieza de precios que Gerard descarta.",
+   "etiquetas": ["material", "criterio", "demostracion"],
+   "publicado": null,
+   "resultado": null
+  },
+  {
+   "id": "jm-09-5",
+   "titulo": "La pregunta que más me hacen",
+   "apuesta": "Jesús a cámara, corto, contestando de verdad la pregunta que le repiten (cuánto se tarda, si se puede en un piso pequeño, lo que él decida). Sin precios.",
+   "porque": "Si la pregunta es real, el vídeo ya viene con público. Y sirve de segundo punto del eje 'a cámara': si esta funciona y la 7 no, el problema no es su cara, es el formato.",
+   "etiquetas": ["a-camara", "pregunta", "utilidad"],
+   "publicado": null,
+   "resultado": null
+  },
+  {
+   "id": "jm-09-6",
+   "titulo": "Frases que todo carpintero ha oído",
+   "apuesta": "Texto en pantalla con una frase de cliente ('lo he visto en Pinterest y era más barato'). Corte a la cara de Jesús. Él no dice nada. Cuatro o cinco seguidas.",
+   "porque": "Resuelve el 'no sé cómo plantear el humor': Jesús no actúa, solo reacciona, que es lo único que se le puede pedir a alguien que no es actor. El humor de situación reconocible es la palanca más fuerte que hemos medido en toda la agencia (el reel de Golossa se llevó el 90% del engagement de julio) y con él no se ha probado nunca. Además se graba en cinco minutos.",
+   "etiquetas": ["humor", "situacion-reconocible", "reaccion"],
+   "publicado": null,
+   "resultado": null
+  },
+  {
+   "id": "jm-09-7",
+   "titulo": "El encargo más difícil que he hecho",
+   "apuesta": "Jesús contando el trabajo que más le costó sacar. En primer plano, sin guion cerrado.",
+   "porque": "Cambiado de 'el más raro' a 'el más difícil' justamente por lo que dice Gerard: 'raro' se ríe del cliente y puede ofender; 'difícil' halaga al cliente y luce al carpintero. Es el control del experimento: sabemos que educar a cámara no funciona, pero contar una historia a cámara no se ha probado. Si falla, cerramos esa puerta y dejamos de discutirlo.",
+   "etiquetas": ["a-camara", "historia", "control"],
+   "publicado": null,
+   "resultado": null
+  },
+  {
+   "id": "jm-09-8",
+   "titulo": "Una pieza, de principio a fin, sin una palabra",
+   "apuesta": "UNA sola pieza pequeña: del tablero al mueble acabado. Planos muy cerrados, sonido real, cero voz. Un texto al final. Máximo 20 segundos.",
+   "porque": "Responde al 'no sé cómo se sustenta': se sustenta en que hay un final. No es B-roll bonito suelto, es una pieza que acaba encajando, y eso es lo que hace que se aguante hasta el último segundo. Además separa dos cosas que hoy van siempre juntas: si funciona sin guion, el mérito es de la imagen; si no, el mérito de lo que ya publica es del guion.",
+   "etiquetas": ["satisfying", "sin-voz", "proceso"],
+   "publicado": null,
+   "resultado": null
+  }
+ ]
+}

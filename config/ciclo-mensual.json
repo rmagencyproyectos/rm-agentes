@@ -1,0 +1,47 @@
+{
+  "_nota": "EL RELOJ de RM Agency. Cada cliente pasa por las 4 fases cada mes, pero DESFASADO respecto a los demás, para que nunca coincidan dos grabaciones ni dos avalanchas de edición. Lo lee infra/estado/ciclo.py. Explicación humana en config/ciclo-mensual.md.",
+  "_semanas": "S1 = días 1-7 · S2 = 8-14 · S3 = 15-21 · S4 = 22 a fin de mes",
+  "_desfase": "Índice de la fase que le toca al cliente en la S1. El resto de semanas rota solo.",
+  "fases": [
+    {
+      "id": "analizar",
+      "nombre": "Analizar y decidir",
+      "emoji": "📊",
+      "que": "Leer las métricas del mes, escribir qué se ha aprendido y sacar las ideas del mes siguiente",
+      "corto": "Analizar"
+    },
+    {
+      "id": "guiones",
+      "nombre": "Guiones y preparación",
+      "emoji": "✍️",
+      "que": "Guionizar las ideas aprobadas y cerrar la lista de tomas y la logística de la grabación",
+      "corto": "Guiones"
+    },
+    {
+      "id": "grabar",
+      "nombre": "Grabación",
+      "emoji": "🎬",
+      "que": "Grabar",
+      "corto": "Grabar"
+    },
+    {
+      "id": "editar",
+      "nombre": "Edición y programación",
+      "emoji": "✂️",
+      "que": "Montar, escribir los copys, pasar QA y dejarlo programado en Metricool",
+      "corto": "Editar"
+    }
+  ],
+  "desfase": {
+    "xavi-colomina": 0,
+    "newmos": 1,
+    "jesus-mora": 2
+  },
+  "_fuera_del_reloj": {
+    "golossa": "Ex-cliente desde el 21/09/2026 (Gerard): ya no trabajamos con él. Fuera de todo el sistema.",
+    "msm": "Ex-cliente desde el 21/09/2026 (Gerard): ya no trabajamos con él. Fuera de todo el sistema.",
+    "midtown": "Ex-cliente desde el 21/09/2026 (Gerard): ya no trabajamos con él. Fuera de todo el sistema.",
+    "rm-agency": "Cuenta propia de la agencia. Entra en la fabrica de contenido (Bandeja -> guion -> A grabar) pero NO en el reloj mensual: no consume ciclo de cliente.",
+    "algoritmo": "Ex-cliente desde el 21/09/2026 (Gerard): ya no trabajamos con él. Fuera de todo el sistema."
+  }
+}

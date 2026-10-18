@@ -1,0 +1,49 @@
+{
+  "_nota": "FUENTE ÚNICA de los días de publicación, las pausas y las excepciones temporales. Lo lee infra/metricool/chequeo_cobertura.py, y a través de él infra/programacion/calendario.py. La versión legible para humanos está en config/calendario-publicacion.md, que NO debe repetir los datos: solo explicarlos.",
+  "_dias_semana": "0=lun 1=mar 2=mié 3=jue 4=vie 5=sáb 6=dom",
+  "_tipos": "principal = pieza normal · corta = publicación corta",
+
+  "hora": "15:00",
+
+  "dias": {
+    "_default": { "2": "principal", "6": "principal" },
+    "midtown":  { "1": "corta", "3": "principal", "5": "principal" },
+    "newmos":   { "6": "principal" },
+    "xavi-colomina": { "1": "principal", "3": "principal", "6": "principal" }
+  },
+
+  "pausas": {
+    "golossa": {
+      "desde": "2026-09-09",
+      "hasta": null,
+      "motivo": "fuera de roster (Gerard, 09/09/2026): ya no trabajamos con este cliente"
+    },
+    "msm": {
+      "desde": "2026-09-09",
+      "hasta": null,
+      "motivo": "fuera de roster (Gerard, 09/09/2026): ya no trabajamos con este cliente"
+    },
+    "midtown": {
+      "desde": "2026-08-01",
+      "hasta": null,
+      "motivo": "pausa indefinida (Gerard, 09/09/2026)"
+    },
+    "xavi-colomina": {
+      "desde": "2026-01-01",
+      "hasta": "2026-08-31",
+      "motivo": "empieza a publicar en septiembre 2026"
+    }
+  },
+
+  "excepciones": [
+    {
+      "cliente": "jesus-mora",
+      "desde": "2026-08-01",
+      "hasta": null,
+      "dias": { "6": "principal" },
+      "motivo": "solo domingos HASTA QUE SE GRABE la próxima tanda (Gerard, 11/08/2026). Cuando haya vídeos nuevos vuelve a miércoles + domingo: se borra esta excepción y ya está, la regla base ya son esos dos días."
+    }
+  ],
+
+  "_nota_xavi": "Xavi arranca el martes 01/09/2026 a 3 piezas/semana: martes, jueves y domingo a las 15:00 (decidido por Gerard el 19/08/2026). Su pausa termina el 31/08 y se agota sola: no hay que tocarla."
+}

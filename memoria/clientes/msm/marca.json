@@ -1,0 +1,25 @@
+{
+  "cliente": "msm",
+  "sector": "escuela-imagen-moda",
+  "render": {
+    "engine": "canva/pptx-story",
+    "tipografiaTitulo": "Didot",
+    "tipografiaSub": "Didot",
+    "colores": { "principal": "#000000", "secundario": "#FFFFFF", "texto": "blanco/negro" },
+    "animaciones": "n/a (estatico)",
+    "formato": "story 1080x1920 (estatica)"
+  },
+  "textosFijos": {
+    "kicker": "CURSOS DE IMAGEN Y MODA",
+    "lugar": "LLEIDA · REUS",
+    "lineaSecundaria": "Grupos Junior, Basic y Profesional · de los 12 a los 30 años"
+  },
+  "cta": {
+    "generico": "RESPONDE «INFO» A ESTA HISTORIA",
+    "spotlight": "¿Buscas modelos para tu próxima campaña de publicidad?"
+  },
+  "tiposVideo": ["story-estatica (no-video)"],
+  "material": { "fuentes": "carpeta de fotos heterogéneas (aporta Gerard)", "camaras": "n/a (fotos)" },
+  "salida": { "dir": "/Volumes/DD 2 TB WORK/MSM/Story CTA/", "naming": "TBD" },
+  "distribucion": { "canal": "Metricool · magdasimo_models", "cadencia": "1 story/2 días 15:00, lotes semanales 5-7" }
+}

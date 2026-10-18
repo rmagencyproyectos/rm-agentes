@@ -1,0 +1,12 @@
+{
+  "_comment": "Carpeta de Google Drive por cliente (raíz de clientes de rmagency.proyectos). Dentro de cada una hay subcarpetas por mes (JULIOL, AGOST...). listar_videos.py busca los vídeos recursivamente y los ordena por el número del nombre (1_JMORA_, 2_JMORA_...). Descubierto 26/07/2026. MSM aún no está en este Drive (su material está en disco); rellénalo cuando se suba. Xavi se subió el 10/08/2026 y sus subcarpetas NO son meses, son series: TIPS ENTRENO, EJERCICIOS, EXPLICACIONES, PODCAST, PRESENTACIÓ INTRO XARXES.",
+  "_root_clientes": "1qAInaPq0TggLjCV9eI9EYq1HirEoEVDS",
+  "carpetas": {
+    "golossa": "10qRWmIUPOIYQ-wpdydbmpJtslvp6azvy",
+    "jesus-mora": "19TXVKPEsAryTP92bTraddStIsjvuBCpB",
+    "midtown": "1vxgVtnTSVZW-lAONCPkbCwUKBTX9EuAB",
+    "newmos": "13yTW-J8xU8Psc_8ptgqrSPNKcBPexi4q",
+    "msm": null,
+    "xavi-colomina": "1RZHYPag8-iJ6hQpOhCkZMr8oqoV53WqQ"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "cliente": "xavi-colomina",
+  "ciclo": "2026-07",
+  "estrategia": {
+    "estado": "listo",
+    "ref": "estrategia/shotlist.md",
+    "aprobado_gerard": false
+  },
+  "grabacion": {
+    "estado": "pendiente",
+    "material": null
+  },
+  "edicion": {
+    "estado": "adelantado",
+    "piezas": [],
+    "nota": "2026-08-11 (Gerard): inventario real = 56 piezas cortas (35 tips entreno + 12 clips de podcast + 6 ejercicios + 3 explicaciones) + el podcast largo de YouTube SIN montar + ~2h de clases sin clipear. A 3-4/semana cubre de septiembre a diciembre. Sustituye a la nota del 25/07 que decía '~40 vídeos'.",
+    "nota_prueba": "2026-07-25: prueba de Editor validada sobre C6 (sincronía medida 194.61s, audio+silencios OK). Render final no ejecutado (decisión: pipeline validado)."
+  },
+  "copies": {
+    "estado": "pendiente",
+    "ref": null
+  },
+  "qa": {
+    "estado": "pendiente",
+    "incidencias": []
+  },
+  "distribucion": {
+    "estado": "pendiente",
+    "gate": "WhatsApp+Metricool = Gerard",
+    "aprobado_gerard": false
+  },
+  "cierre": {
+    "estado": "pendiente",
+    "ref": null
+  },
+  "despacho": {
+    "siguiente_agente": "estratega",
+    "nota": "2026-08-11 (Gerard): publicación desde septiembre a 3-4 piezas/semana (días por concretar). No hay urgencia de grabar las series nuevas: hay 4 meses de colchón. La única con prisa es 'jugar con la izquierda', que es una progresión y necesita su día 0 grabado cuanto antes.",
+    "lanzamiento": "2026-09"
+  }
+}

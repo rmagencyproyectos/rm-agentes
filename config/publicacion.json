@@ -1,0 +1,23 @@
+{
+  "_nota": "FUENTE ÚNICA de los días de publicación, las pausas y las excepciones temporales. Lo lee infra/metricool/chequeo_cobertura.py, y a través de él infra/programacion/calendario.py. La versión legible para humanos está en config/calendario-publicacion.md, que NO debe repetir los datos: solo explicarlos.",
+  "_dias_semana": "0=lun 1=mar 2=mié 3=jue 4=vie 5=sáb 6=dom",
+  "_tipos": "principal = pieza normal · corta = publicación corta",
+  "hora": "15:00",
+  "dias": {
+    "_default": {
+      "2": "principal",
+      "6": "principal"
+    },
+    "newmos": {
+      "6": "principal"
+    },
+    "xavi-colomina": {
+      "1": "principal",
+      "3": "principal",
+      "6": "principal"
+    }
+  },
+  "pausas": {},
+  "excepciones": [],
+  "_nota_xavi": "Xavi arranca el martes 01/09/2026 a 3 piezas/semana: martes, jueves y domingo a las 15:00 (decidido por Gerard el 19/08/2026). Su pausa termina el 31/08 y se agota sola: no hay que tocarla. Desde el 04/10/2026 (Gerard): martes y jueves = tips/consejos; domingo = resumen del vídeo largo de YouTube que se sube ese domingo. El reto de la mano izquierda deja de ser pieza diaria. Los días no cambian; el contenido por día está en memoria/clientes/xavi-colomina/ficha.md."
+}

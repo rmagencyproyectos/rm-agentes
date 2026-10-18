@@ -1,0 +1,126 @@
+{
+  "_nota": "Propuestas escritas por Claude el 04/10/2026 tras ver con Gemini todos los vídeos analizables (Xavi, Jesús, NewMos y Golossa). Las lee infra/analisis/panel_datos.py y salen en el panel. No se regeneran solas: se reescriben a mano cuando haya datos nuevos que las cambien. tipo = 'idea' (va a la Bandeja al aceptarla) o 'estrategia' (cambio de cómo trabajamos).",
+  "fecha": "04/10/2026",
+  "resumen": "Con 344 vídeos medidos, el patrón es claro: lo que funciona son las personas, los casos reales y el criterio explicado con un problema concreto; lo que no, el producto bonito, los trends y repetir lo mismo. Jesús y NewMos tienen unos 30 vídeos cada uno, así que sus conclusiones son una primera lectura, no una sentencia.",
+  "items": [
+    {
+      "cliente": "xavi-colomina",
+      "tipo": "estrategia",
+      "titulo": "✅ Aplicada · Bajar el reto de la mano izquierda y subir los tips técnicos",
+      "por_que": "El reto es dos tercios de lo publicado (23 de 34 vídeos medidos) y rinde ×0,9. La técnica y la táctica explicadas rinden ×2,5: formato Explicación ×2,5, palanca Problema ×2,6, gancho de error o mito ×2,5. El humor del reto se queda en ×0,8.",
+      "que_hacer": "Decidido por Gerard el 04/10/2026: martes y jueves, tips o consejos; domingo, resumen del vídeo largo de YouTube que se sube ese mismo día. El reto deja de ser diario."
+    },
+    {
+      "cliente": "xavi-colomina",
+      "tipo": "idea",
+      "tipo_pieza": "Marca",
+      "titulo": "Si la bandeja se te va a la pared de fondo, el problema no es la fuerza",
+      "por_que": "Copia la mecánica de sus 5 mejores vídeos (todos ×2,5 o más): un fallo que todo amateur reconoce, la corrección en pista y una regla para llevarse.",
+      "gancho": "Si después de la bandeja la bola se te va a la pared de fondo, el problema no es la fuerza.",
+      "desarrollo": "Xavi en pista con un alumno que golpea la bandeja con el brazo estirado y el impacto retrasado. Se ve el error dos veces. Xavi para la jugada y señala el punto de impacto. El alumno repite con el impacto delante y la bola cae corta. Cierre a cámara con la regla en una frase.",
+      "tipo_idea": "",
+      "formato": "Tips",
+      "plantilla": "criterio-detalle",
+      "palanca": "Problema",
+      "soporte": "Reel"
+    },
+    {
+      "cliente": "xavi-colomina",
+      "tipo": "idea",
+      "tipo_pieza": "Viral",
+      "titulo": "Lo que dice el alumno vs lo que piensa el entrenador",
+      "por_que": "La plantilla dicho-vs-pensado es lo que más ha rendido en toda la agencia: ×9,3 en Golossa, incluido el vídeo de 2,4 millones. Xavi nunca la ha probado. Es humor de oficio, no autoburla, que es lo que a él no le funciona (×0,8).",
+      "gancho": "Lo que dice tu alumno vs lo que piensa tu entrenador.",
+      "desarrollo": "Pantalla partida o dos tomas seguidas. El alumno dice frases típicas de clase («hoy no me sale nada», «es que la pala pesa», «esa era mía»). Xavi responde lo educado y, con rótulo, lo que piensa de verdad, en tono cómplice. 4 o 5 frases y fuera.",
+      "tipo_idea": "Humor",
+      "formato": "Comparación",
+      "plantilla": "dicho-vs-pensado",
+      "palanca": "Identificación",
+      "soporte": "Reel"
+    },
+    {
+      "cliente": "jesus-mora",
+      "tipo": "estrategia",
+      "titulo": "Romper la monotonía: probar 4 cosas distintas el próximo mes",
+      "por_que": "Todo lo de Jesús rinde entre ×0,9 y ×1,2. Casi todo son tips o explicaciones sobre cocinas con la misma mecánica (20 de 28 vídeos). Nada destaca y nada se hunde, así que no estamos aprendiendo qué le funciona. Su mejor vídeo, con un cliente detrás, rinde ×1,7.",
+      "que_hacer": "Durante un mes, un vídeo de cada: antes y después de una obra, un encargo real contado de principio a fin, el proceso en el taller sin voz y una comparativa de materiales. Después se mide qué rompe la media."
+    },
+    {
+      "cliente": "jesus-mora",
+      "tipo": "idea",
+      "tipo_pieza": "Marca",
+      "titulo": "Esta cocina tenía 30 años. Mira cómo la dejamos",
+      "por_que": "Antes y después rinde ×3,7 en Golossa y Jesús no lo ha medido nunca. Además, el vídeo más visto de su historia era una transformación que no se repitió.",
+      "gancho": "Esta cocina tenía 30 años. Mira cómo la dejamos.",
+      "desarrollo": "Plano fijo de la cocina vieja desde la puerta. Tres planos rápidos del desmontaje y del montaje en taller. Vuelta al mismo plano fijo con la cocina nueva y el cliente entrando. Cierre con un detalle que no se ve a simple vista (un cajón oculto o un herraje).",
+      "tipo_idea": "Cliente",
+      "formato": "Proceso",
+      "plantilla": "antes-despues",
+      "palanca": "Deseo",
+      "soporte": "Reel"
+    },
+    {
+      "cliente": "jesus-mora",
+      "tipo": "idea",
+      "tipo_pieza": "Marca",
+      "titulo": "El encargo más raro que nos han pedido",
+      "por_que": "Su mejor vídeo es de los que tienen un cliente detrás (×1,7) y en Golossa los vídeos de clientes rinden ×2,5 sobre 20 vídeos. En Jesús apenas hay de este tipo.",
+      "gancho": "Un cliente nos pidió una cocina donde no se viera ni un electrodoméstico.",
+      "desarrollo": "Jesús cuenta a cámara el encargo: qué pidió el cliente y por qué parecía imposible. Planos del problema y de la solución en el taller (puertas que esconden el horno, la nevera integrada). Final con la cocina terminada y la reacción del cliente si se puede grabar.",
+      "tipo_idea": "Cliente",
+      "formato": "Explicación",
+      "plantilla": "caso-real",
+      "palanca": "Curiosidad",
+      "soporte": "Reel"
+    },
+    {
+      "cliente": "newmos",
+      "tipo": "estrategia",
+      "titulo": "Una máquina, una curiosidad, un vídeo, y nunca resubir",
+      "por_que": "Lo que mejor le funciona a NewMos es el producto explicado con una curiosidad: Producto ×1,9, Explicación ×1,6, Curiosidad ×1,6. Su mejor vídeo, el del horno, rinde ×5,9. Cuando se volvió a subir el de «el tiempo y la temperatura», pasó de ×4,0 a ×0,3. Los carruseles tienen unas 4 veces menos vistas que los reels.",
+      "que_hacer": "Hacer un vídeo por máquina (abatidor, multifunción, horno mixto, campana) que responda a «¿para qué sirve esto que no sabías?». No volver a subir vídeos que ya funcionaron: grabar una versión nueva. Dejar los carruseles como complemento, no como pieza principal."
+    },
+    {
+      "cliente": "newmos",
+      "tipo": "idea",
+      "tipo_pieza": "Marca",
+      "titulo": "Lo que nadie te cuenta del abatidor",
+      "por_que": "El abatidor rinde ×1,9 en NewMos y la mecánica de su mejor vídeo es producto, explicación y curiosidad.",
+      "gancho": "Si en tu cocina no hay abatidor, estás tirando comida cada semana sin saberlo.",
+      "desarrollo": "En el showroom, plano del abatidor. Se mete una bandeja recién cocinada y se compara con otra que se enfría al aire: temperatura en pantalla a los 10 y a los 90 minutos. Explicación en tres frases de por qué importa (seguridad, merma, tiempo). Cierre con la cifra de ahorro.",
+      "tipo_idea": "Producto",
+      "formato": "Explicación",
+      "plantilla": "secreto-del-oficio",
+      "palanca": "Curiosidad",
+      "soporte": "Reel"
+    },
+    {
+      "cliente": "newmos",
+      "tipo": "idea",
+      "tipo_pieza": "Viral",
+      "titulo": "La avería que pudo cerrar un restaurante",
+      "por_que": "El vídeo de «Ojalá este vídeo le ahorre a alguien un disgusto» rinde ×3,7 (89.000 vistas en TikTok). La seguridad es la etiqueta que más rinde en NewMos (×3,7). Funciona porque cuenta un problema real con miedo de fondo.",
+      "gancho": "Este restaurante estuvo a una chispa de cerrar. Y nadie lo había visto venir.",
+      "desarrollo": "Aleix cuenta a cámara un caso real (anonimizado) de una campana o un horno mal mantenidos. Planos del equipo y del detalle que falló. Las 3 señales para detectarlo a tiempo, rotuladas. Cierre: «si ves una de estas, llama hoy».",
+      "tipo_idea": "Cliente",
+      "formato": "Explicación",
+      "plantilla": "historia-a-camara",
+      "palanca": "Problema",
+      "soporte": "Reel"
+    },
+    {
+      "cliente": "agencia",
+      "tipo": "estrategia",
+      "titulo": "Menos producto bonito y trends; más personas y casos reales",
+      "por_que": "En Golossa, el producto en primer plano (68 vídeos), los trends (40) y las réplicas de referencia (24) rinden entre ×0,8 y ×0,9. Son más de la mitad de lo publicado. En cambio, los vídeos con un cliente rinden ×2,5 y los casos reales ×2,8 sobre 33 vídeos. Ojo: el caso real no se ha trasladado todavía a otros clientes (×0,8, con muy pocos vídeos), así que hay que probarlo bien antes de darlo por bueno.",
+      "que_hacer": "Regla para Oli: ningún trend ni réplica de referencia sin una persona o un caso real dentro. Que el producto en primer plano sea un plano de apoyo, no el vídeo entero."
+    },
+    {
+      "cliente": "agencia",
+      "tipo": "estrategia",
+      "titulo": "✅ Aplicada · Añadir el formato «Sketch» a las etiquetas",
+      "por_que": "Gemini ha propuesto «Sketch» 13 veces porque ningún formato de la lista describe las escenitas de humor con guion de Golossa. Sin esa etiqueta, el humor guionizado se mezcla con todo lo demás y no se puede medir.",
+      "que_hacer": "Hecho el 04/10/2026: «Sketch» está en ETIQUETAS.md y en todas las bases de Notion, y ya lo llevan los 18 vídeos en los que Gemini lo propuso."
+    }
+  ]
+}

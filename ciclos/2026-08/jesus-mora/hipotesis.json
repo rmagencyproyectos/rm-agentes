@@ -1,0 +1,221 @@
+{
+ "cliente": "jesus-mora",
+ "ciclo": "2026-08",
+ "objetivo": "Tanda abierta por Coco al guionizar. Revisa el objetivo y las restricciones a mano.",
+ "restricciones": [],
+ "piezas": [
+  {
+   "id": "jm-08-1",
+   "titulo": "Video explicando que hace pero a base de tomas falsas + texto “lo que cuesta hacer uun video para que no lo valoreis”",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Identidad",
+   "apuesta": "Enseñar los fallos reales al hablar a cámara (en vez de esconderlos) genera más retención y más compartición que una explicación pulida en una sola toma, sin que Jesús tenga que actuar ni memorizar un guion cerrado.",
+   "porque": "En la ficha del cliente consta que a Jesús 'le cuesta hablar a cámara y los guiones le salen casi calcados' — este formato convierte esa dificultad real en el propio contenido: en vez de tapar los fallos con montaje, se enseñan a propósito como parte del gag.",
+   "etiquetas": [
+    "humor",
+    "original",
+    "identificacion"
+   ]
+  },
+  {
+   "id": "jm-08-2",
+   "titulo": "X que hace que tu Y se vea barata",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "criterio-detalle",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "enseñar un detalle de acabado concreto (el ochavado del canto) genera más guardados que hablar de diseño o calidad en abstracto",
+   "porque": "el post de herrajes de Jesús Mora (26/07) hizo x1,6 sobre su mediana en Instagram con el mismo ángulo de 'calidad que no se ve'; aquí se repite la mecánica con otro detalle físico",
+   "etiquetas": [
+    "detalle",
+    "criterio",
+    "calidad"
+   ]
+  },
+  {
+   "id": "jm-08-3",
+   "titulo": "Material que parece de lujo sin gastar una fortuna",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "error-mito",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "Desmontar el mito de que la sensación de lujo depende del precio del material retiene y convierte más que enseñar materiales caros directamente",
+   "porque": "el post del 17/06 sobre 'la sensación de lujo por los muebles más caros' hizo 6.486 vistas en TikTok, ~1,9x su mediana de red (3.339) — el ángulo ya dio señal y aquí se guioniza con nombre y bucle-abierto",
+   "etiquetas": [
+    "mito",
+    "criterio",
+    "valor-gratis"
+   ]
+  },
+  {
+   "id": "jm-08-4",
+   "titulo": "Colores parquet de este año",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "error-mito",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "Enseñar el mismo tablón de parquet bajo dos luces distintas (showroom vs. estancia real) genera más guardados que hablar de tendencias de color sin comparación visual.",
+   "porque": "El post 'Cuando eliges un parquet para tu hogar, no solo estás escogiendo un color…' es la segunda pieza con más vistas de todo el histórico del cliente (9.628 en TikTok), y el post 'Elegir un color en una muestra parece sencillo…' también entra en el top 6 (4.930 vistas). El ángulo color+parquet ya tiene señal doble y sin explotar del todo.",
+   "etiquetas": [
+    "mito",
+    "criterio",
+    "valor-gratis"
+   ]
+  },
+  {
+   "id": "jm-08-5",
+   "titulo": "El blanco para tu cocina no es la mejor opcion",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "error-mito",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "desmontar el mito del blanco como opción 'segura' genera más comentarios/guardados que un consejo de color genérico",
+   "porque": "el único top post de este cliente sobre color ('Elegir un color en una muestra parece sencillo...') sacó 4930 vistas y 84 interacciones en TikTok, por encima de su mediana — el ángulo de color+criterio ya dio señal",
+   "etiquetas": [
+    "mito",
+    "criterio",
+    "valor-gratis"
+   ]
+  },
+  {
+   "id": "jm-08-6",
+   "titulo": "Cosas que encantan pero no tendria en mi cocina",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "un formato de confesión de experto (lista de tendencias que él mismo evitaría) genera más alcance que el formato explicativo habitual del cliente, sin necesitar b-roll de obra real",
+   "porque": "los dos posts que mejor han rendido de este cliente en 180 días (parquet, 9.628 vistas; sensación de lujo por muebles caros, 6.486 vistas) comparten el mismo mecanismo: cuestionar una intuición de diseño extendida. Esta pieza lleva ese mismo ángulo al formato lista/confesión, sin haberse probado todavía en ese formato exacto",
+   "etiquetas": [
+    "criterio",
+    "valor-gratis",
+    "original"
+   ]
+  },
+  {
+   "id": "jm-08-7",
+   "titulo": "Reformas IA + historia o reflexion",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "antes-despues",
+   "metodologia": "valor-directo",
+   "compartible": "Utilidad",
+   "apuesta": "Sustituir el 'después' rodado del antes-después por un render generado con IA como remate mantiene o mejora la retención frente al antes-después físico tradicional, porque el salto visual es más grande y más sorprendente",
+   "porque": "El post con más vistas de Jesús Mora en 180 días (9.940 en TikTok) fue justo un antes-después de un espacio imposible de aprovechar, y esa mecánica nunca se ha repetido a propósito. Aquí se sustituye el 'antes/después' físico por un render generado con IA, que además es la diferenciación real de la marca (render 3D, realidad virtual)",
+   "etiquetas": [
+    "antes-despues",
+    "problema-solucion",
+    "transformacion",
+    "render-ia"
+   ]
+  },
+  {
+   "id": "jm-08-8",
+   "titulo": "Lo que no tendria en mi cocina siendo X",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "un listado de criterios de experto en formato bucle-abierto (revela y abre la siguiente duda) retiene y se comparte más que un dato aislado sobre el mismo cliente",
+   "porque": "el ángulo 'calidad que no se ve' ya dio señal fuerte con este cliente: el post de herrajes hizo x1,6 sobre su mediana en Instagram. La ficha dice que Jesús Mora aún no tiene formato ganador claro, así que se prueba ese mismo ángulo en formato lista viral",
+   "etiquetas": [
+    "original",
+    "exploracion",
+    "criterio"
+   ]
+  },
+  {
+   "id": "jm-08-9",
+   "titulo": "Errores que hacen que tu cocina parezca barata",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "un formato de lista con reveal (3 errores visuales) genera más guardados que las piezas de proceso/render publicadas hasta ahora",
+   "porque": "sin evidencia directa de este formato en lista — apuesta ciega apoyada en el aprendizaje de que el ángulo 'criterio/detalle que no se ve' ya funcionó por encima de la mediana (post de herrajes, x1,6 en Instagram el 26/07)",
+   "etiquetas": [
+    "criterio",
+    "valor-gratis",
+    "original",
+    "lista"
+   ]
+  },
+  {
+   "id": "jm-08-10",
+   "titulo": "Prefiero morirme a poner esto (SERIE)",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Identidad",
+   "apuesta": "un carpintero dando una opinión tajante en primera persona ('prefiero morirme antes que…') sobre un error de diseño retiene y se comparte más que explicar el mismo error en tono neutro",
+   "porque": "sin evidencia — apuesta ciega: no hay ninguna pieza de opinión/hot-take medida en Jesús Mora todavía; se apoya en que el humor de situación reconocible es la palanca más fuerte medida en la agencia (Golossa, 'es normal la indecisión', 2,1M vistas en TikTok), trasladada aquí del humor puro a la opinión de oficio",
+   "etiquetas": [
+    "humor",
+    "criterio",
+    "serie"
+   ]
+  },
+  {
+   "id": "jm-08-11",
+   "titulo": "Frases de PRO ",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Identidad",
+   "apuesta": "el humor de reconocimiento de gremio (frases típicas de un profesional experimentado) genera más comparticiones por identidad que explicar un detalle técnico directamente",
+   "porque": "sin evidencia medida en jesus-mora — se apoya en el aprendizaje cruzado del banco: el humor de situación reconocible es la palanca más fuerte medida en toda la agencia (Golossa, 'Es normal la indecisión', 2,1M vistas / ~90% del engagement del mes)",
+   "etiquetas": [
+    "humor",
+    "pov",
+    "identificacion",
+    "criterio"
+   ]
+  },
+  {
+   "id": "jm-08-12",
+   "titulo": "Asi haria mi cocina con presupuesto ilimitado",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "viral-original",
+   "metodologia": "bucle-abierto",
+   "compartible": "Utilidad",
+   "apuesta": "un wishlist de fantasía con giro final hacia 'esto no depende del dinero' genera más guardados que un tip directo, porque combina la palanca Deseo (la fantasía engancha) con Utilidad (el giro deja un criterio real)",
+   "porque": "sin evidencia directa de este ángulo exacto, pero encaja con el patrón que ya funciona en el cliente: sus posts con más tracción después del top rompen una expectativa inicial ('elegir un color parece sencillo... hasta que descubres que la luz y los materiales cambian todo', 4930 vistas; 'no hace falta una gran reforma para cambiar la sensación de una casa', 5106 vistas). Aquí se aplica el mismo mecanismo de expectativa rota, con la fantasía del presupuesto ilimitado como gancho.",
+   "etiquetas": [
+    "original",
+    "exploracion",
+    "criterio",
+    "valor-gratis"
+   ]
+  },
+  {
+   "id": "jm-08-13",
+   "titulo": "Como crear una cocina (pasos)",
+   "publicado": null,
+   "resultado": null,
+   "plantilla": "proceso-sin-voz",
+   "metodologia": "valor-directo",
+   "compartible": "Utilidad",
+   "apuesta": "un proceso sin voz, solo transformación visual y sonido real, retiene igual o mejor que un vídeo hablado a cámara con este cliente",
+   "porque": "sin evidencia — apuesta ciega: la plantilla proceso-sin-voz (hipótesis jm-09-8) no se ha probado nunca con Jesús Mora; se apoya en que a él le cuesta hablar a cámara (ficha del cliente), así que este formato evita ese problema de raíz en vez de forzarlo",
+   "etiquetas": [
+    "satisfying",
+    "sin-voz",
+    "proceso",
+    "asmr"
+   ]
+  }
+ ]
+}

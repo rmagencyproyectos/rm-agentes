@@ -1,0 +1,163 @@
+[
+  {
+    "id": "golossa",
+    "name": "Golossa",
+    "color": "#e0574a",
+    "active": true,
+    "notionDb": "c8ac7335-d5e4-4616-9ca0-d2cc20119e01",
+    "brandId": 5380508,
+    "schedule": [
+      {
+        "dow": 3,
+        "hour": 15,
+        "minute": 0
+      },
+      {
+        "dow": 0,
+        "hour": 15,
+        "minute": 0
+      }
+    ]
+  },
+  {
+    "id": "jesus",
+    "name": "Jesús Mora",
+    "color": "#2f75d6",
+    "active": true,
+    "notionDb": "a542185f-2982-4c37-9cab-a10bb8678479",
+    "brandId": 6276198,
+    "schedule": [
+      {
+        "dow": 3,
+        "hour": 15,
+        "minute": 0
+      },
+      {
+        "dow": 0,
+        "hour": 15,
+        "minute": 0
+      }
+    ]
+  },
+  {
+    "id": "margarita",
+    "name": "Margarita",
+    "color": "#7c56c9",
+    "active": true,
+    "notionDb": null,
+    "schedule": [
+      {
+        "dow": 3,
+        "hour": 15,
+        "minute": 0
+      },
+      {
+        "dow": 0,
+        "hour": 15,
+        "minute": 0
+      }
+    ]
+  },
+  {
+    "id": "midtown",
+    "name": "Midtown",
+    "color": "#7a5a3a",
+    "active": true,
+    "notionDb": "b90d66c2-0cc4-452f-aea6-086bb0bea728",
+    "brandId": 6149382,
+    "schedule": [
+      {
+        "dow": 4,
+        "hour": 15,
+        "minute": 0
+      },
+      {
+        "dow": 6,
+        "hour": 15,
+        "minute": 0
+      }
+    ]
+  },
+  {
+    "id": "msm",
+    "name": "MSM Models",
+    "color": "#1f8f74",
+    "active": true,
+    "notionDb": "dede99d5-f925-4a59-89dd-bffa73042ce9",
+    "brandId": 6277063,
+    "schedule": [
+      {
+        "dow": 3,
+        "hour": 15,
+        "minute": 0
+      },
+      {
+        "dow": 0,
+        "hour": 15,
+        "minute": 0
+      }
+    ]
+  },
+  {
+    "id": "newmos",
+    "name": "Newmos",
+    "color": "#c04a82",
+    "active": true,
+    "notionDb": "2667e89b-76e9-47f9-9526-de70e4d88e72",
+    "brandId": 5846361,
+    "schedule": [
+      {
+        "dow": 0,
+        "hour": 15,
+        "minute": 0
+      }
+    ]
+  },
+  {
+    "id": "xavi",
+    "name": "Xavi Colomina",
+    "color": "#c98a2e",
+    "active": true,
+    "notionDb": "5d8ed9a1-1b74-45ef-ad29-6d66f55b69a1",
+    "brandId": 6276334,
+    "schedule": [
+      {
+        "dow": 3,
+        "hour": 15,
+        "minute": 0
+      },
+      {
+        "dow": 0,
+        "hour": 15,
+        "minute": 0
+      }
+    ]
+  },
+  {
+    "id": "rm",
+    "name": "RM",
+    "color": "#ff2041",
+    "active": true,
+    "notionDb": "c8d4b008-a7d7-48e3-809a-f95587dc9baa",
+    "brandId": null,
+    "schedule": []
+  },
+  {
+    "id": "gerard-rm",
+    "name": "Gerard RM",
+    "color": "#2563eb",
+    "active": true,
+    "notionDb": "2286fa98-d7a1-450f-a30c-3697d8cb87ff",
+    "brandId": null,
+    "schedule": []
+  },
+  {
+    "id": "andrea-rm",
+    "name": "Andrea RM",
+    "color": "#db2777",
+    "active": true,
+    "notionDb": "68806d54-692c-4fbc-ae37-408d39aeb75d",
+    "brandId": null,
+    "schedule": []
+  }
+]

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Check-in DIARIO de Winston: todos los días 00:30 (madrugada, para no gastar tokens de día).
+  Corre winston-checkin.sh (Claude headless).
+
+  Instalación (con tu usuario, NO root, para que herede tu login de Claude):
+    cp com.rmagency.winston-checkin.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.rmagency.winston-checkin.plist
+  Cambiar el día/hora: edita Weekday (0=domingo,1=lunes…) / Hour / Minute y recarga.
+  Probar a mano: launchctl start com.rmagency.winston-checkin
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.rmagency.winston-checkin</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/winston/winston-checkin.sh</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>0</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/winston/launchd.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/gerardruizmiro/rmagency/AGENTES RM/infra/winston/launchd.err.log</string>
+</dict>
+</plist>
