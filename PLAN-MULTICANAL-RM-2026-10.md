@@ -93,6 +93,10 @@ clic de Gerard por pieza.
   ⚠️ Probar primero el carrusel de fotos en TikTok vía API: no está verificado.
 
 ### Fase 2 — Coco multicanal (≈1 sesión)
+- ✅ **19/10/2026: prompt + gancho hechos** — `agentes/guiones/multicanal.md`,
+  `infra/carruseles/multicanal.py` y `guionizar.py` (`Soporte = Multicanal`, solo `rm-agency`).
+  Probado con una llamada real (Sonnet, ~105 s + una corrección de 41 s). Pendiente: lo de Notion
+  (abajo, lo hace Gerard), `datos_caso.py` y subir los PNG a la ficha (hoy quedan en disco).
 - `agentes/guiones/multicanal.md`: el prompt con las reglas de RM (sale del `copy-brief.md`).
 - `guionizar.py`: si `Soporte = Multicanal`, pide el JSON completo en vez del guion de vídeo.
 - Notion, base `Contenido RM`: propiedades nuevas `Canales` (multi-select), `LinkedIn` (texto),

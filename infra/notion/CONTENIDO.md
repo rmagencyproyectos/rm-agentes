@@ -131,3 +131,17 @@ es lo único estable a lo que anclar el copy.
 
 Se dejaron intactas (Ideas GOLOSSA, WorkFlow Newmos, TABLA DE IDEAS de Jesús Mora, Idees Contingut
 de Midtown…). No migramos nada: quedan de consulta y se pueden archivar cuando Gerard quiera.
+
+## Multicanal (RM, 19/10/2026)
+
+Si una idea de **Contenido RM** trae `Soporte = Multicanal`, `guionizar.py` no escribe guion de
+vídeo: Coco devuelve en una llamada el **carrusel** (como datos), el **copy** IG/TikTok/FB, el
+**post de LinkedIn** y el **artículo del blog** (`agentes/guiones/multicanal.md`). Se valida contra
+el brief de RM (máx. 10 diapositivas, sin precios, portada sin «nosotros», solo cifras que estén
+en la Idea/Notas — si falla, una corrección en la misma corrida y, si no, vuelve a la cola), se
+renderiza con `infra/carruseles/carrusel.py` en `memoria/clientes/rm-agency/carruseles/<NN>-<id>/`
+(PNG + PDF + copy.md/linkedin.md/blog.md) y se cuelga en la ficha: `Copy RRSS`, `LinkedIn` (si la
+propiedad existe), el cuerpo con diapositivas/LinkedIn/blog y `Guion = Listo`. Nada se publica ni
+se programa. **Las cifras verificadas son las que Gerard escribe en Idea/Notas**: si no las pone,
+Coco no puede usar ninguna.
+

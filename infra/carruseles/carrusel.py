@@ -107,6 +107,9 @@ def validar(pieza, base=None):
                 err.append("diapositiva 2: `solo_pregunta` sin pregunta en la portada")
             if dib and dib.get("tipo") == "cta":
                 av.append(f"diapositiva {i}: CTA antes del cierre (la venta va solo al final)")
+        for i, d in enumerate([por] + pieza.get("diapositivas", []), start=1):
+            if len(d.get("pregunta") or "") > 42:
+                av.append(f"diapositiva {i}: pregunta larga ({len(d['pregunta'])} caracteres), sale en dos líneas")
         cie = pieza.get("cierre") or {}
         if not cie.get("titular"):
             err.append("cierre sin `titular`")
@@ -156,10 +159,25 @@ def _ruta(f, base):
     return p if p.is_absolute() else (base / p)
 
 
+# Encaje: si el dibujo no cabe en su hueco (titular de 3 líneas, dibujo alto…), se encoge lo justo
+# para no pisar el pie. Con los textos de los carruseles a mano no salta (escala 1).
+ENCAJE_JS = """<script>
+function encajar(){document.querySelectorAll('.vis').forEach(v=>{
+  const cs=getComputedStyle(v), r=v.getBoundingClientRect();
+  const aw=document.body.clientWidth-120;  // a lo ancho puede salirse de la columna (c6), no del lienzo
+  const ah=r.height-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+  const m=v.firstElementChild; if(!m) return;
+  const b=m.getBoundingClientRect(), k=Math.min(1, aw/b.width, ah/b.height);
+  if(k<1) [...v.children].forEach(c=>{c.style.transform='scale('+k.toFixed(3)+')';c.style.transformOrigin='center'});
+});window.__listo=true}
+document.fonts.ready.then(()=>requestAnimationFrame(encajar));
+</script>"""
+
+
 def _doc(css, cuerpo, titulo="carrusel"):
     return (f'<!doctype html><html><head><meta charset="utf-8"><title>{_html.escape(titulo)}</title>'
             f'<style>html,body{{margin:0;width:{W}px;height:{H}px;overflow:hidden}}{css}</style></head>'
-            f'<body>{cuerpo}</body></html>')
+            f'<body>{cuerpo}{ENCAJE_JS}</body></html>')
 
 
 def css_rm():
@@ -178,7 +196,7 @@ def _pie(pregunta, regalo=False, final=None):
 def slides_rm(p):
     """Lista de <section> (una por diapositiva), con el hilo de preguntas resuelto."""
     por = p["portada"]
-    out = [f'<section class="sl cv"><div class="lbl">{t(por.get("rotulo", ""))}</div>'
+    out = [f'<section class="sl cv">' + (f'<div class="lbl">{t(por["rotulo"])}</div>' if por.get("rotulo") else "")
            + (f'<div class="num">{t(por["cifra"])}</div>' if por.get("cifra") else "")
            + f'<h2>{t(por["titular"], "em")}</h2>'
            + (f'<p class="sm">{t(por["apoyo"])}</p>' if por.get("apoyo") else "")
@@ -191,7 +209,8 @@ def slides_rm(p):
         if d.get("solo_pregunta"):
             cab = f"<h2>{t(previa)}</h2>"
         else:
-            ey = f'<div class="ey q">{t(previa)}</div>' if previa else f'<div class="ey">{t(d.get("rotulo", ""))}</div>'
+            ey = (f'<div class="ey q">{t(previa)}</div>' if previa else
+                  f'<div class="ey">{t(d["rotulo"])}</div>' if d.get("rotulo") else "")
             cab = f'{ey}<h2>{t(d["titular"])}</h2>'
         sub = f'<p class="sub">{t(d["apoyo"])}</p>' if d.get("apoyo") else ""
         if ultima:
@@ -286,6 +305,7 @@ def render_playwright(paginas, pngs, pdf_html, pdf, exe):
         for src, dst in zip(paginas, pngs):
             pg.goto(src.as_uri(), wait_until="load")
             pg.evaluate("document.fonts.ready.then(() => Promise.all([...document.images].map(i => i.decode().catch(() => 0))))")
+            pg.wait_for_function("window.__listo === true", timeout=10000)
             pg.screenshot(path=str(dst), clip={"x": 0, "y": 0, "width": W, "height": H})
         pg.goto(pdf_html.as_uri(), wait_until="load")
         pg.pdf(path=str(pdf), width=f"{W}px", height=f"{H}px", print_background=True,

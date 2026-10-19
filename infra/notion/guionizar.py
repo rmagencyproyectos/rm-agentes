@@ -31,6 +31,12 @@ Plantilla, se respeta; si no, Coco elige del catálogo y la declara.
 Si algo falla (claude cae, JSON ilegible, sin brief): la idea VUELVE a "Coco a guionizar"
 (nunca se queda colgada en "Guionando…") y se apunta la incidencia en INBOX-GERARD.md.
 
+**Multicanal (19/10/2026)** — si la idea es de RM y trae `Soporte = Multicanal`, no se pide un guion
+de vídeo: Coco devuelve en una sola llamada el carrusel como datos + copy IG/TikTok/FB + post de
+LinkedIn + artículo de blog (`agentes/guiones/multicanal.md`). Se valida contra el brief de RM
+(`infra/carruseles/multicanal.py`), se renderiza con `infra/carruseles/carrusel.py` en
+`memoria/clientes/rm-agency/carruseles/<NN>-<id>/` y todo se cuelga en la ficha. Nada se publica.
+
 **"Falta desglose" (26/08/2026)** — caso aparte, y el más frecuente: Coco no puede abrir un
 enlace de Instagram/TikTok. Si la idea solo trae el link pelado, la ficha se aparca en
 `Guion = "Falta desglose"` — no vuelve a la cola, no se reintenta cada noche y sale agrupada en
@@ -69,6 +75,13 @@ MODELO_DEFECTO = "claude-sonnet-5"       # guion creativo: calidad > coste
 PRESUPUESTO_USD = "0.60"                  # por idea
 sys.path.insert(0, os.path.join(na.HUB, "infra/analisis"))
 import etiquetas as _etq  # noqa: E402  — lee las listas de agentes/guiones/ETIQUETAS.md
+sys.path.insert(0, os.path.join(na.HUB, "infra/carruseles"))
+import multicanal as mc  # noqa: E402  — Soporte = Multicanal (solo RM)
+SOPORTE_MULTICANAL = "Multicanal"
+CLIENTE_MULTICANAL = "rm-agency"
+# Una llamada da carrusel + copy + LinkedIn + blog (~5k tokens de salida): más tiempo, mismo tope.
+PRESUPUESTO_MULTICANAL_USD = "0.60"
+TIMEOUT_MULTICANAL = 300
 PALANCAS = set(_etq.listas()["Palanca"])   # fuente: ETIQUETAS.md (sin Emoción ni Humor desde el 02/10/2026)
 METODOLOGIAS = {"valor-directo", "bucle-abierto"}
 COMPARTIBLE = {"Identidad", "Utilidad", "Plan", "Desahogo", "ninguno"}
@@ -193,18 +206,18 @@ def construir_prompt(idea_titulo, tipo, notas, slug, label, plantilla=None, etiq
     )
 
 
-def llamar_coco(prompt, modelo):
+def llamar_coco(prompt, modelo, system_prompt=None, presupuesto=PRESUPUESTO_USD, timeout=180):
     """Llama a claude -p sin herramientas y devuelve el texto (el JSON de Coco). Lanza si falla."""
-    proc = subprocess.run(
-        ["claude", "-p",
-         "--model", modelo,
-         "--tools", "",
-         "--disable-slash-commands",
-         "--no-session-persistence",
-         "--max-budget-usd", PRESUPUESTO_USD,
-         "--output-format", "json"],
-        input=prompt, capture_output=True, text=True, timeout=180,
-    )
+    cmd = ["claude", "-p",
+           "--model", modelo,
+           "--tools", "",
+           "--disable-slash-commands",
+           "--no-session-persistence",
+           "--max-budget-usd", presupuesto,
+           "--output-format", "json"]
+    if system_prompt:
+        cmd += ["--system-prompt", system_prompt]
+    proc = subprocess.run(cmd, input=prompt, capture_output=True, text=True, timeout=timeout)
     if proc.returncode != 0:
         # `claude` puede salir !=0 con el stderr VACÍO y el motivo real en el JSON de stdout
         # (p. ej. terminal_reason=budget_exhausted). Sin mirar ahí, el fallo sale mudo y se
@@ -215,7 +228,7 @@ def llamar_coco(prompt, modelo):
             motivo = (d.get("terminal_reason") or d.get("subtype")
                       or str(d.get("result"))[:200] or motivo)
             if d.get("total_cost_usd"):
-                motivo += f" (coste {d['total_cost_usd']:.3f} / tope {PRESUPUESTO_USD})"
+                motivo += f" (coste {d['total_cost_usd']:.3f} / tope {presupuesto})"
         except Exception:  # noqa: BLE001
             pass
         raise RuntimeError(f"claude salió {proc.returncode}: {motivo or 'sin detalle'}")
@@ -338,7 +351,7 @@ def limpiar_guion_anterior(page_id, tok):
     """
     bloques = na.list_blocks(page_id, tok)
     inicio = next((i for i, b in enumerate(bloques)
-                   if na.texto_de_bloque(b).startswith(MARCA_INICIO)), None)
+                   if na.texto_de_bloque(b).startswith((MARCA_INICIO, mc.MARCA_INICIO))), None)
     if inicio is None:
         return 0
     # De atrás hacia delante: así los índices no se mueven mientras se borra.
@@ -479,6 +492,7 @@ def pendientes(cfg, tok, solo_cliente, estado="Coco a guionizar", titulos=None):
                 "tipo_idea": na.plain(p.get(ei.PROP_TIPO)),
                 "formato": ei.leer(p, ei.PROP_FORMATO, cli["database_id"], tok),
                 "notas": na.plain(p.get("Notas")),
+                "soporte": ei.leer(p, ei.PROP_SOPORTE, cli["database_id"], tok),
             })
     return items
 
@@ -492,6 +506,61 @@ def recuperadas(cfg, tok, solo_cliente):
     """
     return [it for it in pendientes(cfg, tok, solo_cliente, "Falta desglose")
             if tiene_desglose(it["notas"])]
+
+
+_PROPS_BASE = {}
+
+
+def tiene_prop(database_id, tok, nombre):
+    """¿Existe la propiedad en la base? (LinkedIn la tiene que crear Gerard: si no está, solo va al cuerpo)."""
+    if database_id not in _PROPS_BASE:
+        try:
+            _PROPS_BASE[database_id] = set(na._request("GET", f"/databases/{database_id}", tok)
+                                           .get("properties", {}))
+        except RuntimeError:
+            _PROPS_BASE[database_id] = set()
+    return nombre in _PROPS_BASE[database_id]
+
+
+def es_multicanal(it):
+    return it.get("slug") == CLIENTE_MULTICANAL and (it.get("soporte") or "") == SOPORTE_MULTICANAL
+
+
+def guionizar_multicanal(it, tok, cfg, modelo, reguionizar=False):
+    """Soporte = Multicanal: carrusel + copy + LinkedIn + blog en una llamada. Devuelve (url, avisos).
+
+    Lanza RuntimeError / TimeoutExpired si no sale: el bucle de main() devuelve la idea a la cola.
+    """
+    cifras = mc.cifras_de(it["idea"], it["notas"])
+    prompt = mc.construir_prompt(it["idea"], it["notas"], cifras)
+    kw = dict(system_prompt=mc.SYSTEM_PROMPT, presupuesto=PRESUPUESTO_MULTICANAL_USD, timeout=TIMEOUT_MULTICANAL)
+    crudo = llamar_coco(prompt, modelo, **kw)
+    try:
+        res = mc.parsear(crudo, cifras)
+    except RuntimeError as e:
+        # Una sola corrección en la misma corrida (p. ej. «Episodio 25» sin verificar): sale más
+        # barato que devolver la idea a la cola y repetir la llamada entera mañana. Si vuelve a
+        # fallar, se lanza y main() la devuelve a la cola con el motivo en el INBOX.
+        print(f"   ↻ corrección: {e}")
+        crudo = llamar_coco(mc.prompt_correccion(prompt, crudo, str(e)), modelo, **kw)
+        res = mc.parsear(crudo, cifras)
+    guardado = mc.guardar(res)          # textos + PNG + PDF en memoria/clientes/rm-agency/carruseles/
+    if guardado["error_render"]:
+        apuntar_inbox(f"[rm-agency] {it['idea'][:50]}: textos OK pero el carrusel no se pudo "
+                      f"renderizar ({guardado['error_render'][:120]})")
+    if reguionizar:
+        limpiar_guion_anterior(it["page_id"], tok)
+    na.append_blocks(it["page_id"], tok, mc.bloques_notion(res, guardado))
+    db = cfg["clientes"][it["slug"]]["database_id"]
+    props = {"Copy RRSS": na.prop_text(res["copy_ig"]), "Guion": na.prop_select("Listo")}
+    if tiene_prop(db, tok, "LinkedIn"):
+        props["LinkedIn"] = na.prop_text(res["linkedin"])
+    na.update_props(it["page_id"], tok, props)
+    apuntar_hipotesis(it["slug"], it["idea"], {
+        "plantilla": "", "metodologia": "", "compartible": "", "apuesta": res["apuesta"],
+        "porque": res["porque"], "etiquetas": ["multicanal", "carrusel"],
+        "tipo_idea": it.get("tipo_idea") or "", "formato": it.get("formato") or ""})
+    return "https://app.notion.com/p/" + it["page_id"].replace("-", ""), res["avisos"]
 
 
 def main():
@@ -560,6 +629,9 @@ def main():
             continue
 
         if a.dry_run:
+            if es_multicanal(it):
+                print(f"(dry-run) MULTICANAL: {etiqueta} → carrusel + copy + LinkedIn + blog")
+                continue
             print(f"(dry-run) guionizaría: {etiqueta} ({it['tipo'] or 'Marca'} · "
                   f"plantilla: {it['plantilla'] or 'la elige Coco'})")
             continue
@@ -568,6 +640,20 @@ def main():
             na.update_props(it["page_id"], tok, {"Guion": na.prop_select("Guionando…")})
         except RuntimeError as e:
             sys.stderr.write(f"✗ {etiqueta}: no pude marcar Guionando ({e})\n")
+            continue
+        if es_multicanal(it):
+            try:
+                url, avisos = guionizar_multicanal(it, tok, cfg, a.modelo, a.reguionizar)
+            except (RuntimeError, subprocess.TimeoutExpired) as e:
+                na.update_props(it["page_id"], tok, {"Guion": na.prop_select("Coco a guionizar")})
+                apuntar_inbox(f"{etiqueta} (multicanal) no salió: {e}")
+                sys.stderr.write(f"✗ {etiqueta}: multicanal {e} (devuelta a 'Coco a guionizar')\n")
+                continue
+            for x in avisos:
+                print(f"   ⚠️ {x}")
+            generadas.append((it["label"], it["idea"], url))
+            print(f"✓ {etiqueta} (multicanal) :: {url}")
+            hechas += 1
             continue
         # 2-3. pedir el guion a Coco
         try:

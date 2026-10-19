@@ -28,6 +28,12 @@ Hace falta **un Chrome** (el de `/Applications/Google Chrome.app` vale, es el qu
 
 Pillow además genera `_vista.png` (si no está, se salta sin error).
 
+⚠️ La corrida de noche (`infra/notion/noche.sh` → `guionizar.py`) usa **`/usr/bin/python3`** (el del
+sistema, 3.9). Es a ese al que hay que instalarle el paquete:
+`/usr/bin/python3 -m pip install --user playwright` (o `pillow` para el motor chrome). El código es
+compatible con 3.9 (comprobado). Si falta todo, la fábrica guarda los textos igual, lo avisa en
+`INBOX-GERARD.md` y deja en la ficha de Notion el comando para renderizar a mano.
+
 Dónde busca el navegador, por orden: `--navegador` → `$CARRUSEL_CHROME` → (motor playwright) su
 Chromium → Google Chrome / Chromium en `/Applications` → `google-chrome`/`chromium` en el PATH →
 `$PLAYWRIGHT_BROWSERS_PATH` (o `~/Library/Caches/ms-playwright`).
@@ -139,8 +145,25 @@ Para un dibujo nuevo: función en `dibujos.py` + entrada en `TIPOS` + fila en es
 - **Error** (no renderiza): más de 10 diapositivas · falta titular en portada/diapositiva/cierre ·
   tipo de dibujo que no existe · cualquier precio (`€`).
 - **Aviso** (renderiza; con `--estricto`, para): portada con «nosotros/nuestro/RM Agency» · CTA
-  antes del cierre · palabra distinta de ESTRATEGIA · dibujo `html` · cifra que no está en
-  `cifras_verificadas` (si la pieza trae esa lista).
+  antes del cierre · palabra distinta de ESTRATEGIA · dibujo `html` · pregunta de más de 42
+  caracteres (sale en dos líneas) · cifra que no está en `cifras_verificadas` (si la pieza trae
+  esa lista; en la fábrica multicanal esto es **error**).
+
+**Encaje automático**: si un dibujo no cabe en su hueco (titular de tres líneas…), la plantilla lo
+encoge lo justo para no pisar el pie. Con los carruseles hechos a mano no salta.
+
+## Coco multicanal (Fase 2)
+
+`multicanal.py` es la parte sin Notion de la fábrica: prompt (`agentes/guiones/multicanal.md` +
+brief de RM), parseo y validación de la respuesta de Coco, y la carpeta
+`memoria/clientes/rm-agency/carruseles/<NN>-<id>/` (pieza.json, copy.md, linkedin.md, blog.md con
+el frontmatter de `infra/web/blog.py`, PNG, PDF). Lo llama `infra/notion/guionizar.py` cuando la
+idea de RM trae `Soporte = Multicanal`. Para probar a mano sin Notion ni modelo:
+
+```bash
+python3 infra/carruseles/multicanal.py --prompt --idea "…" --notas "…"        # ver el prompt
+python3 infra/carruseles/multicanal.py --respuesta crudo.json --idea "…" --notas "…" --out /tmp/x
+```
 
 ---
 
