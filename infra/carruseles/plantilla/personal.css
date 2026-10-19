@@ -1,0 +1,36 @@
+/* Estilo «personal» — carruseles de fotos de la cuenta de Gerard (19/10/2026).
+   Limpio y distinto del de RM: papel cálido, serif (Instrument Serif, OFL) y la foto manda.
+   Nada de rojo RM, nada de maquetas. */
+:root{--paper:#f2eee7;--ink:#1c1a17;--soft:#6f6a62;--night:#161513}
+*{box-sizing:border-box}
+body{background:var(--paper)}
+.ps{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--paper);color:var(--ink);font-family:"Instrument",Georgia,serif}
+.ps .lbl{position:absolute;top:84px;left:96px;font-family:"Glacial","Avenir Next",sans-serif;font-size:24px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft)}
+.ps .lbl.clar{color:rgba(255,255,255,.85)}
+.ps .seg{position:absolute;right:96px;bottom:76px;font-family:"Glacial",sans-serif;font-size:44px;color:var(--soft)}
+.ps .seg.clar{color:#fff}
+.ps em{font-style:italic}
+
+/* foto */
+.ps.foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ps.foto.completa{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:96px}
+.ps.foto.completa img{position:static;width:auto;height:auto;max-width:100%;max-height:1060px;object-fit:contain;box-shadow:0 24px 60px rgba(28,26,23,.18)}
+.ps.foto .peu{margin:34px 0 0;font-size:34px;font-style:italic;color:var(--soft);text-align:center}
+.ps.foto.llena .peu{position:absolute;left:96px;right:96px;bottom:64px;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.5)}
+
+/* portada: foto a sangre + gancho encima */
+.ps.portada .velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 45%,rgba(0,0,0,.72) 100%)}
+.ps.portada h1{position:absolute;left:96px;right:96px;bottom:200px;margin:0;font-weight:400;font-size:120px;line-height:.98;letter-spacing:-.01em;color:#fff;text-wrap:balance;text-shadow:0 2px 30px rgba(0,0,0,.25)}
+.ps.portada .sub{position:absolute;left:96px;right:200px;bottom:86px;margin:0;font-size:40px;line-height:1.2;color:rgba(255,255,255,.9)}
+
+/* texto que presenta la foto siguiente */
+.ps.text{display:flex;align-items:center;padding:0 110px}
+.ps.text .tx{margin:0;font-size:76px;line-height:1.12;letter-spacing:-.005em;text-wrap:pretty}
+.ps.text .tx em{color:var(--soft)}
+
+/* cierre */
+.ps.final{background:var(--night);color:var(--paper);display:flex;flex-direction:column;justify-content:center;padding:0 110px}
+.ps.final .lbl{color:rgba(242,238,231,.55)}
+.ps.final .q{margin:0;font-size:88px;line-height:1.06;text-wrap:balance}
+.ps.final .sub{margin:40px 0 0;font-size:40px;line-height:1.25;color:rgba(242,238,231,.7)}
+.ps.final .aviat{position:absolute;left:110px;right:110px;bottom:96px;padding-top:34px;border-top:1px solid rgba(242,238,231,.3);font-size:52px;font-style:italic}

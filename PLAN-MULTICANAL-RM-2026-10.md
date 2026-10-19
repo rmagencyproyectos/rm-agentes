@@ -83,6 +83,9 @@ clic de Gerard por pieza.
 - Decidir las preguntas abiertas (sección 7).
 
 ### Fase 1 — Carruseles desde datos + Metricool multi-red (≈1 sesión)
+- ✅ **19/10/2026: `infra/carruseles/carrusel.py` hecho** (PNG + PDF desde JSON, estilos `rm` y
+  `personal`; 04-dar-valor y 06-ayudar pasados a datos y comprobados contra los PNG originales).
+  Falta lo de `programar.py` (imágenes + varias redes).
 - `infra/carruseles/carrusel.py --json <pieza>.json` → PNG + PDF. Sale de la plantilla actual;
   las diapositivas pasan a ser datos (tipos de dibujo: barras, chat, móvil, lista, cadena…).
 - `programar.py`: soportar **imágenes** (la subida ya está probada hoy con los carruseles) y

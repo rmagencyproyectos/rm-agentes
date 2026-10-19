@@ -1,0 +1,78 @@
+{
+  "id": "04-dar-valor",
+  "prefijo": "c4",
+  "estilo": "rm",
+  "portada": {
+    "rotulo": "Negocios de Lleida",
+    "cifra": "20.000",
+    "titular": "seguidores en 6 meses para un taller de muebles *de Lleida.*",
+    "apoyo": "Si un taller puede, tu negocio también.",
+    "pregunta": "¿A quién le interesan los muebles?"
+  },
+  "diapositivas": [
+    {
+      "titular": "A todo el mundo. Todos tenemos *el mueble de la abuela.*",
+      "apoyo": "Su historia, lo que vale, cómo cuidarlo. Es algo que tenemos en casa y que dice mucho de nosotros.",
+      "pregunta": "¿Y qué hicimos con eso?",
+      "dibujo": {"tipo": "ilustracion", "nombre": "comoda",
+                 "preguntas": ["¿Cuánto vale?", "¿Es antiguo de verdad?", "¿Cómo lo limpio?"]}
+    },
+    {
+      "titular": "Convertir la cuenta en *el referente* de los muebles antiguos.",
+      "apoyo": "No enseñábamos lo que vendían. Enseñábamos lo que sabían.",
+      "pregunta": "¿Y cómo se consigue eso?",
+      "dibujo": {"tipo": "buscador", "consulta": "cómo saber si un mueble es antiguo",
+                 "nombre": "Taller de restauración", "detalle": "Te lo explico en 40 segundos", "sello": "Referente"}
+    },
+    {
+      "titular": "*Dando valor.* Mucho.",
+      "apoyo": "Cada vídeo enseñaba algo que no sabías.",
+      "pregunta": "¿Y qué vídeos funcionaron mejor?",
+      "dibujo": {"tipo": "lista", "items": ["Contando el proceso, paso a paso", "Explicando en voz alta y con autoridad",
+                                           "Enseñando ejemplos reales", "Respondiendo las dudas de la gente"]}
+    },
+    {
+      "titular": "Los que *enseñaban algo.*",
+      "apoyo": "Ninguno de sus vídeos más vistos vendía nada.",
+      "pregunta": "¿Y los resultados?",
+      "dibujo": {"tipo": "ranking", "pie": "visualizaciones", "items": [
+        {"texto": "Cómo saber si un mueble antiguo está restaurado", "cifra": "443.000"},
+        {"texto": "La madera más cara que puede haber en tu casa", "cifra": "290.000"},
+        {"texto": "Agujeritos en un mueble: qué hacer", "cifra": "263.000"}]}
+    },
+    {
+      "titular": "20.000 seguidores en Instagram. *10.000 en TikTok.*",
+      "apoyo": "En seis meses. Y más de 6 millones de visualizaciones.",
+      "pregunta": "Pero eso no fue lo mejor…",
+      "dibujo": {"tipo": "barras", "barras": [
+        {"cifra": "20.000", "etiqueta": "Instagram", "color": "rojo"},
+        {"cifra": "10.000", "etiqueta": "TikTok", "color": "oscuro"}]}
+    },
+    {
+      "titular": "Monetizamos su *canal de YouTube.*",
+      "apoyo": "Más de 1.000 suscriptores y más de 4.000 horas de visualización.",
+      "pregunta": "¿Por qué funcionó?",
+      "dibujo": {"tipo": "youtube", "titulo": "Programa de Partners", "estado": "✓ Apto", "requisitos": [
+        {"texto": "Suscriptores", "valor": "1.000 / 1.000"},
+        {"texto": "Horas de visualización", "valor": "4.000 / 4.000"}]}
+    },
+    {
+      "titular": "Porque quien te enseña algo *se gana tu confianza.*",
+      "apoyo": "Y la confianza es lo que hace que un día le compres a él y no a otro.",
+      "pregunta": "¿Y en tu negocio?",
+      "dibujo": {"tipo": "cadena", "pasos": ["Valor", "Autoridad", "Marca"]}
+    },
+    {
+      "titular": "Seguro que sabes algo que *tus clientes no saben.*",
+      "apoyo": "Eso ya es contenido.",
+      "pregunta": "¿Por dónde empezar?",
+      "dibujo": {"tipo": "notas", "titulo": "Lo que sé y mis clientes no"}
+    }
+  ],
+  "cierre": {
+    "titular": "Si quieres saber qué podrías enseñar tú, *te lo decimos.*",
+    "apoyo": "Gratis.",
+    "palabra": "ESTRATEGIA",
+    "pie": "te escribimos por mensaje"
+  }
+}

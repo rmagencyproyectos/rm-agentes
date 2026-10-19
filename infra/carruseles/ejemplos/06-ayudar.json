@@ -1,0 +1,58 @@
+{
+  "id": "06-ayudar",
+  "prefijo": "c6",
+  "estilo": "rm",
+  "cifras_verificadas": ["90.000", "8.400", "89.679", "89,7", "1.100"],
+  "portada": {
+    "rotulo": "Una historia real",
+    "titular": "¿Y si tu mejor vídeo es uno en el que *no vendes nada?*",
+    "apoyo": "A esta empresa le pasó: casi 90.000 visualizaciones con un vídeo que solo quería ayudar.",
+    "pregunta": "¿Y de qué iba ese vídeo?"
+  },
+  "diapositivas": [
+    {
+      "titular": "De un *problema* que vivieron ellos.",
+      "apoyo": "Una estafa. La contaron para que no le pasase a nadie más.",
+      "pregunta": "¿Y qué pedían a cambio?",
+      "dibujo": {"tipo": "aviso", "titulo": "Cuidado con esto", "texto": "Si te pasa esto, no sigas adelante."}
+    },
+    {
+      "titular": "*Nada.*",
+      "apoyo": "Solo un aviso.",
+      "pregunta": "¿Y qué pasó?",
+      "dibujo": {"tipo": "tachados", "botones": ["Llámanos", "Pide presupuesto", "Compra ya"]}
+    },
+    {
+      "titular": "*89.679* visualizaciones.",
+      "apoyo": "Su media estaba en unas 8.400. Y más de 1.100 interacciones.",
+      "pregunta": "¿Por qué funcionó tanto?",
+      "dibujo": {"tipo": "pantallas", "pantallas": [{"red": "TikTok", "cifra": "89,7 k", "destacada": true}]}
+    },
+    {
+      "titular": "Porque la gente comparte lo que *protege a los suyos.*",
+      "apoyo": "Un aviso útil se manda al socio, a un amigo, al grupo de la familia.",
+      "pregunta": "¿Y qué gana la empresa?",
+      "dibujo": {"tipo": "compartir", "titulo": "Enviar a…", "enviado": "✓ Enviado", "contactos": [
+        {"nombre": "Mi socio", "inicial": "S"}, {"nombre": "Grupo familia", "inicial": "F"},
+        {"nombre": "Otro restaurante", "inicial": "R"}]}
+    },
+    {
+      "titular": "*Confianza.*",
+      "apoyo": "A quien te ayuda sin pedirte nada es al primero que llamas cuando lo necesitas.",
+      "pregunta": "¿Y tú qué podrías avisar?",
+      "dibujo": {"tipo": "cadena", "pasos": ["Ayudar", "Confianza", "Cliente"]}
+    },
+    {
+      "titular": "Seguro que conoces un *error que se repite* en tu sector.",
+      "apoyo": "Una estafa, un fallo típico, algo que nadie cuenta. Eso ya es un vídeo.",
+      "pregunta": "¿Por dónde empezar?",
+      "dibujo": {"tipo": "notas", "titulo": "Errores que veo cada semana", "vacias": 2}
+    }
+  ],
+  "cierre": {
+    "titular": "Si quieres saber qué podrías contar tú, *te lo decimos.*",
+    "apoyo": "Gratis.",
+    "palabra": "ESTRATEGIA",
+    "pie": "te escribimos por mensaje"
+  }
+}

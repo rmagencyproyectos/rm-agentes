@@ -40,7 +40,9 @@
 - **Hilo de preguntas** en los carruseles de historia: cada diapositiva deja abajo una pregunta
   («¿Y cómo la hicimos crecer? →»), la siguiente la repite arriba y la responde. Así hay
   continuidad y siempre un motivo para deslizar.
-- Plantilla montada: `carruseles/_fuente/carruseles.html` (render con `slides.js`).
+- Plantilla: desde el 19/10/2026 los carruseles nuevos se hacen **como datos** (pieza JSON) con
+  `infra/carruseles/carrusel.py` (PNG + PDF para LinkedIn; esquema en `infra/carruseles/README.md`).
+  `carruseles/_fuente/carruseles.html` (render con `slides.js`) queda como histórico de los 7 primeros.
 
 ## Forma (provisional, hasta que Gerard la fije)
 

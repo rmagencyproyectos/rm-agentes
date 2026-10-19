@@ -138,6 +138,10 @@ Plan vigente: `AUDITORIA-Y-PLAN-2026-09.md`.
   check-in se lo recuerda), sus mejores vídeos y por qué funcionan (Gemini). Base Notion
   «🎯 Creadores de referencia» (`creadores_db`); Oli lee `memoria/analisis/creadores/<cliente>.md`.
   Corre cada noche en `noche.sh`.
+- `infra/carruseles/carrusel.py --json <pieza>.json` — **fábrica de carruseles** (19/10/2026): de una
+  pieza JSON a PNG 1080×1350 + PDF (LinkedIn). Estilo `rm` (plantilla de la cuenta de RM, dibujos como
+  datos) y `personal` (fotos de la cuenta de Gerard, en catalán). Esquema y dibujos: `infra/carruseles/README.md`.
+  Solo renderiza: no sube nada.
 - `infra/web/blog.py` — **blog de rmagency.es** (WordPress en Hostinger): sube un artículo `.md` como
   **BORRADOR** (imagen destacada, categoría, extracto). `--publicar <id>` solo con «publica» de Gerard.
   Credenciales `WP_*` en `infra/.env`. Plan multicanal: `PLAN-MULTICANAL-RM-2026-10.md`.
