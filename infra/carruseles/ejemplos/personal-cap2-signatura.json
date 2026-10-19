@@ -20,7 +20,7 @@
     {"texto": "I un camió amb molt de zoom. Al moment em va fer gràcia. *Ara no tant.*", "foto": "fotos-cap2/03.jpg"}
   ],
   "cierre": {
-    "pregunta": "Fotògrafs, *ajudeu-me:*",
-    "preguntes": ["Quina us agrada més? Per què?", "Què he fet malament?", "Què he fet bé?", "On m'equivoco?"]
+    "pregunta": "Quina *us agrada més?*",
+    "preguntes": ["Per què?", "Què he fet malament?", "Què he fet bé?", "On m'equivoco?"]
   }
 }
