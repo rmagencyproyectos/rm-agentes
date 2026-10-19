@@ -227,7 +227,7 @@ def slides_rm(p):
     return [f'<div class="pano t2">{s}</div>' for s in out]
 
 
-VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc")
+VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club")
 FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plantilla/fuentes
     ("Instrument", "InstrumentSerif-Regular.ttf", "normal", 400),
     ("Instrument", "InstrumentSerif-Italic.ttf", "italic", 400),
@@ -236,6 +236,7 @@ FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plant
     ("Brico", "BricolageGrotesque-Bold.ttf", "normal", 700),
     ("Mano", "NothingYouCouldDo-Regular.ttf", "normal", 400),
     ("Shoulders", "BigShoulders-Bold.ttf", "normal", 700),
+    ("Grot", "WorkSans-Bold.ttf", "normal", 700),
 ]
 
 
@@ -262,7 +263,8 @@ def slides_personal(p, base):
     serie = p.get("serie", "")
     etiqueta = " · ".join(x for x in [serie, f"Capítol {cap}" if cap else ""] if x)
     dia = p.get("dia") or (f"Dia {cap:02d}" if isinstance(cap, int) else "")
-    lbl = lambda extra="": f'<div class="lbl {extra}">{_html.escape(etiqueta)}</div>' if etiqueta else ""
+    firma = f'<div class="firma">{_html.escape(p.get("firma", "Gerard Ruiz"))}</div>'
+    lbl = lambda extra="": (f'<div class="lbl {extra}">{_html.escape(etiqueta)}</div>' if etiqueta else "") + firma
     por = p["portada"]
     out = [f'<section class="ps {v} foto portada">{img(por["foto"])}<div class="velo"></div>'
            + lbl("clar")
@@ -280,7 +282,7 @@ def slides_personal(p, base):
         peu = f'<p class="peu">{t(f["pie"], "em")}</p>' if f.get("pie") else ""
         dades = f'<div class="dades">{_html.escape(f["dades"])}</div>' if f.get("dades") else ""
         cls = "llena" if encaje == "llena" else "completa"
-        out.append(f'<section class="ps {v} foto {cls}"><div class="marc">{img(f["foto"])}{dades}</div>{peu}{num}</section>')
+        out.append(f'<section class="ps {v} foto {cls}"><div class="marc">{img(f["foto"])}{dades}</div>{peu}{num}{firma}</section>')
     cie = p.get("cierre", {})
     sig = cie.get("capitulo", (cap + 1) if isinstance(cap, int) else None)
     aviat = cie.get("aviat") or (f"Capítol {sig}, aviat" if sig else "Aviat, més")
