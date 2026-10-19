@@ -34,3 +34,8 @@
 .v-fosc.final .q{font-family:"Brico";font-weight:700;font-size:84px;line-height:1.06;letter-spacing:-.025em}
 .v-fosc.final .sub{font-size:34px;color:var(--soft)}
 .v-fosc.final .aviat{font-family:"Mano";font-style:normal;font-size:62px;color:var(--acc);border-top:none;transform:rotate(-3deg)}
+/* Títulos con Rocket Brush (la fuente de Gerard); si no está instalada, cae a Bricolage. */
+.v-fosc.portada h1,.v-fosc.final .q{font-family:"Titol","Brico",sans-serif;font-weight:400;letter-spacing:0;line-height:1.08}
+.v-fosc.portada h1{font-size:118px}
+.v-fosc.final .q{font-size:104px}
+.v-fosc.portada h1 em,.v-fosc.final .q em{background:none;color:var(--acc)}

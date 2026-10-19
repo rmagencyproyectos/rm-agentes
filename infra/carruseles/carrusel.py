@@ -244,6 +244,9 @@ def css_personal(variante="revista"):
     fuentes = "".join(f'@font-face{{font-family:"{fam}";src:url(data:font/ttf;base64,{_b64(f / arch)}) format("truetype");'
                       f'font-style:{est};font-weight:{peso}}}' for fam, arch, est, peso in FUENTES_PERSONAL)
     fuentes += (f'@font-face{{font-family:"Glacial";src:url(data:font/otf;base64,{_b64(FUENTES_RM / "GlacialIndifference-Regular.otf")}) format("opentype");font-weight:400}}')
+    rocket = f / "propias" / "RocketBrush.otf"  # fuente de títulos de Gerard (licencia suya, fuera del repo)
+    if rocket.exists():
+        fuentes += f'@font-face{{font-family:"Titol";src:url(data:font/otf;base64,{_b64(rocket)}) format("opentype")}}'
     css = fuentes + (PLANTILLA / "personal.css").read_text()
     extra = PLANTILLA / f"personal-{variante}.css"
     return css + (extra.read_text() if extra.exists() else "")
