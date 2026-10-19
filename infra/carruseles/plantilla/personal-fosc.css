@@ -1,0 +1,36 @@
+/* Variante «fosc» (Gerard, 19/10): los colores oscuros de «diari» con el minimalismo de
+   «llibreta». Mucho aire, fotos limpias y solo cositas pequeñas remarcadas: una nota a mano,
+   un subrayado, los datos de cámara en pequeño. */
+.v-fosc{--paper:#0f0f0e;--ink:#eeebe4;--soft:#7d7a73;--acc:#ff8a3d;font-family:"Brico",sans-serif}
+.ps.v-fosc{background:var(--paper);color:var(--ink)}
+.v-fosc .lbl{font-family:"Brico";font-size:22px;letter-spacing:.24em;color:var(--soft)}
+.v-fosc .lbl.clar{color:rgba(255,255,255,.7)}
+.v-fosc .seg,.v-fosc .seg.clar{font-family:"Mano";color:var(--acc);font-size:60px;bottom:60px}
+.v-fosc em{font-style:normal;background:linear-gradient(transparent 70%,rgba(255,138,61,.45) 70%)}
+.ps.v-fosc.text .tx em{color:var(--ink)}
+/* portada: foto a sangre, oscura abajo, gancho limpio y el día escrito a mano */
+.v-fosc.portada .velo{background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,0) 30%,rgba(0,0,0,.15) 50%,rgba(15,15,14,.96) 88%)}
+.v-fosc.portada h1{font-family:"Brico";font-weight:700;font-size:92px;line-height:1.04;letter-spacing:-.025em;bottom:200px}
+.v-fosc.portada .sub{font-size:32px;bottom:100px;color:rgba(238,235,228,.65)}
+.v-fosc .dia{display:block;position:absolute;left:90px;top:120px;font-family:"Mano";font-size:64px;color:var(--acc);transform:rotate(-4deg)}
+/* texto: pequeño número arriba, frase con aire, nota a mano */
+.v-fosc .num{display:block;position:absolute;top:80px;right:96px;font-family:"Mono",monospace;font-size:24px;color:var(--soft)}
+.v-fosc .num span{opacity:.6}
+.v-fosc.text{padding:0 120px}
+.v-fosc.text .tx{font-size:68px;line-height:1.14;letter-spacing:-.015em}
+.v-fosc .nota{display:block;position:absolute;left:120px;bottom:230px;font-family:"Mano";font-size:58px;color:var(--acc);transform:rotate(-3deg)}
+.v-fosc .nota::before{content:"↳ "}
+/* foto: limpia, centrada, con los datos en pequeño debajo */
+.v-fosc.foto.completa{padding:110px 90px}
+.v-fosc.foto.completa .marc{flex-direction:column;align-items:flex-start}
+.v-fosc.foto.completa img{box-shadow:0 30px 70px rgba(0,0,0,.6);max-height:980px}
+.v-fosc .dades{display:block;font-family:"Mono",monospace;font-size:22px;letter-spacing:.06em;color:var(--soft);padding-top:22px}
+.v-fosc.foto.llena .dades{position:absolute;left:96px;bottom:90px;color:rgba(255,255,255,.8)}
+.v-fosc.foto .num{top:auto;bottom:84px}
+.v-fosc.foto .peu{font-family:"Mano";font-style:normal;font-size:46px;color:var(--acc)}
+/* cierre */
+.v-fosc.final{background:var(--paper)}
+.v-fosc.final .lbl{color:var(--soft)}
+.v-fosc.final .q{font-family:"Brico";font-weight:700;font-size:84px;line-height:1.06;letter-spacing:-.025em}
+.v-fosc.final .sub{font-size:34px;color:var(--soft)}
+.v-fosc.final .aviat{font-family:"Mano";font-style:normal;font-size:62px;color:var(--acc);border-top:none;transform:rotate(-3deg)}
