@@ -227,7 +227,7 @@ def slides_rm(p):
     return [f'<div class="pano t2">{s}</div>' for s in out]
 
 
-VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro")
+VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro", "cartel")
 FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plantilla/fuentes
     ("Instrument", "InstrumentSerif-Regular.ttf", "normal", 400),
     ("Instrument", "InstrumentSerif-Italic.ttf", "italic", 400),
@@ -239,6 +239,7 @@ FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plant
     ("Grot", "WorkSans-Bold.ttf", "normal", 700),
     ("Young", "YoungSerif-Regular.ttf", "normal", 400),
     ("Gloock", "Gloock-Regular.ttf", "normal", 400),
+    ("Tektur", "Tektur-Medium.ttf", "normal", 500),
 ]
 
 
@@ -250,6 +251,13 @@ def css_personal(variante="revista"):
     rocket = f / "propias" / "RocketBrush.otf"  # fuente de títulos de Gerard (licencia suya, fuera del repo)
     if rocket.exists():
         fuentes += f'@font-face{{font-family:"Titol";src:url(data:font/otf;base64,{_b64(rocket)}) format("opentype")}}'
+    # Más fuentes de Gerard (licencia suya, fuera del repo): Architype R. para títulos, Lazydog a mano
+    for fam, prefijo in (("Cartel", "architype"), ("Lazy", "lazy")):
+        arch = next((a for a in sorted((f / "propias").glob("*")) if a.suffix.lower() in (".otf", ".ttf")
+                     and a.stem.lower().replace(" ", "").startswith(prefijo)), None)
+        if arch:
+            fmt = "opentype" if arch.suffix.lower() == ".otf" else "truetype"
+            fuentes += f'@font-face{{font-family:"{fam}";src:url(data:font/{arch.suffix[1:].lower()};base64,{_b64(arch)}) format("{fmt}")}}'
     css = fuentes + (PLANTILLA / "personal.css").read_text()
     extra = PLANTILLA / f"personal-{variante}.css"
     return css + (extra.read_text() if extra.exists() else "")

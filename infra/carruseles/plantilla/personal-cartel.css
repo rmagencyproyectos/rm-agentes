@@ -1,0 +1,39 @@
+/* Variante «cartel» (Gerard, 19/10): tipografías que eligió él, Architype R. (títulos, en
+   mayúsculas y enormes) y Lazydog (lo escrito a mano), con los colores de RM: rojo y gris.
+   Las dos fuentes son suyas y van en plantilla/fuentes/propias/; si faltan, caen a Tektur y
+   Rocket Brush para poder ver la maqueta. */
+.v-cartel{--grey:#f4f2f6;--ink:#15121a;--mute:#5c5563;--red:#ff2041;font-family:"Grot","Brico",sans-serif}
+.ps.v-cartel{background:var(--grey);color:var(--ink)}
+.v-cartel .tit{font-family:"Cartel","Tektur",sans-serif;text-transform:uppercase}
+.v-cartel .lbl,.v-cartel .lbl.clar{top:70px;left:70px;font-family:"Lazy","Titol","Mano",sans-serif;font-size:34px;letter-spacing:.02em;text-transform:none;color:var(--mute)}
+.v-cartel .lbl.clar{color:#fff}
+.v-cartel .firma{display:block;position:absolute;left:70px;bottom:66px;font-family:"Cartel","Tektur",sans-serif;font-size:28px;letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
+.v-cartel .seg,.v-cartel .seg.clar{right:70px;bottom:58px;font-family:"Lazy","Titol",sans-serif;font-size:56px;color:var(--red)}
+.v-cartel em{font-style:normal;color:var(--red)}
+.v-cartel .num{display:block;position:absolute;top:66px;right:70px;font-family:"Cartel","Tektur",sans-serif;font-size:34px;color:var(--red)}
+/* portada: foto a sangre, título rojo gigante arriba y palabras sueltas a mano en blanco */
+.v-cartel.portada .velo{background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,0) 35%,rgba(0,0,0,0) 60%,rgba(0,0,0,.55))}
+.v-cartel.portada h1{top:150px;bottom:auto;left:50px;right:50px;font-family:"Cartel","Tektur",sans-serif;text-transform:uppercase;font-weight:500;font-size:132px;line-height:.92;letter-spacing:-.01em;color:var(--red);text-shadow:none}
+.v-cartel.portada h1 em{color:#fff}
+.v-cartel.portada .sub{left:70px;right:70px;bottom:130px;font-family:"Lazy","Titol","Mano",sans-serif;font-size:58px;line-height:1.1;color:#fff;transform:rotate(-3deg)}
+.v-cartel .dia{display:block;position:absolute;right:70px;bottom:330px;font-family:"Lazy","Titol","Mano",sans-serif;font-size:64px;color:#fff;transform:rotate(-6deg)}
+.v-cartel.portada .firma{color:#fff}
+/* texto: frase en mayúsculas enorme, nota a mano en rojo */
+.v-cartel.text{padding:0 70px}
+.v-cartel.text .tx{font-family:"Cartel","Tektur",sans-serif;text-transform:uppercase;font-weight:500;font-size:96px;line-height:.98;color:var(--ink)}
+.v-cartel.text .tx em{color:var(--red)}
+.v-cartel .nota{display:block;position:absolute;right:90px;bottom:200px;margin:0;font-family:"Lazy","Titol","Mano",sans-serif;font-size:76px;color:var(--red);transform:rotate(-6deg)}
+/* foto: grande, esquinas redondeadas como en la referencia */
+.v-cartel.foto.completa{padding:150px 70px}
+.v-cartel.foto.completa .marc{flex-direction:column;align-items:center}
+.v-cartel.foto.completa img{border-radius:22px;box-shadow:0 24px 60px rgba(21,18,26,.22);max-height:960px}
+.v-cartel .dades{display:block;font-family:"Lazy","Titol",sans-serif;font-size:36px;color:var(--mute);padding-top:26px}
+.v-cartel.foto.llena .dades{position:absolute;left:70px;bottom:140px;color:#fff}
+.v-cartel.foto .peu{font-family:"Lazy","Titol","Mano";font-style:normal;font-size:56px;color:var(--red)}
+/* cierre: fondo rojo, pregunta gigante en gris claro */
+.ps.v-cartel.final{background:var(--red);color:var(--grey);padding:0 70px}
+.v-cartel.final .lbl,.v-cartel.final .firma,.v-cartel.final .num{color:#fff}
+.v-cartel.final .q{font-family:"Cartel","Tektur",sans-serif;text-transform:uppercase;font-weight:500;font-size:116px;line-height:.94;color:var(--grey)}
+.v-cartel.final .q em{color:var(--ink)}
+.v-cartel.final .sub{font-family:"Lazy","Titol","Mano",sans-serif;font-size:50px;color:#fff;margin-top:50px}
+.v-cartel.final .aviat{left:auto;right:80px;bottom:150px;border-top:none;padding:0;font-family:"Lazy","Titol","Mano";font-style:normal;font-size:70px;color:var(--ink);transform:rotate(-6deg)}
