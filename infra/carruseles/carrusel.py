@@ -228,6 +228,19 @@ def slides_rm(p):
 
 
 VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro", "cartel")
+VARIANTES_NETES = ("cartel",)
+# Stickers dibujados (trazo de 24×24). Se usan con "sticker": ":camera:" en portada, intro, foto o cierre.
+_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{}</svg>'
+STICKERS = {k: _SVG.format(v) for k, v in {
+    "camera": '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+    "pluja": '<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',
+    "flash": '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+    "sol": '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/>',
+    "cotxe": '<path d="M3 16v-4l2-5h14l2 5v4z"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/>',
+    "estrella": '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+    "cor": '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+}.items()}
+  # sin etiquetas, firma, números ni flechas: como mucho stickers
 FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plantilla/fuentes
     ("Instrument", "InstrumentSerif-Regular.ttf", "normal", 400),
     ("Instrument", "InstrumentSerif-Italic.ttf", "italic", 400),
@@ -275,20 +288,35 @@ def slides_personal(p, base):
     dia = p.get("dia") or (f"Dia {cap:02d}" if isinstance(cap, int) else "")
     firma = f'<div class="firma">{_html.escape(p.get("firma", "Gerard Ruiz"))}</div>'
     lbl = lambda extra="": (f'<div class="lbl {extra}">{_html.escape(etiqueta)}</div>' if etiqueta else "") + firma
+    def stk(d):  # sticker: texto corto, o «:icono:» de STICKERS
+        x = d.get("sticker")
+        if not x:
+            return ""
+        icono = STICKERS.get(x.strip(":")) if x.startswith(":") else None
+        return f'<div class="stk {"ico" if icono else ""}">{icono or t(x, "em")}</div>'
+    # Estructura de Gerard (19/10): portada con el gancho del reel → contexto del día y aviso
+    # («veureu X fotos de…») → por cada foto, diapo que la explica + la foto a pantalla completa
+    # → CTA con preguntas. Las variantes «netes» no ponen nada por los bordes, solo stickers.
+    neta = p.get("variante") in VARIANTES_NETES
     por = p["portada"]
     out = [f'<section class="ps {v} foto portada">{img(por["foto"])}<div class="velo"></div>'
            + lbl("clar")
            + (f'<div class="dia">{_html.escape(dia)}</div>' if dia else "")
            + f'<h1>{t(por["gancho"], "em")}</h1>'
            + (f'<p class="sub">{t(por["apoyo"], "em")}</p>' if por.get("apoyo") else "")
-           + '<div class="seg clar">→</div></section>']
+           + stk(por) + '<div class="seg clar">→</div></section>']
+    intro = p.get("intro")
+    if intro:
+        out.append(f'<section class="ps {v} text intro">{lbl()}<p class="tx">{t(intro["texto"], "em")}</p>'
+                   + (f'<p class="avis">{t(intro["avis"], "em")}</p>' if intro.get("avis") else "")
+                   + stk(intro) + '<div class="seg">→</div></section>')
     fotos = p.get("fotos", [])
     for i, f in enumerate(fotos, 1):
         num = f'<div class="num">{i:02d}<span>/{len(fotos):02d}</span></div>'
         nota = f'<p class="nota">{t(f["nota"], "em")}</p>' if f.get("nota") else ""
         out.append(f'<section class="ps {v} text">{lbl()}{num}'
-                   f'<p class="tx">{t(f["texto"], "em")}</p>{nota}<div class="seg">→</div></section>')
-        encaje = f.get("encaje", "completa")
+                   f'<p class="tx">{t(f["texto"], "em")}</p>{nota}{stk(f)}<div class="seg">→</div></section>')
+        encaje = f.get("encaje", "llena" if neta else "completa")
         peu = f'<p class="peu">{t(f["pie"], "em")}</p>' if f.get("pie") else ""
         dades = f'<div class="dades">{_html.escape(f["dades"])}</div>' if f.get("dades") else ""
         cls = "llena" if encaje == "llena" else "completa"
@@ -296,10 +324,12 @@ def slides_personal(p, base):
     cie = p.get("cierre", {})
     sig = cie.get("capitulo", (cap + 1) if isinstance(cap, int) else None)
     aviat = cie.get("aviat") or (f"Capítol {sig}, aviat" if sig else "Aviat, més")
+    pregs = "".join(f"<li>{t(q, 'em')}</li>" for q in cie.get("preguntes", []))
     out.append(f'<section class="ps {v} final">{lbl()}'
                f'<p class="q">{t(cie["pregunta"], "em")}</p>'
+               + (f'<ul class="pregs">{pregs}</ul>' if pregs else "")
                + (f'<p class="sub">{t(cie["apoyo"], "em")}</p>' if cie.get("apoyo") else "")
-               + f'<div class="aviat">{t(aviat, "em")}</div></section>')
+               + stk(cie) + f'<div class="aviat">{t(aviat, "em")}</div></section>')
     return out
 
 

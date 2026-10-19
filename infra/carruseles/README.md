@@ -200,3 +200,19 @@ Limpio y distinto del de RM: papel cálido, serif, la foto manda. Estructura fij
 
 Validación: gancho, texto de cada foto y pregunta del cierre obligatorios; las fotos tienen que
 existir; Instagram admite 20 diapositivas (avisa si pasa de 10).
+
+### Estructura de los carruseles de fotografía (Gerard, 19/10/2026)
+
+Se hacen **a partir de la transcripción del reel gemelo + las fotos que elige Gerard**:
+
+1. **Portada** (`portada.gancho`): el gancho del reel, sacado de la transcripción.
+2. **Contexto** (`intro.texto` + `intro.avis`): el contexto del día y el aviso «veureu X fotos de…».
+3. **Por cada foto** (`fotos[]`): una diapo que explica la foto según lo que dice en el reel
+   (`texto`) y la foto **a pantalla completa** (en las variantes netes, `encaje` = `llena` por defecto).
+4. **Final** (`cierre.pregunta` + `cierre.preguntes`): el CTA — quina us agrada més i per què,
+   què he fet malament, què he fet bé, on m'equivoco.
+
+Variante `cartel` (la elegida): **nada por los bordes** (ni serie, ni día, ni firma, ni números,
+ni flechas). Como mucho un `sticker` por diapo: texto corto o un icono `:camera:`, `:pluja:`,
+`:flash:`, `:sol:`, `:cotxe:`, `:estrella:`, `:cor:`. Ejemplo: `ejemplos/personal-cap2-cartel.json`.
+Fuentes de Gerard (Architype R., Lazydog, Rocket Brush) en `plantilla/fuentes/propias/`, fuera de git.
