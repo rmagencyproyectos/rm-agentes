@@ -227,8 +227,8 @@ def slides_rm(p):
     return [f'<div class="pano t2">{s}</div>' for s in out]
 
 
-VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro", "cartel", "literatura", "signatura")
-VARIANTES_NETES = ("cartel", "literatura", "signatura")
+VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro", "cartel", "literatura", "signatura", "poster")
+VARIANTES_NETES = ("cartel", "literatura", "signatura", "poster")
 # Stickers dibujados (trazo de 24×24). Se usan con "sticker": ":camera:" en portada, intro, foto o cierre.
 _SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{}</svg>'
 STICKERS = {k: _SVG.format(v) for k, v in {
@@ -259,6 +259,8 @@ FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plant
     ("Doto", "Doto-Medium.ttf", "normal", 500),
     ("Sacramento", "Sacramento-Regular.ttf", "normal", 400),
     ("Courier", "CourierPrime-Regular.ttf", "normal", 400),
+    ("Inter", "InterTight-SemiBold.ttf", "normal", 600),
+    ("Inter", "InterTight-Black.ttf", "normal", 900),
 ]
 
 
@@ -307,34 +309,40 @@ def slides_personal(p, base):
     # («veureu X fotos de…») → por cada foto, diapo que la explica + la foto a pantalla completa
     # → CTA con preguntas. Las variantes «netes» no ponen nada por los bordes, solo stickers.
     neta = p.get("variante", "cartel") in VARIANTES_NETES
+    petit = lambda d: f'<p class="petit">{t(d["petit"], "em")}</p>' if d.get("petit") else ""
+    mida = lambda txt: "xl" if len(txt) <= 16 else "l" if len(txt) <= 34 else "m"  # «poster»: cuanto más corto, más grande
+    tinta = lambda d: f' tinta-{d["tinta"]}' if d.get("tinta") else ""
     por = p["portada"]
-    out = [f'<section class="ps {v} foto portada">{img(por["foto"])}<div class="velo"></div>'
-           + lbl("clar")
+    out = [f'<section class="ps {v} foto portada m-{mida(por["gancho"])}{tinta(por)}">{img(por["foto"])}<div class="velo"></div>'
+           + lbl("clar") + petit(por)
            + (f'<div class="dia">{_html.escape(dia)}</div>' if dia else "")
            + f'<h1>{t(por["gancho"], "em")}</h1>'
            + (f'<p class="sub">{t(por["apoyo"], "em")}</p>' if por.get("apoyo") else "")
            + stk(por) + '<div class="seg clar">→</div></section>']
     intro = p.get("intro")
     if intro:
-        out.append(f'<section class="ps {v} text intro">{lbl()}<p class="tx">{t(intro["texto"], "em")}</p>'
+        out.append(f'<section class="ps {v} text intro m-{mida(intro["texto"])}">{lbl()}{petit(intro)}<p class="tx">{t(intro["texto"], "em")}</p>'
                    + (f'<p class="avis">{t(intro["avis"], "em")}</p>' if intro.get("avis") else "")
                    + stk(intro) + '<div class="seg">→</div></section>')
     fotos = p.get("fotos", [])
     for i, f in enumerate(fotos, 1):
         num = f'<div class="num">{i:02d}<span>/{len(fotos):02d}</span></div>'
         nota = f'<p class="nota">{t(f["nota"], "em")}</p>' if f.get("nota") else ""
-        out.append(f'<section class="ps {v} text">{lbl()}{num}'
+        out.append(f'<section class="ps {v} text m-{mida(f["texto"])}">{lbl()}{num}{petit(f)}'
                    f'<p class="tx">{t(f["texto"], "em")}</p>{nota}{stk(f)}<div class="seg">→</div></section>')
         encaje = f.get("encaje", "llena" if neta else "completa")
         peu = f'<p class="peu">{t(f["pie"], "em")}</p>' if f.get("pie") else ""
         dades = f'<div class="dades">{_html.escape(f["dades"])}</div>' if f.get("dades") else ""
         cls = "llena" if encaje == "llena" else "completa"
-        out.append(f'<section class="ps {v} foto {cls}"><div class="marc">{img(f["foto"])}{dades}</div>{peu}{num}{firma}</section>')
+        so = f.get("sobre") or {}  # frase encima de la foto (pequeña + grande), estilo cartel de cine
+        sobre = (f'<div class="sobre m-{mida(so.get("gran", ""))}">{petit(so)}<p class="gran">{t(so.get("gran", ""), "em")}</p></div>'
+                 if so else "")
+        out.append(f'<section class="ps {v} foto {cls}{tinta(f)}"><div class="marc">{img(f["foto"])}{dades}</div>{sobre}{peu}{num}{firma}</section>')
     cie = p.get("cierre", {})
     sig = cie.get("capitulo", (cap + 1) if isinstance(cap, int) else None)
     aviat = cie.get("aviat") or (f"Capítol {sig}, aviat" if sig else "Aviat, més")
     pregs = "".join(f"<li>{t(q, 'em')}</li>" for q in cie.get("preguntes", []))
-    out.append(f'<section class="ps {v} final">{lbl()}'
+    out.append(f'<section class="ps {v} final">{lbl()}{petit(cie)}'
                f'<p class="q">{t(cie["pregunta"], "em")}</p>'
                + (f'<ul class="pregs">{pregs}</ul>' if pregs else "")
                + (f'<p class="sub">{t(cie["apoyo"], "em")}</p>' if cie.get("apoyo") else "")

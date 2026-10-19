@@ -1,0 +1,29 @@
+{
+  "id": "personal-cap2-poster",
+  "estilo": "personal",
+  "variante": "poster",
+  "serie": "Aprenent fotografia",
+  "capitulo": 2,
+  "portada": {
+    "foto": "fotos-cap2/portada.jpg",
+    "petit": "plovia, i per a una càmera",
+    "gancho": "és un regal."
+  },
+  "intro": {
+    "petit": "segon dia amb la càmera,",
+    "texto": "nit, pluja i un cotxe.",
+    "avis": "Tres fotos. Els bassals i un camió."
+  },
+  "fotos": [
+    {"petit": "primer,", "texto": "el reflex al bassal.", "foto": "fotos-cap2/01.jpg"},
+    {"petit": "després vaig encendre", "texto": "els llums.", "foto": "fotos-cap2/02.jpg",
+     "sobre": {"petit": "i el reflex", "gran": "es veu més."}},
+    {"petit": "i un camió amb molt de zoom.", "texto": "ara no tant.", "foto": "fotos-cap2/03.jpg"}
+  ],
+  "cierre": {
+    "petit": "i tu,",
+    "pregunta": "quina *t'agrada més?*",
+    "preguntes": ["Per què?", "Què faries diferent?"],
+    "sticker": ":camera:"
+  }
+}

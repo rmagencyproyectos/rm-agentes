@@ -1,0 +1,34 @@
+/* Variante «poster» (Gerard, 19/10): como los carteles de cine de su referencia. Foto a sangre
+   y, encima de la cabeza, una frase pequeña + una palabra enorme, en minúsculas, grotesca muy
+   negra y apretada (Inter Tight). Nada más. Blanca sobre foto oscura; «tinta»: "negre" para
+   fotos claras. Hereda la maqueta «neta» (nada por los bordes, solo stickers). */
+.ps.v-poster{--grey:#f4f2f6;--ink:#111;--red:#ff2041;font-family:"Inter",sans-serif}
+.ps.v-poster{background:#fbfaf8;color:var(--ink)}
+.ps.v-poster em{font-style:normal;color:inherit}
+.ps.v-poster .petit{display:block;margin:0 0 6px;font-family:"Inter";font-weight:900;font-size:46px;line-height:1;letter-spacing:-.04em;word-spacing:.12em;text-transform:none}
+.ps.v-poster .tx,.ps.v-poster h1,.ps.v-poster .gran,.ps.v-poster.final .q{font-family:"Inter";font-weight:900;letter-spacing:-.055em;word-spacing:.14em;line-height:.9;text-transform:none;text-wrap:balance}
+.v-poster .m-xl{--g:190px} .v-poster .m-l{--g:132px} .v-poster .m-m{--g:92px}
+.ps.v-poster.m-xl{--g:190px} .ps.v-poster.m-l{--g:132px} .ps.v-poster.m-m{--g:92px}
+/* portada y fotos: el texto arriba, centrado sobre la foto, sin velos ni marcos */
+.ps.v-poster.portada .velo{background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,0) 40%)}
+.ps.v-poster.portada .petit{position:absolute;left:110px;right:110px;top:250px;color:#fff;z-index:2}
+.ps.v-poster.portada h1{top:316px;bottom:auto;left:106px;right:106px;font-size:var(--g);color:#fff;text-shadow:none}
+.ps.v-poster.portada h1 em{color:#fff}
+.ps.v-poster.portada .stk{top:auto;bottom:90px;right:90px}
+.ps.v-poster .sobre{display:block;position:absolute;top:250px;left:110px;right:110px;z-index:2;color:#fff}
+.ps.v-poster .sobre .gran{margin:0;font-size:var(--g)}
+.ps.v-poster.tinta-negre .sobre,.ps.v-poster.portada.tinta-negre .petit,.ps.v-poster.portada.tinta-negre h1,.ps.v-poster.portada.tinta-negre h1 em{color:var(--ink)}
+.ps.v-poster.tinta-negre.portada .velo{display:none}
+/* diapos de texto: papel blanco, la misma tipografía, el texto arriba como en los carteles */
+.ps.v-poster.text{justify-content:flex-start;padding:250px 110px 0}
+.ps.v-poster.text .tx{font-size:var(--g);color:var(--ink)}
+.ps.v-poster.text .tx em{color:var(--red)}
+.ps.v-poster .avis{font-family:"Inter";font-weight:600;font-size:40px;letter-spacing:-.02em;color:#6b6670;transform:none;margin-top:60px}
+/* final */
+.ps.v-poster.final{background:#fbfaf8;color:var(--ink);justify-content:flex-start;padding:250px 110px 0}
+.ps.v-poster.final .q{font-size:132px;color:var(--ink)}
+.ps.v-poster.final .q em{color:var(--red)}
+.ps.v-poster .pregs{margin-top:70px}
+.ps.v-poster .pregs li{font-family:"Inter";font-weight:600;font-size:42px;line-height:1.5;letter-spacing:-.02em;color:#6b6670}
+.ps.v-poster .pregs li::before{content:""}
+.ps.v-poster.final .stk{top:auto;bottom:90px}
