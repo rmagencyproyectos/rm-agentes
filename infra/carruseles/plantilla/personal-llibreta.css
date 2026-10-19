@@ -1,0 +1,36 @@
+/* Variante «llibreta»: libreta de aprendiz. Papel cuadriculado, fotos como copias en papel con
+   cinta, y anotaciones a mano en rojo (lo que corregiría el profe). */
+.v-llibreta{--paper:#f4f1ea;--ink:#1d1b18;--soft:#7b766d;--boli:#d23b2a;font-family:"Brico",sans-serif;
+  background-image:linear-gradient(rgba(29,27,24,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(29,27,24,.06) 1px,transparent 1px)!important;
+  background-size:54px 54px!important}
+.ps.v-llibreta{background-color:var(--paper);color:var(--ink)}
+.v-llibreta .lbl{font-family:"Brico";font-size:24px;letter-spacing:.2em;color:var(--soft)}
+.v-llibreta .lbl.clar{color:var(--soft)}
+.v-llibreta .seg,.v-llibreta .seg.clar{font-family:"Mano";color:var(--boli);font-size:64px;bottom:60px}
+.v-llibreta em{font-style:normal;background:linear-gradient(transparent 62%,rgba(210,59,42,.28) 62%)}
+/* portada: la foto pegada con cinta, el gancho escrito debajo */
+.v-llibreta.portada .velo{display:none}
+.v-llibreta.portada > img{position:absolute;inset:auto;top:150px;left:130px;width:820px;height:760px;object-fit:cover;
+  border:22px solid #fff;border-bottom-width:22px;transform:rotate(-2.2deg);box-shadow:0 18px 40px rgba(0,0,0,.18)}
+.v-llibreta.portada::after{content:"";position:absolute;top:122px;left:450px;width:200px;height:56px;background:rgba(240,226,170,.85);transform:rotate(3deg)}
+.v-llibreta .dia{display:block;position:absolute;top:880px;right:110px;font-family:"Mano";font-size:72px;color:var(--boli);transform:rotate(-6deg)}
+.v-llibreta.portada h1{color:var(--ink);text-shadow:none;font-family:"Brico";font-weight:700;font-size:82px;line-height:1.04;letter-spacing:-.02em;bottom:170px}
+.v-llibreta.portada .sub{color:var(--soft);font-size:34px;bottom:92px}
+.v-llibreta .num{display:block;position:absolute;top:80px;right:96px;font-family:"Mano";font-size:52px;color:var(--soft)}
+.v-llibreta .num span{font-size:.8em}
+.v-llibreta.text .tx{font-size:74px;line-height:1.1;letter-spacing:-.015em}
+.v-llibreta .nota{display:block;position:absolute;right:110px;bottom:220px;max-width:640px;font-family:"Mano";font-size:66px;line-height:1.05;color:var(--boli);transform:rotate(-4deg);text-align:right}
+.v-llibreta .nota::before{content:"↳ "}
+.v-llibreta.foto.completa .marc{flex-direction:column;background:#fff;padding:22px 22px 0;transform:rotate(1.4deg);box-shadow:0 18px 44px rgba(0,0,0,.18)}
+.v-llibreta.foto.completa img{box-shadow:none;max-height:900px}
+.v-llibreta .dades{display:block;font-family:"Mano";font-size:46px;color:var(--ink);padding:14px 6px 18px}
+.v-llibreta.foto.llena .dades{position:absolute;left:96px;bottom:90px;color:#fff}
+.v-llibreta.foto .num{top:auto;bottom:70px;right:96px}
+.v-llibreta.foto .peu{font-family:"Mano";font-style:normal;font-size:48px;color:var(--boli)}
+.v-llibreta.final{background-color:var(--paper);color:var(--ink)}
+.v-llibreta.final .lbl{color:var(--soft)}
+.v-llibreta.final .q{font-family:"Brico";font-weight:700;font-size:86px;line-height:1.04;letter-spacing:-.02em}
+.v-llibreta.final .sub{color:var(--soft)}
+.v-llibreta.final .aviat{font-family:"Mano";font-style:normal;font-size:70px;color:var(--boli);border-top:none;transform:rotate(-3deg)}
+.ps.v-llibreta.text .tx em{color:var(--ink)}
+.v-llibreta .dia{top:930px}

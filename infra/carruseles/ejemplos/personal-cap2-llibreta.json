@@ -1,0 +1,36 @@
+{
+  "estilo": "personal",
+  "serie": "Aprenent fotografia",
+  "capitulo": 2,
+  "portada": {
+    "foto": "fotos-cap2/portada.jpg",
+    "gancho": "Plovia. I per a un fotògraf, això és *un regal.*",
+    "apoyo": "Un cotxe, quatre bassals i molts errors."
+  },
+  "fotos": [
+    {
+      "texto": "Primer, el cotxe reflectit al *bassal.*",
+      "nota": "massa fosc?",
+      "foto": "fotos-cap2/01.jpg",
+      "dades": "ISO 3200 · 1/60 · f/3.5"
+    },
+    {
+      "texto": "Vaig encendre els llums perquè el reflex *es veiés més.*",
+      "nota": "millor!",
+      "foto": "fotos-cap2/02.jpg",
+      "dades": "ISO 3200 · 1/80 · f/3.5"
+    },
+    {
+      "texto": "I un camió amb molt de zoom. Al moment em va fer gràcia. *Ara no tant.*",
+      "nota": "truñillo",
+      "foto": "fotos-cap2/03.jpg",
+      "dades": "ISO 1600 · 1/125 · f/5.6"
+    }
+  ],
+  "cierre": {
+    "pregunta": "Fotògrafs: quina *salvaríeu?*",
+    "apoyo": "I la del camió, sincerament: sí o no?"
+  },
+  "id": "personal-cap2-llibreta",
+  "variante": "llibreta"
+}

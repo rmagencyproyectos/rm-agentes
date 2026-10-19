@@ -82,6 +82,8 @@ def validar(pieza, base=None):
         return [f"estilo desconocido: {estilo!r} (rm | personal)"], []
     if not pieza.get("id"):
         err.append("falta `id` (nombre de la pieza, p. ej. 08-mi-carrusel)")
+    if estilo == "personal" and pieza.get("variante", "revista") not in VARIANTES_PERSONAL:
+        err.append(f"variante desconocida: {pieza.get('variante')!r} ({' | '.join(VARIANTES_PERSONAL)})")
     n = n_diapositivas(pieza)
 
     if estilo == "rm":
@@ -225,12 +227,26 @@ def slides_rm(p):
     return [f'<div class="pano t2">{s}</div>' for s in out]
 
 
-def css_personal():
+VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte")
+FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plantilla/fuentes
+    ("Instrument", "InstrumentSerif-Regular.ttf", "normal", 400),
+    ("Instrument", "InstrumentSerif-Italic.ttf", "italic", 400),
+    ("Mono", "DMMono-Regular.ttf", "normal", 400),
+    ("Brico", "BricolageGrotesque-Regular.ttf", "normal", 400),
+    ("Brico", "BricolageGrotesque-Bold.ttf", "normal", 700),
+    ("Mano", "NothingYouCouldDo-Regular.ttf", "normal", 400),
+    ("Shoulders", "BigShoulders-Bold.ttf", "normal", 700),
+]
+
+
+def css_personal(variante="revista"):
     f = PLANTILLA / "fuentes"
-    fuentes = (f'@font-face{{font-family:"Instrument";src:url(data:font/ttf;base64,{_b64(f / "InstrumentSerif-Regular.ttf")}) format("truetype");font-style:normal}}'
-               f'@font-face{{font-family:"Instrument";src:url(data:font/ttf;base64,{_b64(f / "InstrumentSerif-Italic.ttf")}) format("truetype");font-style:italic}}'
-               f'@font-face{{font-family:"Glacial";src:url(data:font/otf;base64,{_b64(FUENTES_RM / "GlacialIndifference-Regular.otf")}) format("opentype");font-weight:400}}')
-    return fuentes + (PLANTILLA / "personal.css").read_text()
+    fuentes = "".join(f'@font-face{{font-family:"{fam}";src:url(data:font/ttf;base64,{_b64(f / arch)}) format("truetype");'
+                      f'font-style:{est};font-weight:{peso}}}' for fam, arch, est, peso in FUENTES_PERSONAL)
+    fuentes += (f'@font-face{{font-family:"Glacial";src:url(data:font/otf;base64,{_b64(FUENTES_RM / "GlacialIndifference-Regular.otf")}) format("opentype");font-weight:400}}')
+    css = fuentes + (PLANTILLA / "personal.css").read_text()
+    extra = PLANTILLA / f"personal-{variante}.css"
+    return css + (extra.read_text() if extra.exists() else "")
 
 
 def slides_personal(p, base):
@@ -238,26 +254,34 @@ def slides_personal(p, base):
         uri = _ruta(f, base).resolve().as_uri()
         return f'<img class="{cls}" src="{_html.escape(uri)}">'
 
+    v = f'v-{p.get("variante", "revista")}'
     cap = p.get("capitulo")
     serie = p.get("serie", "")
     etiqueta = " · ".join(x for x in [serie, f"Capítol {cap}" if cap else ""] if x)
+    dia = p.get("dia") or (f"Dia {cap:02d}" if isinstance(cap, int) else "")
+    lbl = lambda extra="": f'<div class="lbl {extra}">{_html.escape(etiqueta)}</div>' if etiqueta else ""
     por = p["portada"]
-    out = [f'<section class="ps foto portada">{img(por["foto"])}<div class="velo"></div>'
-           + (f'<div class="lbl clar">{_html.escape(etiqueta)}</div>' if etiqueta else "")
+    out = [f'<section class="ps {v} foto portada">{img(por["foto"])}<div class="velo"></div>'
+           + lbl("clar")
+           + (f'<div class="dia">{_html.escape(dia)}</div>' if dia else "")
            + f'<h1>{t(por["gancho"], "em")}</h1>'
            + (f'<p class="sub">{t(por["apoyo"], "em")}</p>' if por.get("apoyo") else "")
            + '<div class="seg clar">→</div></section>']
-    for f in p.get("fotos", []):
-        out.append(f'<section class="ps text"><div class="lbl">{_html.escape(etiqueta)}</div>'
-                   f'<p class="tx">{t(f["texto"], "em")}</p><div class="seg">→</div></section>')
+    fotos = p.get("fotos", [])
+    for i, f in enumerate(fotos, 1):
+        num = f'<div class="num">{i:02d}<span>/{len(fotos):02d}</span></div>'
+        nota = f'<p class="nota">{t(f["nota"], "em")}</p>' if f.get("nota") else ""
+        out.append(f'<section class="ps {v} text">{lbl()}{num}'
+                   f'<p class="tx">{t(f["texto"], "em")}</p>{nota}<div class="seg">→</div></section>')
         encaje = f.get("encaje", "completa")
         peu = f'<p class="peu">{t(f["pie"], "em")}</p>' if f.get("pie") else ""
+        dades = f'<div class="dades">{_html.escape(f["dades"])}</div>' if f.get("dades") else ""
         cls = "llena" if encaje == "llena" else "completa"
-        out.append(f'<section class="ps foto {cls}">{img(f["foto"])}{peu}</section>')
+        out.append(f'<section class="ps {v} foto {cls}"><div class="marc">{img(f["foto"])}{dades}</div>{peu}{num}</section>')
     cie = p.get("cierre", {})
     sig = cie.get("capitulo", (cap + 1) if isinstance(cap, int) else None)
     aviat = cie.get("aviat") or (f"Capítol {sig}, aviat" if sig else "Aviat, més")
-    out.append(f'<section class="ps final"><div class="lbl">{_html.escape(etiqueta)}</div>'
+    out.append(f'<section class="ps {v} final">{lbl()}'
                f'<p class="q">{t(cie["pregunta"], "em")}</p>'
                + (f'<p class="sub">{t(cie["apoyo"], "em")}</p>' if cie.get("apoyo") else "")
                + f'<div class="aviat">{t(aviat, "em")}</div></section>')
@@ -362,7 +386,7 @@ def vista(pngs, dst, cols=5):
 def construir(pieza, base, out, motor="auto", navegador=None, guardar_html=False):
     estilo = pieza.get("estilo", "rm")
     if estilo == "personal":
-        css, secciones = css_personal(), slides_personal(pieza, base)
+        css, secciones = css_personal(pieza.get("variante", "revista")), slides_personal(pieza, base)
     else:
         css, secciones = css_rm(), slides_rm(pieza)
     out.mkdir(parents=True, exist_ok=True)

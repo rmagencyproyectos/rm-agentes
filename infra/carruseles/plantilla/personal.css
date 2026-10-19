@@ -11,6 +11,11 @@ body{background:var(--paper)}
 .ps .seg.clar{color:#fff}
 .ps em{font-style:italic}
 
+/* elementos que solo usan algunas variantes (revista = la base) */
+.ps .dia,.ps .num,.ps .nota,.ps .dades{display:none}
+.ps.foto .marc{position:absolute;inset:0}
+.ps.foto.completa .marc{position:relative;inset:auto;display:flex;justify-content:center}
+
 /* foto */
 .ps.foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .ps.foto.completa{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:96px}

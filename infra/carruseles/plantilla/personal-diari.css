@@ -1,0 +1,33 @@
+/* Variante «diari»: diario de cámara. Fondo negro de laboratorio, tipografía de palo, datos de
+   la foto en mono (ISO, velocidad, diafragma) y bordes de carrete. Acento naranja de película. */
+.v-diari{--paper:#0e0e0d;--ink:#f1efe9;--soft:#8d8a83;--acc:#ff8a3d;font-family:"Brico",sans-serif}
+.ps.v-diari{background:var(--paper);color:var(--ink)}
+.v-diari::before,.v-diari::after{content:"";position:absolute;left:0;right:0;height:46px;z-index:3;
+  background:#000 repeating-linear-gradient(90deg,transparent 0 34px,#2a2926 34px 62px,transparent 62px 96px) 0 13px/96px 20px repeat-x}
+.v-diari::before{top:0}.v-diari::after{bottom:0}
+.v-diari .lbl{top:86px;font-family:"Mono",monospace;font-size:24px;letter-spacing:.14em;color:var(--soft)}
+.v-diari .lbl.clar{color:rgba(255,255,255,.8)}
+.v-diari .seg{font-family:"Mono",monospace;font-size:36px;bottom:84px;color:var(--soft)}
+.v-diari em{font-style:normal;color:var(--acc)}
+.v-diari .dia{display:block;position:absolute;top:140px;left:96px;padding:10px 18px;border:2px solid var(--acc);
+  font-family:"Mono",monospace;font-size:34px;letter-spacing:.12em;color:var(--acc);text-transform:uppercase}
+.v-diari.portada .velo{background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 30%,rgba(0,0,0,0) 45%,rgba(0,0,0,.85))}
+.v-diari.portada h1{font-family:"Brico";font-weight:700;font-size:104px;line-height:1;letter-spacing:-.025em;bottom:210px}
+.v-diari.portada .sub{font-family:"Mono",monospace;font-size:30px;bottom:96px;color:rgba(255,255,255,.75)}
+.v-diari .num{display:block;position:absolute;top:86px;right:96px;font-family:"Mono",monospace;font-size:28px;color:var(--acc)}
+.v-diari .num span{color:var(--soft)}
+.v-diari.text .tx{font-weight:700;font-size:84px;line-height:1.04;letter-spacing:-.025em}
+.v-diari .nota{display:block;position:absolute;left:110px;bottom:150px;font-family:"Mono",monospace;font-size:30px;color:var(--soft)}
+.v-diari .nota::before{content:"// "}
+.v-diari.foto.completa{padding:120px 70px}
+.v-diari.foto.completa .marc{flex-direction:column;align-items:stretch;background:#000;padding:18px 18px 0}
+.v-diari.foto.completa img{box-shadow:none;max-height:960px}
+.v-diari .dades{display:block;font-family:"Mono",monospace;font-size:26px;letter-spacing:.06em;color:var(--acc);padding:16px 2px 18px}
+.v-diari.foto.llena .dades{position:absolute;left:96px;bottom:110px;background:rgba(0,0,0,.6);padding:10px 16px}
+.v-diari.foto .num{top:auto;bottom:84px;right:96px}
+.v-diari.foto .peu{font-family:"Mono",monospace;font-style:normal;font-size:26px;color:var(--soft)}
+.v-diari.final{background:var(--paper)}
+.v-diari.final .q{font-weight:700;font-size:92px;line-height:1.02;letter-spacing:-.025em}
+.v-diari.final .sub{font-family:"Mono",monospace;font-size:32px;color:var(--soft)}
+.v-diari.final .aviat{font-family:"Mono",monospace;font-style:normal;font-size:34px;color:var(--acc);border-top-color:#2a2926;bottom:110px}
+.ps.v-diari.text .tx em{color:var(--acc)}

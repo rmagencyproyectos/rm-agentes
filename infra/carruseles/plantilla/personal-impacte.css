@@ -1,0 +1,36 @@
+/* Variante «impacte»: de creador, para parar el scroll. Letra condensada enorme en mayúsculas,
+   amarillo como acento y las fotos siempre a sangre. */
+.v-impacte{--paper:#101010;--ink:#fff;--soft:#9a9a9a;--acc:#ffd400;font-family:"Shoulders",sans-serif}
+.ps.v-impacte{background:var(--paper);color:var(--ink)}
+.v-impacte .lbl{font-family:"Brico";font-weight:700;font-size:24px;letter-spacing:.18em;color:var(--soft)}
+.v-impacte .seg{font-family:"Brico";font-weight:700;font-size:48px}
+.v-impacte em{font-style:normal;color:var(--acc)}
+.v-impacte .dia{display:block;position:absolute;top:130px;left:84px;font-family:"Shoulders";font-weight:700;font-size:250px;line-height:.8;color:var(--acc);text-transform:uppercase;letter-spacing:-.01em}
+.v-impacte.portada .velo{background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.05) 40%,rgba(0,0,0,.1) 55%,rgba(0,0,0,.88))}
+.v-impacte.portada h1{font-family:"Shoulders";font-weight:700;text-transform:uppercase;font-size:136px;line-height:.9;letter-spacing:0;bottom:190px}
+.v-impacte.portada .sub{font-family:"Brico";font-size:34px;bottom:96px}
+.ps.v-impacte.text{background:var(--acc);color:#111}
+.v-impacte.text .lbl{color:rgba(0,0,0,.55)}
+.v-impacte.text .seg{color:#111}
+.v-impacte.text em{color:#111;background:#fff;padding:0 .12em}
+.v-impacte .num{display:block;position:absolute;top:70px;right:84px;font-family:"Shoulders";font-weight:700;font-size:90px;line-height:1}
+.v-impacte .num span{font-size:.5em;opacity:.55}
+.v-impacte.text .tx{font-family:"Shoulders";font-weight:700;text-transform:uppercase;font-size:124px;line-height:.92}
+.v-impacte .nota{display:block;position:absolute;left:110px;bottom:170px;font-family:"Brico";font-weight:700;font-size:38px;background:#111;color:var(--acc);padding:12px 20px}
+/* fotos siempre a sangre */
+.v-impacte.foto .marc{position:absolute!important;inset:0!important;display:block!important;padding:0!important}
+.v-impacte.foto .marc img{position:absolute!important;inset:0;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:cover!important;box-shadow:none!important}
+.v-impacte.foto.completa{padding:0}
+.v-impacte .dades{display:block;position:absolute;left:84px;bottom:90px;font-family:"Brico";font-weight:700;font-size:30px;background:var(--acc);color:#111;padding:10px 18px}
+.v-impacte.foto .num{color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.6)}
+.v-impacte.foto .peu{position:absolute;left:84px;right:84px;bottom:150px;text-align:left;color:#fff;font-style:normal;font-family:"Brico";text-shadow:0 2px 16px rgba(0,0,0,.6)}
+.ps.v-impacte.final{background:var(--acc);color:#111}
+.v-impacte.final .lbl{color:rgba(0,0,0,.55)}
+.v-impacte.final .q{font-family:"Shoulders";font-weight:700;text-transform:uppercase;font-size:130px;line-height:.9}
+.v-impacte.final em{color:#111;background:#fff;padding:0 .1em}
+.v-impacte.final .sub{font-family:"Brico";color:rgba(0,0,0,.7)}
+.v-impacte.final .aviat{font-family:"Shoulders";font-style:normal;font-weight:700;text-transform:uppercase;font-size:64px;border-top-color:rgba(0,0,0,.3)}
+.ps.v-impacte.text .tx{line-height:1}
+.ps.v-impacte.text .tx em{color:#111;background:#fff}
+.v-impacte.portada h1{line-height:.96}
+.v-impacte.final .q{line-height:.98}
