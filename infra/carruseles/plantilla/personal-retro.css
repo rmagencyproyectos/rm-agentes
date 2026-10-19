@@ -1,0 +1,45 @@
+/* Variante «retro» (Gerard, 19/10): cartel retro y tranquilo. Lo que le gusta de las pegatinas
+   que mandó es la tipografía y el aire de cartel antiguo, no los colores. Papel crudo y tinta
+   negra, todo grande y en primer plano, y UN solo golpe de color (el amarillo de etiqueta)
+   para captar la atención. Nada de letras rojas chillonas ni mayúsculas gritando. */
+.v-retro{--paper:#efeadf;--ink:#151413;--soft:#6c675e;--pop:#f2e21b;font-family:"Young",Georgia,serif}
+.ps.v-retro{background:var(--paper);color:var(--ink)}
+/* marco de cartel: doble filete arriba y abajo */
+.ps.v-retro::before,.ps.v-retro::after{content:"";position:absolute;left:70px;right:70px;height:10px;border-top:4px solid var(--ink);border-bottom:1.5px solid var(--ink);z-index:3}
+.ps.v-retro::before{top:150px}
+.ps.v-retro::after{bottom:150px}
+.v-retro .lbl,.v-retro .lbl.clar{top:92px;left:70px;right:70px;font-family:"Grot";font-weight:700;font-size:22px;letter-spacing:.32em;color:var(--ink);text-align:center;z-index:3}
+.v-retro .firma{display:block;position:absolute;left:70px;right:70px;bottom:96px;text-align:center;font-family:"Grot";font-weight:700;font-size:22px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink);z-index:3}
+.v-retro .firma::after{content:"  ·  LLEIDA, CAT."}
+.v-retro .seg,.v-retro .seg.clar{bottom:86px;right:70px;font-family:"Young";font-size:40px;color:var(--ink);z-index:3}
+.v-retro em{font-style:normal}
+.v-retro .num{display:block;position:absolute;top:196px;left:70px;font-family:"Grot";font-weight:700;font-size:22px;letter-spacing:.2em;color:var(--soft)}
+.v-retro .num::before{content:"Nº "}
+/* portada: foto enmarcada como en un cartel y el gancho enorme debajo */
+.v-retro.portada img{inset:196px 70px auto 70px;width:calc(100% - 140px);height:470px}
+.v-retro.portada .velo{display:none}
+.v-retro.portada h1{font-family:"Gloock";font-size:112px;line-height:.94;letter-spacing:-.02em;color:var(--ink);left:70px;right:70px;bottom:290px;text-shadow:none}
+.v-retro.portada h1 em{background:linear-gradient(transparent 40%,var(--pop) 40%,var(--pop) 88%,transparent 88%);padding:0 .06em}
+.v-retro.portada .sub{font-family:"Young";font-size:34px;left:70px;bottom:210px;color:var(--soft)}
+.v-retro .dia{display:block;position:absolute;right:100px;top:630px;z-index:4;padding:16px 30px;background:var(--pop);color:var(--ink);font-family:"Young";font-size:44px;outline:2px dashed var(--ink);outline-offset:-10px;transform:rotate(-4deg)}
+/* texto: la frase muy grande, ocupando la diapo, y la nota a mano */
+.v-retro.text{padding:0 70px}
+.v-retro.text .tx{font-family:"Gloock";font-size:112px;line-height:.96;letter-spacing:-.02em}
+.v-retro.text .tx em{color:var(--ink);font-style:normal;text-decoration:underline;text-decoration-thickness:8px;text-underline-offset:14px}
+.v-retro .nota{display:block;position:absolute;right:90px;bottom:220px;margin:0;font-family:"Titol","Mano",sans-serif;font-size:72px;color:var(--ink);transform:rotate(-6deg)}
+/* foto: a lo grande, con borde fino */
+.v-retro.foto.completa{padding:200px 70px}
+.v-retro.foto.completa .marc{flex-direction:column;align-items:stretch;width:100%}
+.v-retro.foto.completa img{width:100%;max-height:860px;object-fit:cover;box-shadow:none;outline:2px solid var(--ink);outline-offset:10px}
+.v-retro .dades{display:block;font-family:"Grot";font-weight:700;font-size:20px;letter-spacing:.24em;color:var(--soft);padding-top:34px;text-align:center}
+.v-retro.foto.llena .dades{position:absolute;left:70px;right:70px;bottom:200px;color:#fff}
+.v-retro.foto .num{display:none}
+.v-retro.foto .peu{font-family:"Titol","Mano";font-style:normal;font-size:56px;color:var(--ink)}
+/* cierre: el golpe de contraste, papel negro y la pregunta enorme */
+.ps.v-retro.final{background:var(--ink);color:var(--paper);padding:0 70px}
+.ps.v-retro.final::before,.ps.v-retro.final::after{border-color:var(--paper)}
+.v-retro.final .lbl,.v-retro.final .firma,.v-retro.final .seg{color:var(--paper)}
+.v-retro.final .q{font-family:"Gloock";font-size:128px;line-height:.94;letter-spacing:-.02em}
+.v-retro.final .q em{color:var(--pop)}
+.v-retro.final .sub{font-family:"Young";font-size:36px;color:rgba(239,234,223,.7)}
+.v-retro.final .aviat{left:auto;right:90px;bottom:220px;border-top:none;padding:0;font-family:"Titol","Mano";font-style:normal;font-size:70px;color:var(--paper);transform:rotate(-6deg)}

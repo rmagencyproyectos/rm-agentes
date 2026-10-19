@@ -227,7 +227,7 @@ def slides_rm(p):
     return [f'<div class="pano t2">{s}</div>' for s in out]
 
 
-VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club")
+VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro")
 FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plantilla/fuentes
     ("Instrument", "InstrumentSerif-Regular.ttf", "normal", 400),
     ("Instrument", "InstrumentSerif-Italic.ttf", "italic", 400),
@@ -237,6 +237,8 @@ FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plant
     ("Mano", "NothingYouCouldDo-Regular.ttf", "normal", 400),
     ("Shoulders", "BigShoulders-Bold.ttf", "normal", 700),
     ("Grot", "WorkSans-Bold.ttf", "normal", 700),
+    ("Young", "YoungSerif-Regular.ttf", "normal", 400),
+    ("Gloock", "Gloock-Regular.ttf", "normal", 400),
 ]
 
 
