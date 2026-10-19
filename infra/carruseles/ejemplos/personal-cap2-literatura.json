@@ -1,0 +1,26 @@
+{
+  "id": "personal-cap2-literatura",
+  "estilo": "personal",
+  "variante": "literatura",
+  "serie": "Aprenent fotografia",
+  "capitulo": 2,
+  "portada": {
+    "foto": "fotos-cap2/portada.jpg",
+    "gancho": "Plovia. I per a un fotògraf, *això és un regal.*",
+    "sticker": ":pluja:"
+  },
+  "intro": {
+    "texto": "Segon dia amb la càmera. Nit, pluja i *el cotxe aparcat* al carrer.",
+    "avis": "Veureu 3 fotos dels bassals i un camió",
+    "sticker": ":camera:"
+  },
+  "fotos": [
+    {"texto": "Primer, el cotxe reflectit al *bassal.* Massa fosc?", "foto": "fotos-cap2/01.jpg"},
+    {"texto": "Vaig encendre els llums perquè el reflex *es veiés més.*", "foto": "fotos-cap2/02.jpg", "sticker": ":flash:"},
+    {"texto": "I un camió amb molt de zoom. Al moment em va fer gràcia. *Ara no tant.*", "foto": "fotos-cap2/03.jpg"}
+  ],
+  "cierre": {
+    "pregunta": "Fotògrafs, *ajudeu-me:*",
+    "preguntes": ["Quina us agrada més? Per què?", "Què he fet malament?", "Què he fet bé?", "On m'equivoco?"]
+  }
+}

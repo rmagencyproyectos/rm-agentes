@@ -227,8 +227,8 @@ def slides_rm(p):
     return [f'<div class="pano t2">{s}</div>' for s in out]
 
 
-VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro", "cartel")
-VARIANTES_NETES = ("cartel",)
+VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro", "cartel", "literatura", "signatura")
+VARIANTES_NETES = ("cartel", "literatura", "signatura")
 # Stickers dibujados (trazo de 24×24). Se usan con "sticker": ":camera:" en portada, intro, foto o cierre.
 _SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{}</svg>'
 STICKERS = {k: _SVG.format(v) for k, v in {
@@ -253,6 +253,12 @@ FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plant
     ("Young", "YoungSerif-Regular.ttf", "normal", 400),
     ("Gloock", "Gloock-Regular.ttf", "normal", 400),
     ("Tektur", "Tektur-Medium.ttf", "normal", 500),
+    ("Cormorant", "CormorantGaramond-Regular.ttf", "normal", 400),
+    ("Cormorant", "CormorantGaramond-Medium.ttf", "normal", 500),
+    ("Cormorant", "CormorantGaramond-Italic.ttf", "italic", 400),
+    ("Doto", "Doto-Medium.ttf", "normal", 500),
+    ("Sacramento", "Sacramento-Regular.ttf", "normal", 400),
+    ("Courier", "CourierPrime-Regular.ttf", "normal", 400),
 ]
 
 
@@ -272,6 +278,8 @@ def css_personal(variante="cartel"):
             fmt = "opentype" if arch.suffix.lower() == ".otf" else "truetype"
             fuentes += f'@font-face{{font-family:"{fam}";src:url(data:font/{arch.suffix[1:].lower()};base64,{_b64(arch)}) format("{fmt}")}}'
     css = fuentes + (PLANTILLA / "personal.css").read_text()
+    if variante in VARIANTES_NETES and variante != "cartel":  # las netes heredan la maqueta de «cartel»
+        css += (PLANTILLA / "personal-cartel.css").read_text()
     extra = PLANTILLA / f"personal-{variante}.css"
     return css + (extra.read_text() if extra.exists() else "")
 
@@ -281,7 +289,8 @@ def slides_personal(p, base):
         uri = _ruta(f, base).resolve().as_uri()
         return f'<img class="{cls}" src="{_html.escape(uri)}">'
 
-    v = f'v-{p.get("variante", "cartel")}'
+    var = p.get("variante", "cartel")
+    v = f'v-{var}' + (" v-cartel" if var in VARIANTES_NETES and var != "cartel" else "")
     cap = p.get("capitulo")
     serie = p.get("serie", "")
     etiqueta = " · ".join(x for x in [serie, f"Capítol {cap}" if cap else ""] if x)
