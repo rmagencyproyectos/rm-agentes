@@ -212,7 +212,7 @@ Se hacen **a partir de la transcripción del reel gemelo + las fotos que elige G
 4. **Final** (`cierre.pregunta` + `cierre.preguntes`): el CTA — quina us agrada més i per què,
    què he fet malament, què he fet bé, on m'equivoco.
 
-Variante `cartel` (la elegida): **nada por los bordes** (ni serie, ni día, ni firma, ni números,
+Variante `cartel` (la elegida y **la de por defecto**; principio de Gerard: súper minimalista, solo textos imprescindibles y stickers): **nada por los bordes** (ni serie, ni día, ni firma, ni números,
 ni flechas). Como mucho un `sticker` por diapo: texto corto o un icono `:camera:`, `:pluja:`,
 `:flash:`, `:sol:`, `:cotxe:`, `:estrella:`, `:cor:`. Ejemplo: `ejemplos/personal-cap2-cartel.json`.
 Fuentes de Gerard (Architype R., Lazydog, Rocket Brush) en `plantilla/fuentes/propias/`, fuera de git.

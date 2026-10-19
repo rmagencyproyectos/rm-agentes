@@ -82,7 +82,7 @@ def validar(pieza, base=None):
         return [f"estilo desconocido: {estilo!r} (rm | personal)"], []
     if not pieza.get("id"):
         err.append("falta `id` (nombre de la pieza, p. ej. 08-mi-carrusel)")
-    if estilo == "personal" and pieza.get("variante", "revista") not in VARIANTES_PERSONAL:
+    if estilo == "personal" and pieza.get("variante", "cartel") not in VARIANTES_PERSONAL:
         err.append(f"variante desconocida: {pieza.get('variante')!r} ({' | '.join(VARIANTES_PERSONAL)})")
     n = n_diapositivas(pieza)
 
@@ -256,7 +256,7 @@ FUENTES_PERSONAL = [  # (familia, archivo, estilo, peso) — todas OFL, en plant
 ]
 
 
-def css_personal(variante="revista"):
+def css_personal(variante="cartel"):
     f = PLANTILLA / "fuentes"
     fuentes = "".join(f'@font-face{{font-family:"{fam}";src:url(data:font/ttf;base64,{_b64(f / arch)}) format("truetype");'
                       f'font-style:{est};font-weight:{peso}}}' for fam, arch, est, peso in FUENTES_PERSONAL)
@@ -281,7 +281,7 @@ def slides_personal(p, base):
         uri = _ruta(f, base).resolve().as_uri()
         return f'<img class="{cls}" src="{_html.escape(uri)}">'
 
-    v = f'v-{p.get("variante", "revista")}'
+    v = f'v-{p.get("variante", "cartel")}'
     cap = p.get("capitulo")
     serie = p.get("serie", "")
     etiqueta = " · ".join(x for x in [serie, f"Capítol {cap}" if cap else ""] if x)
@@ -297,7 +297,7 @@ def slides_personal(p, base):
     # Estructura de Gerard (19/10): portada con el gancho del reel → contexto del día y aviso
     # («veureu X fotos de…») → por cada foto, diapo que la explica + la foto a pantalla completa
     # → CTA con preguntas. Las variantes «netes» no ponen nada por los bordes, solo stickers.
-    neta = p.get("variante") in VARIANTES_NETES
+    neta = p.get("variante", "cartel") in VARIANTES_NETES
     por = p["portada"]
     out = [f'<section class="ps {v} foto portada">{img(por["foto"])}<div class="velo"></div>'
            + lbl("clar")
@@ -431,7 +431,7 @@ def vista(pngs, dst, cols=5):
 def construir(pieza, base, out, motor="auto", navegador=None, guardar_html=False):
     estilo = pieza.get("estilo", "rm")
     if estilo == "personal":
-        css, secciones = css_personal(pieza.get("variante", "revista")), slides_personal(pieza, base)
+        css, secciones = css_personal(pieza.get("variante", "cartel")), slides_personal(pieza, base)
     else:
         css, secciones = css_rm(), slides_rm(pieza)
     out.mkdir(parents=True, exist_ok=True)
