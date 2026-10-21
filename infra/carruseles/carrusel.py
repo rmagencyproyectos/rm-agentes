@@ -227,8 +227,10 @@ def slides_rm(p):
     return [f'<div class="pano t2">{s}</div>' for s in out]
 
 
-VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro", "cartel", "literatura", "signatura", "poster")
-VARIANTES_NETES = ("cartel", "literatura", "signatura", "poster")
+VARIANTES_PERSONAL = ("revista", "diari", "llibreta", "impacte", "fosc", "club", "retro", "cartel", "literatura", "signatura", "poster", "blanc")
+VARIANTES_NETES = ("cartel", "literatura", "signatura", "poster", "blanc")
+# de qué maquetas hereda cada variante neta (se cargan en orden, la propia al final)
+HERENCIA = {"blanc": ("cartel", "poster")}
 # Stickers dibujados (trazo de 24×24). Se usan con "sticker": ":camera:" en portada, intro, foto o cierre.
 _SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{}</svg>'
 STICKERS = {k: _SVG.format(v) for k, v in {
@@ -281,7 +283,8 @@ def css_personal(variante="cartel"):
             fuentes += f'@font-face{{font-family:"{fam}";src:url(data:font/{arch.suffix[1:].lower()};base64,{_b64(arch)}) format("{fmt}")}}'
     css = fuentes + (PLANTILLA / "personal.css").read_text()
     if variante in VARIANTES_NETES and variante != "cartel":  # las netes heredan la maqueta de «cartel»
-        css += (PLANTILLA / "personal-cartel.css").read_text()
+        for base_v in HERENCIA.get(variante, ("cartel",)):
+            css += (PLANTILLA / f"personal-{base_v}.css").read_text()
     extra = PLANTILLA / f"personal-{variante}.css"
     return css + (extra.read_text() if extra.exists() else "")
 
@@ -292,7 +295,8 @@ def slides_personal(p, base):
         return f'<img class="{cls}" src="{_html.escape(uri)}">'
 
     var = p.get("variante", "cartel")
-    v = f'v-{var}' + (" v-cartel" if var in VARIANTES_NETES and var != "cartel" else "")
+    v = f'v-{var}' + ("".join(f" v-{b}" for b in HERENCIA.get(var, ("cartel",)))
+                      if var in VARIANTES_NETES and var != "cartel" else "")
     cap = p.get("capitulo")
     serie = p.get("serie", "")
     etiqueta = " · ".join(x for x in [serie, f"Capítol {cap}" if cap else ""] if x)
