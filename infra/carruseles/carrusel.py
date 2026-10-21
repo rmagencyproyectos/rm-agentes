@@ -134,7 +134,8 @@ def validar(pieza, base=None):
         elif n > 10:
             av.append(f"{n} diapositivas: más de 10, ¿seguro?")
         por = pieza.get("portada") or {}
-        fotos = [por.get("foto")] + [f.get("foto") for f in pieza.get("fotos", [])]
+        # la portada puede ir solo con texto (Gerard, 21/10); las fotos de la serie, no
+        fotos = ([por["foto"]] if por.get("foto") else []) + [f.get("foto") for f in pieza.get("fotos", [])]
         if not por.get("gancho"):
             err.append("portada sin `gancho` (el texto sobre la foto)")
         for i, f in enumerate(pieza.get("fotos", []), start=1):
@@ -146,7 +147,7 @@ def validar(pieza, base=None):
             elif base is not None and not _ruta(f, base).exists():
                 err.append(f"no encuentro la foto: {f}")
         if not (pieza.get("cierre") or {}).get("pregunta"):
-            err.append("cierre sin `pregunta` (la pregunta a los fotógrafos)")
+            err.append("cierre sin `pregunta` (la pregunta del final)")
     return err, av
 
 
@@ -317,12 +318,17 @@ def slides_personal(p, base):
     mida = lambda txt: "xl" if len(txt) <= 16 else "l" if len(txt) <= 34 else "m"  # «poster»: cuanto más corto, más grande
     tinta = lambda d: f' tinta-{d["tinta"]}' if d.get("tinta") else ""
     por = p["portada"]
-    out = [f'<section class="ps {v} foto portada m-{mida(por["gancho"])}{tinta(por)}">{img(por["foto"])}<div class="velo"></div>'
-           + lbl("clar") + petit(por)
-           + (f'<div class="dia">{_html.escape(dia)}</div>' if dia else "")
-           + f'<h1>{t(por["gancho"], "em")}</h1>'
-           + (f'<p class="sub">{t(por["apoyo"], "em")}</p>' if por.get("apoyo") else "")
-           + stk(por) + '<div class="seg clar">→</div></section>']
+    cos = lambda d: f'<p class="cos">{t(d["cos"], "em")}</p>' if d.get("cos") else ""  # texto explicativo
+    if not por.get("foto"):  # portada solo con texto (Gerard, 21/10)
+        out = [f'<section class="ps {v} text portada-text m-{mida(por["gancho"])}">{petit(por)}'
+               f'<p class="tx">{t(por["gancho"], "em")}</p>{cos(por)}{stk(por)}</section>']
+    else:
+        out = [f'<section class="ps {v} foto portada m-{mida(por["gancho"])}{tinta(por)}">{img(por["foto"])}<div class="velo"></div>'
+               + lbl("clar") + petit(por)
+               + (f'<div class="dia">{_html.escape(dia)}</div>' if dia else "")
+               + f'<h1>{t(por["gancho"], "em")}</h1>'
+               + (f'<p class="sub">{t(por["apoyo"], "em")}</p>' if por.get("apoyo") else "")
+               + stk(por) + '<div class="seg clar">→</div></section>']
     intro = p.get("intro")
     if intro:
         out.append(f'<section class="ps {v} text intro m-{mida(intro["texto"])}">{lbl()}{petit(intro)}<p class="tx">{t(intro["texto"], "em")}</p>'
@@ -333,7 +339,7 @@ def slides_personal(p, base):
         num = f'<div class="num">{i:02d}<span>/{len(fotos):02d}</span></div>'
         nota = f'<p class="nota">{t(f["nota"], "em")}</p>' if f.get("nota") else ""
         out.append(f'<section class="ps {v} text m-{mida(f["texto"])}">{lbl()}{num}{petit(f)}'
-                   f'<p class="tx">{t(f["texto"], "em")}</p>{nota}{stk(f)}<div class="seg">→</div></section>')
+                   f'<p class="tx">{t(f["texto"], "em")}</p>{cos(f)}{nota}{stk(f)}<div class="seg">→</div></section>')
         encaje = f.get("encaje", "llena" if neta else "completa")
         peu = f'<p class="peu">{t(f["pie"], "em")}</p>' if f.get("pie") else ""
         dades = f'<div class="dades">{_html.escape(f["dades"])}</div>' if f.get("dades") else ""

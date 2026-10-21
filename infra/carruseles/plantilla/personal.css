@@ -12,7 +12,7 @@ body{background:var(--paper)}
 .ps em{font-style:italic}
 
 /* elementos que solo usan algunas variantes (revista = la base) */
-.ps .dia,.ps .num,.ps .nota,.ps .dades,.ps .firma,.ps .stk,.ps .avis,.ps .pregs,.ps .petit,.ps .sobre{display:none}
+.ps .dia,.ps .num,.ps .nota,.ps .dades,.ps .firma,.ps .stk,.ps .avis,.ps .pregs,.ps .petit,.ps .sobre,.ps .cos{display:none}
 .ps.foto .marc{position:absolute;inset:0}
 .ps.foto.completa .marc{position:relative;inset:auto;display:flex;justify-content:center}
 

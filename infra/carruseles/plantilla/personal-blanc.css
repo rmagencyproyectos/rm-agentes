@@ -16,3 +16,15 @@
 /* las fotos se ven enteras (sin recortar) y la de portada empieza por debajo del título */
 .ps.v-blanc.foto img{object-fit:contain;object-position:center}
 .ps.v-blanc.portada img{height:720px;bottom:110px;object-position:center bottom}
+/* 21/10 (Gerard): más equilibrio, las palabras grandes menos extremas, y un texto que
+   explique (su tono, relajado). Portada solo con texto. */
+.ps.v-blanc.text{justify-content:center;padding:0 110px}
+.ps.v-blanc .tx{--g:96px}
+.ps.v-blanc.m-xl .tx{--g:112px}
+.ps.v-blanc.m-m .tx{--g:84px}
+.ps.v-blanc .petit{font-size:40px;margin-bottom:14px}
+.ps.v-blanc .cos{display:block;margin:56px 0 0;font-family:"Inter";font-weight:600;font-size:42px;line-height:1.32;letter-spacing:-.02em;color:#3a3a3a;text-wrap:pretty}
+.ps.v-blanc.portada-text .tx{--g:120px}
+.ps.v-blanc.final{justify-content:center;padding:0 110px}
+.ps.v-blanc.final .q{font-size:104px}
+.ps.v-blanc.final .sub{display:block;font-family:"Inter";font-weight:600;font-size:42px;line-height:1.32;letter-spacing:-.02em;color:#3a3a3a;margin-top:56px}
