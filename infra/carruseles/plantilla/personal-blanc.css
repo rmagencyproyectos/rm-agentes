@@ -13,3 +13,6 @@
 .ps.v-blanc.text,.ps.v-blanc.final{background:#fff}
 .ps.v-blanc.text .tx em,.ps.v-blanc.final .q em{color:#111}
 .ps.v-blanc.foto:not(:has(.sobre)):not(.portada) img{top:50%;bottom:auto;height:900px;transform:translateY(-50%)}
+/* las fotos se ven enteras (sin recortar) y la de portada empieza por debajo del título */
+.ps.v-blanc.foto img{object-fit:contain;object-position:center}
+.ps.v-blanc.portada img{height:720px;bottom:110px;object-position:center bottom}
