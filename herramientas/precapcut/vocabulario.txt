@@ -1,0 +1,11 @@
+# Palabras que el reconocedor debe escribir bien (una por línea) y correcciones `mal => bien`.
+# Añade aquí nombres de clientes, marcas y sitios cada vez que salga uno mal.
+Lleida
+RM Agency
+Jesús Mora
+Newmos
+Xavi Colomina
+Metricool
+Instagram
+TikTok
+Reels
