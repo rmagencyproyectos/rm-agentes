@@ -41,3 +41,8 @@
   tilde no tape la línea de arriba): distancia entre centros = media de tamaños × 0.0056 (y de CapCut).
 - Artículo + palabra («el VÍDEO»): el artículo en su propio texto, pegado a la palabra (en un mismo texto
   queda demasiado separado).
+
+## 2026-10-31 · Gerard (fase 2b, recursos)
+- Recursos según lo que se dice: motion graphics con el estilo de la marca (no hay pack: se hacen con
+  Remotion); si se adjunta carpeta de fotos, se usan las fotos. Mejor de más que de menos.
+- Nunca tapan la cara ni los titulares/subtítulos: van en el tercio de abajo, con fondo transparente.

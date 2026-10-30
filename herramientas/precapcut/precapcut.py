@@ -1332,6 +1332,119 @@ def cmd_subtitulos(a):
     print(f"Añadidos {n} subtítulos, {len(tit)} titulares ({nl} líneas) y {len(exc)} exclamaciones · copia: {copia}")
 
 
+# ---------------------------------------------------------------- fase 2b: recursos
+
+REMOTION = AQUI / "recursos" / "remotion"
+NUMEROS = {"uno": 1, "una": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5, "seis": 6, "siete": 7, "ocho": 8,
+           "nueve": 9, "diez": 10, "cien": 100, "mil": 1000}
+ICONOS = {"cocina": "🍳", "cajon": "🗄️", "cuberteros": "🍴", "cubertero": "🍴", "madera": "🪵", "plastico": "🧴",
+          "armario": "🚪", "puerta": "🚪", "rincones": "📐", "rincon": "📐", "hueco": "📦", "ideas": "💡",
+          "video": "🎬", "organizado": "✅", "luz": "💡", "precio": "💶", "tiempo": "⏱️", "casa": "🏠"}
+RECURSO_MIN, RECURSO_MAX, RECURSO_HUECO = 1.2, 2.6, 1.0
+
+
+def proponer_recursos(palabras, tit):
+    """Un recurso por idea (la palabra clave de cada titular), más números, negaciones y "aquí".
+    Mejor de más: Gerard borra los que sobran. La plantilla y el icono los revisa el modelo en recursos.json."""
+    cands = []
+    for t in tit:
+        clave = next((l for l in t["lineas"] if l["clave"] and norm(l["texto"]) not in NEGACIONES), None)
+        if clave:
+            n = norm(clave["texto"])
+            cands.append({"ini": clave["ini"], "fin": t["fin"], "plantilla": "icono", "texto": clave["texto"].lower(),
+                          "icono": ICONOS.get(n, "✨")})
+    for k, w in enumerate(palabras):
+        n = norm(w["w"])
+        if n.isdigit() or n in NUMEROS:
+            sig = palabras[k + 1]["w"] if k + 1 < len(palabras) else ""
+            cands.append({"ini": w["ts"], "fin": w["te"] + 1.5, "plantilla": "contador",
+                          "numero": int(n) if n.isdigit() else NUMEROS[n], "texto": limpiar(sig, {}).lower()})
+        elif n in NEGACIONES and k + 1 < len(palabras):
+            cands.append({"ini": w["ts"], "fin": w["te"] + 1.5, "plantilla": "cruz", "texto": limpiar(palabras[k + 1]["w"], {}).lower()})
+        elif n == "aqui":
+            cands.append({"ini": w["ts"], "fin": w["te"] + 1.5, "plantilla": "flecha", "texto": "aquí"})
+    out, fin_prev = [], -9
+    for c in sorted(cands, key=lambda c: c["ini"]):  # sin solaparse y con un respiro entre uno y otro
+        if c["ini"] < fin_prev + RECURSO_HUECO:
+            continue
+        c["fin"] = round(min(max(c["fin"], c["ini"] + RECURSO_MIN), c["ini"] + RECURSO_MAX), 3)
+        c["ini"] = round(c["ini"], 3)
+        c.update(id=f"R{len(out) + 1:02d}", items=c.get("items", []), numero=c.get("numero", 0))
+        out.append(c)
+        fin_prev = c["fin"]
+    return out
+
+
+def render_recurso(r, estilo, salida):
+    """Motion graphic con fondo transparente (ProRes 4444) a 1080x1920: CapCut lo pone a pantalla completa."""
+    if r.get("foto"):
+        return Path(r["foto"])
+    e = estilo.get("recursos", {})
+    props = {"plantilla": r["plantilla"], "texto": r.get("texto", ""), "icono": r.get("icono", "✨"),
+             "items": r.get("items", []), "numero": r.get("numero", 0), "duracion": round(r["fin"] - r["ini"], 3),
+             "x": 540, "y": int(e.get("y_px", 1400)), "color": e.get("color", "#985e34"),
+             "colorTexto": e.get("color_texto", "#ffffff"), "fuenteTitulo": "Rubik-Bold.ttf", "fuenteTexto": "Alata-Regular.ttf"}
+    remotion = REMOTION / "node_modules" / ".bin" / ("remotion.cmd" if sys.platform == "win32" else "remotion")
+    subprocess.run([str(remotion), "render", "src/index.ts", "Recurso", str(salida), "--codec=prores",
+                    "--prores-profile=4444", "--pixel-format=yuva444p10le", "--image-format=png",
+                    "--props=" + json.dumps(props, ensure_ascii=False)], cwd=REMOTION, check=True, capture_output=True)
+    return salida
+
+
+def cmd_recursos(a):
+    d = TRABAJO / a.pieza
+    trans = leer_json(d / "transcripciones.json")
+    _, _, frases, _ = cargar_pieza(a.pieza)
+    destino = buscar_proyecto(a.proyecto)
+    estilo = leer_json(AQUI / "estilos" / f"{a.estilo}.json")
+    rj = d / "recursos.json"
+    if rj.exists() and not a.regenerar:  # lo revisado a mano manda
+        recursos = leer_json(rj)
+    else:
+        palabras = palabras_en_timeline(d, trans, frases, destino)
+        cues = leer_json(d / "subtitulos-cues.json") if (d / "subtitulos-cues.json").exists() else {"titulares": []}
+        recursos = proponer_recursos(palabras, cues["titulares"])
+        escribir_json(rj, recursos)
+    fotos = sorted(f for f in Path(a.fotos).iterdir() if f.suffix.lower() in (".jpg", ".jpeg", ".png", ".heic")) if a.fotos else []
+    if fotos:  # hoja de miniaturas para que el modelo elija por contenido ("foto": ruta en recursos.json)
+        lista = d / "fotos.txt"
+        lista.write_text("".join(f"file '{f}'\nduration 1\n" for f in fotos), encoding="utf-8")
+        subprocess.run([ffmpeg_bin(), "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(lista), "-vf",
+                        f"scale=180:180:force_original_aspect_ratio=increase,crop=180:180,tile=6x{(len(fotos) + 5) // 6}",
+                        "-frames:v", "1", str(d / "fotos-hoja.jpg")], check=True)
+    md = [f"# Recursos · {a.pieza}", "", f"{len(recursos)} recursos. Revisar y editar `recursos.json` "
+          "(plantilla: carpeta/icono/contador/check/cruz/lista/flecha · texto · icono (emoji) · items · numero · "
+          "foto: ruta). Borrar los que no aporten; mejor de más.", ""]
+    md += [f"- {r['id']} {tc(r['ini'])}–{tc(r['fin'])} · {r['plantilla']} · {r.get('icono', '')} {r.get('texto', '')}"
+           + (f" · foto {Path(r['foto']).name}" if r.get("foto") else "") for r in recursos]
+    if fotos:
+        md += ["", "Fotos: " + ", ".join(f"{k + 1}={f.name}" for k, f in enumerate(fotos)) + " (hoja: fotos-hoja.jpg, 6 por fila)"]
+    (d / "recursos.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    print(f"{len(recursos)} recursos → {d / 'recursos.md'}")
+    if a.solo_md:
+        return
+    if capcut_abierto():
+        sys.exit("CapCut está abierto: ciérralo y vuelve a lanzarlo (no se ha escrito nada).")
+    info = destino / "draft_info.json" if (destino / "draft_info.json").exists() else destino
+    data = json.loads(info.read_text(encoding="utf-8"))
+    viejos = [seg["id"] for t in data.get("tracks", []) if (t.get("name") or "").startswith("Recursos")
+              for seg in t.get("segments", [])]
+    copia = d / "backups" / f"{destino.name}-{time.strftime('%Y%m%d-%H%M%S')}"
+    shutil.copytree(destino, copia, ignore=shutil.ignore_patterns(".locked"))
+    for sid in viejos:  # rehacer: solo la pista de recursos de precapcut
+        subprocess.run([capcut_bin(), "remove", str(info), sid, "-q"], check=True, capture_output=True)
+    (d / "recursos").mkdir(exist_ok=True)
+    env = entorno_capcut()
+    for r in recursos:
+        f = render_recurso(r, estilo, d / "recursos" / f"{r['id']}.mov")
+        subprocess.run([capcut_bin(), "add-video", str(info), str(f), str(r["ini"]), str(round(r["fin"] - r["ini"], 3)),
+                        "--track-name", "Recursos"], check=True, capture_output=True, env=env)
+        print(f"  {r['id']} {r['plantilla']} {r.get('texto', '')}")
+    if (destino / "Timelines").is_dir():
+        subprocess.run([capcut_bin(), "sync-timelines", str(destino), "--nested", "--apply"], check=True, capture_output=True)
+    print(f"Añadidos {len(recursos)} recursos · copia: {copia}")
+
+
 def cmd_qa(a):
     """Re-transcribe el preview y lo compara con lo que debía quedar: palabras comidas o sobrantes."""
     d, trans, frases, tramos = cargar_pieza(a.pieza)
@@ -1389,11 +1502,18 @@ def main():
     st.add_argument("--estilo", required=True, help="estilos/<cliente>.json")
     st.add_argument("--solo-md", action="store_true", help="solo subtitulos.md, sin tocar CapCut")
     st.add_argument("--rehacer", action="store_true", help="quita las pistas de texto de precapcut y las vuelve a poner")
+    rc = sub.add_parser("recursos", help="fase 2b: motion graphics (o fotos) según lo que se dice")
+    rc.add_argument("pieza")
+    rc.add_argument("proyecto", help="proyecto de CapCut (nombre o ruta)")
+    rc.add_argument("--estilo", required=True, help="estilos/<cliente>.json")
+    rc.add_argument("--fotos", help="carpeta de fotos del cliente para esta pieza")
+    rc.add_argument("--solo-md", action="store_true", help="solo recursos.md, sin tocar CapCut")
+    rc.add_argument("--regenerar", action="store_true", help="volver a proponer (pisa recursos.json)")
     q = sub.add_parser("qa", help="re-transcribe el preview y busca palabras comidas")
     q.add_argument("pieza")
     q.add_argument("--modelo", default="small")
     a = p.parse_args()
-    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "qa": cmd_qa}[a.cmd](a)
+    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "recursos": cmd_recursos, "qa": cmd_qa}[a.cmd](a)
 
 
 if __name__ == "__main__":

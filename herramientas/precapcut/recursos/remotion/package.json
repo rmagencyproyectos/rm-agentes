@@ -1,0 +1,6 @@
+{
+  "name": "precapcut-recursos",
+  "private": true,
+  "description": "Plantillas de motion graphics de precapcut (fase 2b). node_modules: enlace a proyectos/remotion-video o npm i.",
+  "dependencies": {"@remotion/cli": "4.0.490", "remotion": "4.0.490", "react": "19.2.3", "react-dom": "19.2.3"}
+}

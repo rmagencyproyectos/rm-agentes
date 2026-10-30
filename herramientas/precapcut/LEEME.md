@@ -8,7 +8,7 @@ así no se descuadran.
 |---|---|---|
 | 1 · Cortes | Transcribe en local con tiempos por palabra, quita tomas falladas, arranques en falso, muletillas y silencios, y lo monta en CapCut | **hecha** |
 | 2 · Subtítulos | 1-2 palabras por bloque desde la misma transcripción + titular (palabra clave grande) por frase, estilo por cliente en `estilos/` | **hecha** (prueba Jesús Mora 30/10) |
-| 2b · Recursos | Iconos o emojis según lo que se dice («carpeta» → carpeta estilo iOS con el nombre) y fotos obligatorias donde se mencionan | pendiente |
+| 2b · Recursos | Motion graphics (Remotion, estilo de marca, fondo transparente) según lo que se dice; fotos si se adjunta carpeta | **hecha** (prueba Jesús 31/10) |
 | 3 · Sonido | Librería RM de efectos (Mixkit/Pixabay) colocados según el contenido | pendiente |
 | 4 · Humano | Lo creativo, en CapCut | — |
 
@@ -76,6 +76,21 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
    (render `capcut render --scale 0.5` + `drawtext` con las fuentes): legible, ninguna cara tapada, bien
    escrito, titulares escalonados. Los bloques arrancan con el sonido (Whisper da los inicios ~90 ms tarde).
 5. Avisar a Gerard y esperar su OK antes de la fase 3.
+
+## Fase 2b · Recursos
+
+1. `python3 precapcut.py recursos <pieza> "<proyecto>" --estilo <cliente> [--fotos <carpeta>] --solo-md --regenerar`
+   → leer **solo** `recursos.md`. Propone un recurso por idea (clave de cada titular) + números (contador),
+   negaciones (cruz) y «aquí» (flecha), sin solaparse. Revisar con criterio y editar `recursos.json`:
+   `plantilla` (carpeta · icono · contador · check · cruz · lista · flecha), `texto`, `icono` (emoji),
+   `items`, `numero`, o `foto` (ruta; con `--fotos` sale `fotos-hoja.jpg` para elegir por contenido).
+   Contar historia: «NO plástico» (cruz) → «de madera» (check). Mejor de más.
+2. Sin `--solo-md` (CapCut cerrado; sin `--regenerar` respeta `recursos.json`): renderiza cada uno con
+   Remotion (`recursos/remotion`, ~3 s cada uno; ProRes 4444 con alfa, 1080x1920, el elemento en el tercio
+   de abajo: `estilos/<cliente>.json` → `recursos.y_px`) y los AÑADE en la pista `Recursos` (rehacer = solo
+   esa pista). `recursos/remotion/node_modules` es un enlace a `proyectos/remotion-video/node_modules`
+   (en otro ordenador: `npm i` dentro de `recursos/remotion`).
+3. QA: fotogramas con el recurso encima (alfa, sitio, que no tape cara ni subtítulos) y `capcut lint`.
 
 ## Reglas
 
