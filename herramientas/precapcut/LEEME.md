@@ -66,8 +66,10 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
      encima del texto (render_index 16000), así el sujeto queda delante.
    - Jesús: si se nombra un color («nogal oscuro», «gris») esas palabras salen en ese color (`colores`).
    `--rehacer` quita solo lo de precapcut (pistas con esos nombres y las `-copy`) y lo vuelve a poner;
-   lo que Gerard añada a mano no se toca. **Fuentes**: CapCut solo carga las de su biblioteca; pendiente
-   copiar cómo las guarda (Gerard elige Alata/Rubik en un proyecto de muestra).
+   lo que Gerard añada a mano no se toca. **Fuentes** (`fijar_fuentes`): en Mac CapCut va en sandbox y busca
+   las fuentes instaladas en su contenedor (`~/Library/Containers/com.lemon.lvoverseas/Data/Library/Fonts/`);
+   se escribe esa ruta (formato copiado del proyecto de muestra «1030»). CapCut 9.5 guarda los proyectos
+   nuevos en `Projects/CapCut Drafts/` (`buscar_proyecto` mira las dos carpetas).
 4. QA: `capcut lint` («caption-too-fast» es normal palabra a palabra) + 5 fotogramas con el texto dibujado
    (render `capcut render --scale 0.5` + `drawtext` con las fuentes): legible, ninguna cara tapada, bien
    escrito, titulares escalonados. Los bloques arrancan con el sonido (Whisper da los inicios ~90 ms tarde).

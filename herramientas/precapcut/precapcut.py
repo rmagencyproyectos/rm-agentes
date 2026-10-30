@@ -549,6 +549,24 @@ def carpeta_borradores():
     return Path(os.environ.get("LOCALAPPDATA", "")) / "CapCut/User Data/Projects/com.lveditor.draft"
 
 
+def buscar_proyecto(nombre):
+    """Ruta, o nombre en com.lveditor.draft, o en "CapCut Drafts" (donde guarda CapCut 9.5 los nuevos)."""
+    for d in (Path(nombre), carpeta_borradores() / nombre, carpeta_borradores().parent / "CapCut Drafts" / nombre):
+        if d.exists():
+            return d
+    sys.exit(f"No encuentro el proyecto de CapCut «{nombre}».")
+
+
+def ruta_fuente_capcut(archivo):
+    """Dónde ve CapCut una fuente instalada: en Mac va en sandbox y la busca en su contenedor
+    (muestra de Gerard, proyecto «1030»); en Windows, en las fuentes del usuario."""
+    nombre = Path(archivo).name
+    if sys.platform == "darwin":
+        c = Path.home() / "Library/Containers/com.lemon.lvoverseas/Data/Library/Fonts" / nombre
+        return c if c.exists() else Path.home() / "Library/Fonts" / nombre
+    return Path(os.environ.get("LOCALAPPDATA", "")) / "Microsoft/Windows/Fonts" / nombre
+
+
 def capcut_abierto():
     try:
         if sys.platform == "win32":
@@ -663,11 +681,7 @@ def cmd_materiales(a):
     """Proyecto ya montado (y quizá tocado a mano): cada clip pasa a usar el vídeo original entero,
     sin mover ni un corte, para poder alargarlos en CapCut."""
     d = TRABAJO / a.pieza
-    destino = Path(a.proyecto)
-    if not destino.exists():
-        destino = carpeta_borradores() / a.proyecto
-    if not destino.exists():
-        sys.exit(f"No encuentro el proyecto de CapCut «{a.proyecto}».")
+    destino = buscar_proyecto(a.proyecto)
     if capcut_abierto():
         sys.exit("CapCut está abierto: ciérralo y vuelve a lanzarlo (no se ha escrito nada).")
     originales = {Path(t["video"]).name: t["video"] for t in leer_json(d / "transcripciones.json")}
@@ -945,7 +959,7 @@ def colocar_pista(destino, pista, x, y):
         f.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 
-PX_POR_UNIDAD = 2.8  # px de alto por unidad de tamaño de CapCut en 1920 (calibrar con lo que diga Gerard)
+PX_POR_UNIDAD = 5.5  # px (em) por unidad de tamaño de CapCut en 1920; 2.8 se salía de pantalla (Gerard 30/10)
 ANCHO_SEGURO = 0.86  # fracción del ancho que puede ocupar un texto sin que lo corte el borde
 
 
@@ -1063,6 +1077,48 @@ def editar_mirrors(destino, cambio):
         f.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 
+def fijar_fuentes(destino, estilo):
+    """Las fuentes como las guarda CapCut para una fuente local: ruta dentro de su contenedor en
+    font_path y en content.styles[].font, sin resource_id (eso es para las de su biblioteca).
+    Solo toca los campos de fuente de los textos de precapcut: ni tamaño, ni posición, ni tiempos."""
+    archivos = {}
+    tit = estilo.get("titular") or {}
+    for e in (estilo.get("subtitulos") or {}, tit.get("clave") or {}, tit.get("menor") or {},
+              estilo.get("exclamacion") or {}):
+        if e.get("archivo_fuente"):
+            archivos[norm(e["fuente"])] = str(ruta_fuente_capcut(e["archivo_fuente"]))
+            archivos[norm(Path(e["archivo_fuente"]).stem)] = archivos[norm(e["fuente"])]
+
+    por_pista = {"Subtitulos": tit and None, "Exclamaciones": None}
+    for pista, e in (("Subtitulos", estilo.get("subtitulos")), ("Exclamaciones", estilo.get("exclamacion"))):
+        por_pista[pista] = str(ruta_fuente_capcut(e["archivo_fuente"])) if e and e.get("archivo_fuente") else None
+
+    def cambio(data):
+        nuestras = {seg["material_id"]: t.get("name") or "" for t in data.get("tracks", []) if t.get("type") == "text"
+                    and (t.get("name") or "").startswith(("Subtitulos", "Titulares", "Exclamaciones"))
+                    for seg in t.get("segments", [])}
+        for m in data.get("materials", {}).get("texts", []):
+            if m["id"] not in nuestras:
+                continue
+            try:
+                c = json.loads(m.get("content") or "{}")
+            except ValueError:
+                continue
+            actual = m.get("font_path") or next((st.get("font", {}).get("path") for st in c.get("styles", [])
+                                                 if st.get("font", {}).get("path")), "")
+            # subtítulos y exclamaciones: la de su pista; titulares: según la que llevaban (clave/menor)
+            ruta = por_pista.get(nuestras[m["id"]]) or archivos.get(norm(Path(actual).stem)) \
+                or archivos.get(norm(m.get("font_name") or ""))
+            if not ruta:
+                continue
+            m.update(font_path=ruta, font_id="", font_resource_id="", font_source_platform=0, fonts=[],
+                     font_title="none")
+            for st in c.get("styles", []):
+                st["font"] = {"path": ruta, "id": ""}
+            m["content"] = json.dumps(c, ensure_ascii=False)
+    editar_mirrors(destino, cambio)
+
+
 def a_formato_subtitulo(destino, pista, idioma="es-ES"):
     """Convierte la pista en subtítulos de CapCut como los automáticos (muestra de Gerard 30/10):
     material type "subtitle" con words/recognize_text, un group_id común (es lo que hace que al
@@ -1175,11 +1231,7 @@ def cmd_subtitulos(a):
     d = TRABAJO / a.pieza
     trans = leer_json(d / "transcripciones.json")
     _, _, frases, _ = cargar_pieza(a.pieza)
-    destino = Path(a.proyecto)
-    if not destino.exists():
-        destino = carpeta_borradores() / a.proyecto
-    if not destino.exists():
-        sys.exit(f"No encuentro el proyecto de CapCut «{a.proyecto}».")
+    destino = buscar_proyecto(a.proyecto)
     estilo = leer_json(AQUI / "estilos" / f"{a.estilo}.json")
     aj_f = d / "subtitulos.json"
     ajustes = leer_json(aj_f) if aj_f.exists() else {"correcciones": {}, "claves": {}}
@@ -1241,6 +1293,7 @@ def cmd_subtitulos(a):
                        check=True, capture_output=True)
     colocar_pista(destino, "Subtitulos", estilo["subtitulos"].get("x", 0), estilo["subtitulos"].get("y", 0))
     a_formato_subtitulo(destino, "Subtitulos", estilo.get("idioma", "es-ES"))
+    fijar_fuentes(destino, estilo)
     ordenar_recortes(destino, exc)
     print(f"Añadidos {n} subtítulos, {len(tit)} titulares ({nl} líneas) y {len(exc)} exclamaciones · copia: {copia}")
 
