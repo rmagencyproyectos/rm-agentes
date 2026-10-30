@@ -25,3 +25,12 @@
   (`~/Library/Containers/com.lemon.lvoverseas/Data/Library/Fonts/…`), sin resource_id (muestra «1030»).
 - PENDIENTE (mejora): la ubicación de los titulares aún no está bien; de momento Gerard los coloca a mano.
   Cuando los deje bien, copiar sus posiciones/tamaños al estilo (sin tocar su proyecto).
+
+## 2026-10-30 (noche) · Gerard (revisión fase 2 v4)
+- La copia de la rotoscopia tiene que coincidir EXACTAMENTE con el clip de debajo (mismo encuadre, escala,
+  posición, recorte) y estar MUDA. Si en CapCut se ve un sujeto más pequeño delante, es el recorte de CapCut.
+- Ningún titular se sale de la pantalla: cada línea se mide con la fuente real y se encoge si no cabe.
+- Los titulares no se tapan entre ellos: el alto de línea deja sitio a las tildes de las mayúsculas («VÍDEO»).
+- Las negaciones (no, nunca, jamás, nada, ni, sin…) son importantes: siempre entran en el titular y en
+  mayúsculas, como palabra clave («NO pongáis los típicos CUBERTEROS»).
+- Si Gerard estira o mueve un clip, los textos se rehacen leyendo los tiempos reales del proyecto.

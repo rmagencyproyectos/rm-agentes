@@ -720,6 +720,7 @@ NO_CLAVE = CORTAS | {"para", "como", "todo", "todos", "mucho", "más", "aquí", 
                      "pero", "porque", "tener", "tenemos", "favor", "seguro", "vale", "pues", "donde"}
 ARTICULOS = {"el", "la", "los", "las", "un", "una", "unos", "unas", "al", "del", "de", "en", "con", "por",
              "para", "a", "sin", "sobre", "els", "les", "amb", "per"}  # van pegados a la palabra que sigue
+NEGACIONES = {"no", "nunca", "jamas", "nada", "ni", "sin", "tampoco", "nadie", "ningun", "ninguna", "mai", "res", "cap"}
 CUE_MIN = 0.25
 SEG_PEGADO = 0.15
 
@@ -866,12 +867,16 @@ def titular(ws, k, desde, col, estilo, fixes, fid):
         hasta = k + 1
         while hasta - k <= 3 and (hasta in col or (hasta + 1 in col and norm(ws[hasta]["w"]) in CORTAS)):
             hasta += 1  # "tiradores grafito", "encimera en gris": el color se dice y entra en el titular
-        sel = ws[max(desde, k - estilo.get("palabras_antes", 3)):hasta]
+        ini_sel = max(desde, k - estilo.get("palabras_antes", 3))
+        neg = [j for j in range(desde, k) if norm(ws[j]["w"]) in NEGACIONES]
+        if neg:  # las negaciones son importantes: siempre entran en el titular (Gerard 30/10)
+            ini_sel = min(ini_sel, neg[0])
+        sel = ws[ini_sel:hasta]
         # "de plástico": si la clave cierra con un artículo/preposición delante, va con ella
         lineas, pend = [], []
         for j, w in enumerate(sel):
             txt = limpiar(w["w"], fixes)
-            es_clave = w is ws[k]
+            es_clave = w is ws[k] or norm(w["w"]) in NEGACIONES
             if norm(w["w"]) in ARTICULOS and not es_clave and j + 1 < len(sel):
                 pend.append((txt.lower(), w))
                 continue
@@ -982,7 +987,9 @@ def ancho(est, texto, tamano):
 
 
 def alto_linea(tamano):
-    return tamano * PX_POR_UNIDAD * 1.25 / 960  # en unidades de CapCut (media pantalla = 1)
+    """Alto de una línea en unidades de CapCut (media pantalla = 1), con sitio para las tildes de
+    las mayúsculas: con 1.25 la tilde de «VÍDEO» tapaba el «guárdate» de encima (Gerard 30/10)."""
+    return tamano * PX_POR_UNIDAD * 1.45 / 960
 
 
 def maquetar(t, e, x=0.0, ancho_max=ANCHO_SEGURO):
@@ -1050,7 +1057,8 @@ def exclamaciones(palabras, estilo):
         for f in sorted(lista, key=len, reverse=True):
             if toks[k:k + len(f)] == f:
                 ws = palabras[k:k + len(f)]
-                out.append({"ini": ws[0]["ts"], "fin": round(ws[-1]["te"] + 0.25, 3),
+                sig = palabras[k + len(f)]["ts"] if k + len(f) < len(palabras) else ws[-1]["te"] + 0.25
+                out.append({"ini": ws[0]["ts"], "fin": round(min(ws[-1]["te"] + 0.25, max(sig, ws[-1]["te"] + 0.05)), 3),
                             "texto": " ".join(limpiar(w["w"], {}) for w in ws).upper()})
                 k += len(f) - 1
                 break
@@ -1205,7 +1213,7 @@ def poner_exclamaciones(info, exc, e, d):
         subprocess.run([cc, "shift", str(info), cid, f"+{dentro:.3f}s"], check=True, capture_output=True)
         subprocess.run([cc, "volume", str(info), cid, "0"], check=True, capture_output=True)
         subprocess.run([cc, "matting", str(info), cid], check=True, capture_output=True)
-        x["recorte"] = cid
+        x["recorte"], x["base"] = cid, base["id"]
     return exc
 
 
@@ -1213,8 +1221,16 @@ def ordenar_recortes(destino, exc):
     """Capas: vídeo, texto de la exclamación y, ENCIMA, la copia recortada del sujeto. CapCut pinta
     los textos por encima del vídeo (render_index 15000): la copia sube por encima de ese número."""
     ids = {x["recorte"] for x in exc if x.get("recorte")}
+    base_de = {x["recorte"]: x["base"] for x in exc if x.get("recorte")}
 
     def cambio(data):
+        segs = {seg["id"]: seg for t in data.get("tracks", []) for seg in t.get("segments", [])}
+        for cid, bid in base_de.items():  # la copia tiene que coincidir con el clip de debajo
+            if cid in segs and bid in segs:
+                for k in ("clip", "uniform_scale", "common_keyframes"):
+                    if k in segs[bid]:
+                        segs[cid][k] = json.loads(json.dumps(segs[bid][k]))
+                segs[cid]["volume"] = 0.0
         for t in data.get("tracks", []):
             for seg in t.get("segments", []):
                 if seg["id"] in ids:
