@@ -2,29 +2,118 @@
  "cliente": "jesus-mora",
  "fuente_evidencia": "Referencia.mp4 + kit de marca (PDF) + retoque de Gerard en CapCut 30/10 (primeros textos de «Jesus Mora 26-10 - precapcut»)",
  "subtitulos": {
-  "fuente": "Alata", "archivo_fuente": "fuentes/Alata-Regular.ttf",
-  "color": "#ffffff", "tamano": 10, "negrita": true, "mayusculas": false,
-  "palabras_por_bloque": 1, "max_caracteres": 14,
-  "x": 0.0, "y": -0.12,
-  "sombra": {"color": "#000000", "alpha": 0.39, "distancia": 11, "difuminado": 0.94, "angulo": -69.5},
-  "borde": 0, "caja": false
+  "fuente": "Alata",
+  "archivo_fuente": "fuentes/Alata-Regular.ttf",
+  "color": "#ffffff",
+  "tamano": 10,
+  "negrita": true,
+  "mayusculas": false,
+  "palabras_por_bloque": 1,
+  "max_caracteres": 14,
+  "x": 0.0,
+  "y": -0.12,
+  "sombra": {
+   "color": "#000000",
+   "alpha": 0.39,
+   "distancia": 11,
+   "difuminado": 0.94,
+   "angulo": -69.5
+  },
+  "borde": 0,
+  "caja": false
  },
  "titular": {
-  "clave": {"fuente": "Rubik Bold", "archivo_fuente": "fuentes/Rubik-Bold.ttf", "color": "#985e34",
-            "tamano": 20, "espaciado": -0.05, "mayusculas": true,
-            "sombra": {"color": "#000000", "alpha": 0.15, "distancia": 1, "difuminado": 0.4, "angulo": -45}},
-  "menor": {"fuente": "Alata", "archivo_fuente": "fuentes/Alata-Regular.ttf", "color": "#985e34",
-            "tamano": 10, "mayusculas": false,
-            "sombra": {"color": "#000000", "alpha": 0.16, "distancia": 5, "difuminado": 0.35, "angulo": -45}},
-  "x": -0.35, "y": 0.49, "y_alternativa": -0.3, "alineacion": 0, "hueco": 0.015,
-  "palabras_antes": 3, "salida_extra": 0.25
+  "clave": {
+   "fuente": "Rubik Bold",
+   "archivo_fuente": "fuentes/Rubik-Bold.ttf",
+   "color": "#985e34",
+   "tamano": 36,
+   "espaciado": -0.05,
+   "mayusculas": true,
+   "sombra": {
+    "color": "#000000",
+    "alpha": 0.15,
+    "distancia": 1,
+    "difuminado": 0.4,
+    "angulo": -45
+   }
+  },
+  "menor": {
+   "fuente": "Alata",
+   "archivo_fuente": "fuentes/Alata-Regular.ttf",
+   "color": "#985e34",
+   "tamano": 20,
+   "mayusculas": false,
+   "sombra": {
+    "color": "#000000",
+    "alpha": 0.16,
+    "distancia": 5,
+    "difuminado": 0.35,
+    "angulo": -45
+   }
+  },
+  "x": 0.0,
+  "y": 0.42,
+  "alineacion": 1,
+  "hueco": 0.015,
+  "palabras_antes": 3,
+  "salida_extra": 0.25,
+  "zona": "entre el primer y el segundo tercio (de mitad para arriba); de lado si hay cara"
  },
  "colores_nombrados": true,
  "colores": {
-  "nogal oscuro": "#4a2e1d", "nogal": "#6b4423", "roble": "#b5895a", "roble claro": "#d2b48c",
-  "cerezo": "#8b3a2b", "wengue": "#3b2a20", "teca": "#9c6b3c", "haya": "#d6b48a",
-  "blanco": "#f5f5f0", "negro": "#1a1a1a", "gris": "#8c8c8c", "gris claro": "#c8c8c8",
-  "gris oscuro": "#4d4d4d", "grafito": "#3a3a3c", "antracita": "#383e42", "arena": "#d8c3a5",
-  "beige": "#d9c7a7", "crema": "#f1e6cc", "verde": "#5b7553", "azul": "#3d5a80", "dorado": "#c9a227"
- }
+  "nogal oscuro": "#4a2e1d",
+  "nogal": "#6b4423",
+  "roble": "#b5895a",
+  "roble claro": "#d2b48c",
+  "cerezo": "#8b3a2b",
+  "wengue": "#3b2a20",
+  "teca": "#9c6b3c",
+  "haya": "#d6b48a",
+  "blanco": "#f5f5f0",
+  "negro": "#1a1a1a",
+  "gris": "#8c8c8c",
+  "gris claro": "#c8c8c8",
+  "gris oscuro": "#4d4d4d",
+  "grafito": "#3a3a3c",
+  "antracita": "#383e42",
+  "arena": "#d8c3a5",
+  "beige": "#d9c7a7",
+  "crema": "#f1e6cc",
+  "verde": "#5b7553",
+  "azul": "#3d5a80",
+  "dorado": "#c9a227"
+ },
+ "exclamacion": {
+  "fuente": "Rubik Bold",
+  "archivo_fuente": "fuentes/Rubik-Bold.ttf",
+  "color": "#ffffff",
+  "tamano": 70,
+  "negrita": true,
+  "y": 0.2,
+  "sombra": {
+   "color": "#000000",
+   "alpha": 0.25,
+   "distancia": 3,
+   "difuminado": 0.5,
+   "angulo": -45
+  },
+  "exclamaciones": [
+   "por favor",
+   "ojo",
+   "nunca",
+   "jamás",
+   "importante",
+   "cuidado",
+   "atención",
+   "atento",
+   "atentos",
+   "error",
+   "no lo hagas",
+   "fíjate",
+   "fijaos"
+  ],
+  "recurso": "rotoscopia: texto detrás del sujeto (copia del clip con fondo quitado encima)"
+ },
+ "idioma": "es-ES"
 }

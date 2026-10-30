@@ -38,6 +38,11 @@ así no se descuadran.
 5. Avisar a Gerard: duración bruto → montado, cuántas tomas fuera, frases dudosas, y que abra el
    proyecto en CapCut. **Esperar su OK antes de la fase 2.**
 
+## Antes de cada fase: aprendizajes
+
+Leer `aprendizajes/general.md` y `aprendizajes/<cliente>.md`. Cada tip nuevo de Gerard, Andrea o Jaume se
+apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `estilos/<cliente>.json`.
+
 ## Fase 2 · Subtítulos
 
 1. Estilo del cliente en `estilos/<cliente>.json` (ver `estilos/LEEME.md`). Si no existe: sacarlo del vídeo
@@ -49,13 +54,20 @@ así no se descuadran.
    mal) y `"claves"`: por frase, la lista de palabras que llevan titular (`{"F005": ["rincones", "riñonero",
    "hueco"]}`; `""` = ninguno). **Mejor de más que de menos**: Gerard borra los que sobran.
 3. Sin `--solo-md` (CapCut cerrado): lee los cortes REALES del proyecto y AÑADE (nunca toca el vídeo):
-   - `Subtitulos`: pista de subtítulos de CapCut (`capcut caption --words`, `sub_type` 1) con nuestros
-     tiempos; la posición se fija después en todas las copias (`colocar_pista`, caption la deja en -0.6).
+   - `Subtitulos`: subtítulos de CapCut de verdad (formato copiado de los automáticos: material
+     `type: subtitle` + `words`, un `group_id` común —lo que hace que cambiar uno cambie todos— y pista
+     `flag` 1). Se crean con `capcut caption --words` y se convierten (`a_formato_subtitulo`).
    - `Titulares 1..n`: una línea por palabra (artículo/preposición + palabra juntos: «los RINCONES», el
      artículo en pequeño); cada línea **entra cuando se dice** y **todas salen a la vez** al acabar la
-     idea. Si el titular taparía una cara (OpenCV, un fotograma cada 0,3 s) se baja a `y_alternativa`.
+     idea. Todos en la misma zona (entre el 1.er y el 2.º tercio), centrados, grandes; el ancho se mide con
+     la fuente real y solo se encogen si no caben. Si taparían una cara (OpenCV) se mueven de lado.
+   - `Exclamaciones` («por favor», «ojo», «nunca»… lista en el estilo): texto enorme centrado, crece un poco,
+     y **rotoscopia**: copia del clip recortada a la exclamación, muda, con quitar fondo (`matting`) y por
+     encima del texto (render_index 16000), así el sujeto queda delante.
    - Jesús: si se nombra un color («nogal oscuro», «gris») esas palabras salen en ese color (`colores`).
-   `--rehacer` quita todos los textos y los vuelve a poner (copia en `backups/` antes).
+   `--rehacer` quita solo lo de precapcut (pistas con esos nombres y las `-copy`) y lo vuelve a poner;
+   lo que Gerard añada a mano no se toca. **Fuentes**: CapCut solo carga las de su biblioteca; pendiente
+   copiar cómo las guarda (Gerard elige Alata/Rubik en un proyecto de muestra).
 4. QA: `capcut lint` («caption-too-fast» es normal palabra a palabra) + 5 fotogramas con el texto dibujado
    (render `capcut render --scale 0.5` + `drawtext` con las fuentes): legible, ninguna cara tapada, bien
    escrito, titulares escalonados. Los bloques arrancan con el sonido (Whisper da los inicios ~90 ms tarde).
