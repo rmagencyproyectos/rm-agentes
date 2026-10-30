@@ -34,3 +34,10 @@
 - Las negaciones (no, nunca, jamás, nada, ni, sin…) son importantes: siempre entran en el titular y en
   mayúsculas, como palabra clave («NO pongáis los típicos CUBERTEROS»).
 - Si Gerard estira o mueve un clip, los textos se rehacen leyendo los tiempos reales del proyecto.
+
+## 2026-10-30 (noche, 2) · Gerard
+- Tamaños de titulares: perfectos (clave 36, menores 20, se encogen solo si no caben).
+- Separación entre líneas de un titular: la de «guárdate / el VÍDEO» que dejó Gerard (justo para que la
+  tilde no tape la línea de arriba): distancia entre centros = media de tamaños × 0.0056 (y de CapCut).
+- Artículo + palabra («el VÍDEO»): el artículo en su propio texto, pegado a la palabra (en un mismo texto
+  queda demasiado separado).

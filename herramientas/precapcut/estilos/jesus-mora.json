@@ -55,10 +55,11 @@
   "x": 0.0,
   "y": 0.42,
   "alineacion": 1,
-  "hueco": 0.015,
+  "hueco": 0,
   "palabras_antes": 3,
   "salida_extra": 0.25,
-  "zona": "entre el primer y el segundo tercio (de mitad para arriba); de lado si hay cara"
+  "zona": "entre el primer y el segundo tercio (de mitad para arriba); de lado si hay cara",
+  "tamanos_ok": "clave 36 / menor 20, encogiendo solo si no cabe (Gerard 30/10: «los tamaños están perfectos»)"
  },
  "colores_nombrados": true,
  "colores": {

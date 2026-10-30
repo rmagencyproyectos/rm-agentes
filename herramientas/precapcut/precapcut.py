@@ -986,10 +986,14 @@ def ancho(est, texto, tamano):
     return len(texto) * px * 0.6 / 1080
 
 
+SEPARACION_LINEAS = 0.1573 / 28  # unidades de y de CapCut por unidad de tamaño. Referencia de Gerard
+                                 # (30/10): «guárdate» (20) sobre «el VÍDEO» (36), justo sin tapar la tilde
+
+
 def alto_linea(tamano):
-    """Alto de una línea en unidades de CapCut (media pantalla = 1), con sitio para las tildes de
-    las mayúsculas: con 1.25 la tilde de «VÍDEO» tapaba el «guárdate» de encima (Gerard 30/10)."""
-    return tamano * PX_POR_UNIDAD * 1.45 / 960
+    """Alto que ocupa una línea en el apilado (y de CapCut): la distancia entre centros de dos líneas
+    es la media de sus tamaños x SEPARACION_LINEAS, como dejó Gerard «guárdate / el VÍDEO»."""
+    return tamano * SEPARACION_LINEAS
 
 
 def maquetar(t, e, x=0.0, ancho_max=ANCHO_SEGURO):
@@ -1002,7 +1006,7 @@ def maquetar(t, e, x=0.0, ancho_max=ANCHO_SEGURO):
         while tam > est["tamano"] * 0.5 and ancho(est, txt, tam) > ancho_max:
             tam -= 1
         lineas.append(tam)
-        alto_total += alto_linea(tam) + e.get("hueco", 0.015)
+        alto_total += alto_linea(tam)
         w_max = max(w_max, ancho(est, txt, tam))
     cx = (1 + x) / 2
     return lineas, (cx - w_max / 2, (1 - e["y"]) / 2, cx + w_max / 2, (1 - (e["y"] - alto_total)) / 2)
@@ -1158,26 +1162,40 @@ def a_formato_subtitulo(destino, pista, idioma="es-ES"):
 
 
 def poner_titulares(info, tit, e, d):
-    """Cada línea es su propio texto: entra con su palabra, todas salen a la vez."""
+    """Cada línea es su propio texto: entra con su palabra, todas salen a la vez. «el VÍDEO»: el
+    artículo va en su propio texto, pegado a la izquierda de la palabra (en un mismo texto el hueco
+    entre los dos es el de la fuente grande y queda demasiado separado)."""
     cc, n = capcut_bin(), 0
+
+    def poner(est, x, y, texto, ini, fin, pista, color):
+        preset = d / "preset-titular.json"
+        preset_de(est, preset, round(x, 4), round(y, 4), color)
+        subprocess.run([cc, "add-text", str(info), str(round(ini, 3)), str(round(fin - ini, 3)), texto,
+                        "--track-name", pista, "--preset", str(preset), "--align", "1"],
+                       capture_output=True, text=True, check=True)
+
     for t in tit:
         y = e["y"]
         tams = t.get("tamanos") or maquetar(t, e)[0]
+        x0 = t.get("x", 0.0)
         for k, (ln, tam) in enumerate(zip(t["lineas"], tams)):
             est = dict(e["clave"] if ln["clave"] else e["menor"], tamano=tam)
-            texto = f"{ln['menor']} {ln['texto']}".strip()
-            rangos = None
-            if ln["menor"] and ln["clave"]:  # "los RINCONES": el artículo pequeño, en la misma línea
-                rangos = [{"start": 0, "end": len(ln["menor"]), "font_size": round(tam * e["menor"]["tamano"] / e["clave"]["tamano"])}]
-            alto = alto_linea(tam)
-            y -= alto / 2
-            preset = d / "preset-titular.json"
-            preset_de(est, preset, t.get("x", 0.0), round(y, 4), ln["color"], rangos)
-            subprocess.run([cc, "add-text", str(info), str(round(ln["ini"], 3)), str(round(t["fin"] - ln["ini"], 3)),
-                            texto, "--track-name", f"Titulares {k + 1}", "--preset", str(preset), "--align", "1"],
-                           capture_output=True, text=True, check=True)
-            y -= alto / 2 + e.get("hueco", 0.015)
-            n += 1
+            y -= alto_linea(tam) / 2
+            if ln["menor"]:
+                menor = dict(e["menor"], tamano=round(tam * e["menor"]["tamano"] / e["clave"]["tamano"])
+                             if ln["clave"] else tam)
+                wa, wp = ancho(menor, ln["menor"], menor["tamano"]), ancho(est, ln["texto"], tam)
+                hueco = 0.012  # fracción del ancho entre artículo y palabra
+                izq = x0 - (wa + hueco + wp)  # el par queda centrado; x de CapCut: ancho total = 2
+                xa, xp = izq + wa, izq + 2 * wa + 2 * hueco + wp
+                ya = y - (tam - menor["tamano"]) * SEPARACION_LINEAS * 0.35  # misma línea base, más o menos
+                poner(menor, xa, ya, ln["menor"], ln["ini"], t["fin"], f"Titulares {k + 1} articulo", None)
+                poner(est, xp, y, ln["texto"], ln["ini"], t["fin"], f"Titulares {k + 1}", ln["color"])
+                n += 2
+            else:
+                poner(est, x0, y, ln["texto"], ln["ini"], t["fin"], f"Titulares {k + 1}", ln["color"])
+                n += 1
+            y -= alto_linea(tam) / 2
     return n
 
 

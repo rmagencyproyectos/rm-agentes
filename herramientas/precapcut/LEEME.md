@@ -60,7 +60,9 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
    - `Titulares 1..n`: una línea por palabra (artículo/preposición + palabra juntos: «los RINCONES», el
      artículo en pequeño); cada línea **entra cuando se dice** y **todas salen a la vez** al acabar la
      idea. Todos en la misma zona (entre el 1.er y el 2.º tercio), centrados, grandes; el ancho se mide con
-     la fuente real y solo se encogen si no caben. Si taparían una cara (OpenCV) se mueven de lado.
+     la fuente real y solo se encogen si no caben. Separación entre líneas = media de tamaños ×
+     `SEPARACION_LINEAS` (referencia de Gerard «guárdate / el VÍDEO»); el artículo va en su propio texto
+     (`Titulares N articulo`) pegado a la palabra. Si taparían una cara (OpenCV) se mueven de lado.
    - `Exclamaciones` («por favor», «ojo», «nunca»… lista en el estilo): texto enorme centrado, crece un poco,
      y **rotoscopia**: copia del clip recortada a la exclamación, muda, con quitar fondo (`matting`) y por
      encima del texto (render_index 16000), así el sujeto queda delante.
