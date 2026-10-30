@@ -7,7 +7,7 @@ así no se descuadran.
 | Fase | Qué hace | Estado |
 |---|---|---|
 | 1 · Cortes | Transcribe en local con tiempos por palabra, quita tomas falladas, arranques en falso, muletillas y silencios, y lo monta en CapCut | **hecha** |
-| 2 · Subtítulos | 1-2 palabras por bloque desde la misma transcripción, palabras clave resaltadas, estilos por marca | pendiente |
+| 2 · Subtítulos | 1-2 palabras por bloque desde la misma transcripción + titular (palabra clave grande) por frase, estilo por cliente en `estilos/` | **hecha** (prueba Jesús Mora 30/10) |
 | 2b · Recursos | Iconos o emojis según lo que se dice («carpeta» → carpeta estilo iOS con el nombre) y fotos obligatorias donde se mencionan | pendiente |
 | 3 · Sonido | Librería RM de efectos (Mixkit/Pixabay) colocados según el contenido | pendiente |
 | 4 · Humano | Lo creativo, en CapCut | — |
@@ -37,6 +37,29 @@ así no se descuadran.
    nada sin QA propio** (silencios, frases a medias, cortes a mitad de palabra).
 5. Avisar a Gerard: duración bruto → montado, cuántas tomas fuera, frases dudosas, y que abra el
    proyecto en CapCut. **Esperar su OK antes de la fase 2.**
+
+## Fase 2 · Subtítulos
+
+1. Estilo del cliente en `estilos/<cliente>.json` (ver `estilos/LEEME.md`). Si no existe: sacarlo del vídeo
+   de referencia (hoja de 24 fotogramas pequeños con ffmpeg `tile`) + kit de marca, bajar las fuentes
+   (Google Fonts, OFL) a `fuentes/` (los instaladores las ponen en las fuentes del usuario) y, cuando
+   Gerard retoque textos en CapCut, copiar sus valores con `capcut make-preset` (es la referencia buena).
+2. `python3 precapcut.py subtitulos <pieza> "<proyecto>" --estilo <cliente> --solo-md` → leer **solo**
+   `subtitulos.md` y escribir en `<pieza>/subtitulos.json`: `"correcciones"` (lo que el reconocedor escribe
+   mal) y `"claves"`: por frase, la lista de palabras que llevan titular (`{"F005": ["rincones", "riñonero",
+   "hueco"]}`; `""` = ninguno). **Mejor de más que de menos**: Gerard borra los que sobran.
+3. Sin `--solo-md` (CapCut cerrado): lee los cortes REALES del proyecto y AÑADE (nunca toca el vídeo):
+   - `Subtitulos`: pista de subtítulos de CapCut (`capcut caption --words`, `sub_type` 1) con nuestros
+     tiempos; la posición se fija después en todas las copias (`colocar_pista`, caption la deja en -0.6).
+   - `Titulares 1..n`: una línea por palabra (artículo/preposición + palabra juntos: «los RINCONES», el
+     artículo en pequeño); cada línea **entra cuando se dice** y **todas salen a la vez** al acabar la
+     idea. Si el titular taparía una cara (OpenCV, un fotograma cada 0,3 s) se baja a `y_alternativa`.
+   - Jesús: si se nombra un color («nogal oscuro», «gris») esas palabras salen en ese color (`colores`).
+   `--rehacer` quita todos los textos y los vuelve a poner (copia en `backups/` antes).
+4. QA: `capcut lint` («caption-too-fast» es normal palabra a palabra) + 5 fotogramas con el texto dibujado
+   (render `capcut render --scale 0.5` + `drawtext` con las fuentes): legible, ninguna cara tapada, bien
+   escrito, titulares escalonados. Los bloques arrancan con el sonido (Whisper da los inicios ~90 ms tarde).
+5. Avisar a Gerard y esperar su OK antes de la fase 3.
 
 ## Reglas
 

@@ -1,0 +1,26 @@
+{
+ "cliente": "gerard-personal",
+ "fuente_evidencia": "reglas de Gerard (Aprenent fotografia): Inter Tight blanca, palabras enteras",
+ "subtitulos": {
+  "fuente": "Inter Tight",
+  "archivo_fuente": "fuentes/InterTight-Bold.ttf",
+  "color": "#ffffff",
+  "tamano": 8,
+  "mayusculas": false,
+  "palabras_por_bloque": 2,
+  "max_caracteres": 16,
+  "x": 0.0,
+  "y": -0.35,
+  "sombra": {
+   "color": "#000000",
+   "alpha": 0.4,
+   "distancia": 6,
+   "difuminado": 0.8,
+   "angulo": -60
+  },
+  "borde": 0,
+  "caja": false,
+  "animacion": "ninguna"
+ },
+ "titular": null
+}

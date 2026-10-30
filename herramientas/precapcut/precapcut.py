@@ -698,6 +698,388 @@ def cmd_materiales(a):
         sys.exit(1)
 
 
+# ---------------------------------------------------------------- fase 2: subtítulos
+
+CORTAS = {"a", "al", "de", "del", "el", "la", "las", "lo", "los", "en", "y", "o", "que", "se", "un",
+          "una", "por", "con", "no", "me", "te", "le", "mi", "tu", "su", "es", "i", "els", "les", "amb"}
+NO_CLAVE = CORTAS | {"para", "como", "todo", "todos", "mucho", "más", "aquí", "este", "esto", "esta",
+                     "pero", "porque", "tener", "tenemos", "favor", "seguro", "vale", "pues", "donde"}
+ARTICULOS = {"el", "la", "los", "las", "un", "una", "unos", "unas", "al", "del", "de", "en", "con", "por",
+             "para", "a", "sin", "sobre", "els", "les", "amb", "per"}  # van pegados a la palabra que sigue
+CUE_MIN = 0.25
+SEG_PEGADO = 0.15
+
+
+def palabras_en_timeline(d, trans, frases, proyecto):
+    """Palabras con su tiempo en el timeline REAL del proyecto (Gerard puede haber movido cortes):
+    cada clip de vídeo de CapCut -> las palabras de su tramo de origen, sin volver a transcribir."""
+    info = proyecto / "draft_info.json" if (proyecto / "draft_info.json").exists() else proyecto
+    r = subprocess.run([capcut_bin(), "segments", str(info)], capture_output=True, text=True, check=True)
+    por_nombre = {Path(t["video"]).name: vi for vi, t in enumerate(trans)}
+    frase_de = {}
+    for f in frases:
+        if f["queda"]:
+            fuera = set(f["quitar_palabras"])
+            for k, w in enumerate(f["palabras"]):
+                if k not in fuera:
+                    frase_de[(f["video"], w["s"])] = f["id"]
+    out, envs = [], {}
+    for seg in json.loads(r.stdout):
+        if seg["type"] != "video" or seg["label"] not in por_nombre:
+            continue
+        r2 = subprocess.run([capcut_bin(), "segment", str(info), seg["id"]], capture_output=True, text=True, check=True)
+        x = json.loads(r2.stdout)
+        src = (x.get("segment") or x)["source_timerange"]
+        s0, s1 = src["start"] / 1e6, (src["start"] + src["duration"]) / 1e6
+        t0 = seg["start_us"] / 1e6
+        vi = por_nombre[seg["label"]]
+        env = envs.setdefault(vi, envolvente(trans[vi]["video"]))
+        prev_e = 0.0
+        for w in trans[vi]["palabras"]:
+            medio = (w["s"] + w["e"]) / 2
+            # Whisper da el inicio tarde (mediana 90 ms): tras una pausa, el bloque sale con el sonido
+            ini = borde_sonido(env, w["s"], -1, 0.3, quieto=0.03)
+            ini = ini if ini is not None and ini > prev_e else w["s"]
+            prev_e = w["e"]
+            if s0 <= medio <= s1 and (vi, w["s"]) in frase_de:
+                out.append({"w": w["w"], "ts": round(t0 + max(ini, s0) - s0, 3),
+                            "te": round(t0 + min(w["e"], s1) - s0, 3), "frase": frase_de[(vi, w["s"])],
+                            "fin_clip": round(t0 + s1 - s0, 3)})
+    return sorted(out, key=lambda w: w["ts"])
+
+
+def limpiar(txt, fixes):
+    t = re.sub(r"[.,;:!?¿¡\"«»]", "", txt).strip()
+    return fixes.get(t.lower(), fixes.get(t, t))
+
+
+def construir_cues(palabras, estilo, ajustes):
+    """Bloques de 1-2 palabras sin partir palabras; las cortas van con la siguiente."""
+    fixes = {k.lower(): v for k, v in cargar_vocabulario()[1].items()}
+    fixes.update({k.lower(): v for k, v in ajustes.get("correcciones", {}).items()})
+    n = estilo.get("palabras_por_bloque", 1)
+    cues, i = [], 0
+    while i < len(palabras):
+        grupo = [palabras[i]]
+        while (len(grupo) < n or grupo[-1]["te"] - grupo[0]["ts"] < CUE_MIN) and i + 1 < len(palabras) \
+                and palabras[i + 1]["frase"] == grupo[0]["frase"] \
+                and (len(grupo) < n or norm(grupo[-1]["w"]) in CORTAS or grupo[-1]["te"] - grupo[0]["ts"] < CUE_MIN) \
+                and len(grupo) < max(n, 2):
+            i += 1
+            grupo.append(palabras[i])
+        if n >= 2 and norm(grupo[-1]["w"]) in CORTAS and i + 1 < len(palabras) and len(grupo) > 1:
+            i -= 1
+            grupo.pop()  # "de" al final del bloque: mejor empieza el siguiente
+        txt = " ".join(limpiar(w["w"], fixes) for w in grupo)
+        txt = txt.upper() if estilo.get("mayusculas") else txt.lower()
+        cues.append({"ini": grupo[0]["ts"], "fin": grupo[-1]["te"], "texto": txt,
+                     "frase": grupo[0]["frase"], "fin_clip": grupo[-1]["fin_clip"]})
+        i += 1
+    for a, b in zip(cues, cues[1:]):  # sin parpadeo entre bloques seguidos
+        if b["ini"] - a["fin"] < SEG_PEGADO:
+            a["fin"] = b["ini"]
+    for c in cues:
+        c["fin"] = min(max(c["fin"], c["ini"] + CUE_MIN), c["fin_clip"]) if c["fin_clip"] - c["ini"] >= CUE_MIN \
+            else max(c["fin"], c["ini"] + CUE_MIN)
+    for a, b in zip(cues, cues[1:]):
+        a["fin"] = min(a["fin"], b["ini"])
+    return cues, fixes
+
+
+def colores_de(ws, colores):
+    """Índice de palabra -> color, si nombra uno ("nogal oscuro" colorea las dos palabras)."""
+    if not colores:
+        return {}
+    cn = {" ".join(norm(x) for x in k.split()): v for k, v in colores.items()}
+    out, j = {}, 0
+    while j < len(ws):
+        dos = " ".join(norm(w["w"]) for w in ws[j:j + 2])
+        if j + 1 < len(ws) and dos in cn:
+            out[j] = out[j + 1] = cn[dos]
+            j += 2
+            continue
+        if norm(ws[j]["w"]) in cn:
+            out[j] = cn[norm(ws[j]["w"])]
+        j += 1
+    return out
+
+
+def construir_titulares(palabras, estilo, ajustes, fixes, colores=None):
+    """Un titular por idea (cada trozo de frase hasta coma/punto/pausa, si tiene una palabra que
+    lo merezca): mejor de más, Gerard borra los que sobran. Cada palabra en su línea, salvo
+    artículo/preposición + palabra, que van juntos ("los RINCONES"); la clave en mayúsculas y
+    grande, el resto pequeño. Cada línea entra cuando se dice y todas salen juntas."""
+    trozos, act = [], []
+    for k, w in enumerate(palabras):
+        if act and (w["frase"] != act[-1]["frase"] or w["ts"] - act[-1]["te"] > 0.3):
+            trozos.append(act)
+            act = []
+        act.append(w)
+        if w["w"].endswith((",", ".", "?", "!")):
+            trozos.append(act)
+            act = []
+    if act:
+        trozos.append(act)
+    manuales = {fid: [norm(x) for x in (v if isinstance(v, list) else [v])]
+                for fid, v in ajustes.get("claves", {}).items()}
+    usadas, tit = set(), []
+    for ws in trozos:
+        fid = ws[0]["frase"]
+        if manuales.get(fid) == [""]:
+            continue
+        # claves a mano: un titular por cada una (varias por frase larga); si no, la más larga
+        claves = [k for k, w in enumerate(ws) if norm(w["w"]) in manuales.get(fid, [])]
+        if not claves:
+            cands = [k for k, w in enumerate(ws) if norm(w["w"]) not in NO_CLAVE | usadas and len(norm(w["w"])) >= 5]
+            claves = [max(cands, key=lambda j: len(norm(ws[j]["w"])))] if cands else []
+        col = colores_de(ws, colores)
+        desde = 0
+        for k in claves:
+            usadas.add(norm(ws[k]["w"]))
+            t = titular(ws, k, desde, col, estilo, fixes, fid)
+            desde = k + 1
+            tit.append(t)
+    for t, sig in zip(tit, tit[1:]):  # no se pisan: el siguiente titular echa al anterior
+        t["fin"] = min(t["fin"], sig["ini"])
+    return tit
+
+
+def titular(ws, k, desde, col, estilo, fixes, fid):
+    if True:
+        hasta = k + 1
+        while hasta - k <= 3 and (hasta in col or (hasta + 1 in col and norm(ws[hasta]["w"]) in CORTAS)):
+            hasta += 1  # "tiradores grafito", "encimera en gris": el color se dice y entra en el titular
+        sel = ws[max(desde, k - estilo.get("palabras_antes", 3)):hasta]
+        # "de plástico": si la clave cierra con un artículo/preposición delante, va con ella
+        lineas, pend = [], []
+        for j, w in enumerate(sel):
+            txt = limpiar(w["w"], fixes)
+            es_clave = w is ws[k]
+            if norm(w["w"]) in ARTICULOS and not es_clave and j + 1 < len(sel):
+                pend.append((txt.lower(), w))
+                continue
+            menor = " ".join(t for t, _ in pend)
+            ini = pend[0][1]["ts"] if pend else w["ts"]
+            pal = txt.upper() if es_clave else txt.lower()
+            color = col.get(ws.index(w))
+            lineas.append({"ini": ini, "menor": menor, "texto": pal, "clave": es_clave, "color": color})
+            pend = []
+        fin = max(ws[-1]["te"], lineas[-1]["ini"] + 0.8) + estilo.get("salida_extra", 0.25)
+        return {"frase": fid, "ini": lineas[0]["ini"], "fin": fin, "lineas": lineas}
+
+
+def srt(cues, campo="texto"):
+    def t(x):
+        ms = int(round(x * 1000))
+        return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
+    return "".join(f"{k}\n{t(c['ini'])} --> {t(c['fin'])}\n{c[campo]}\n\n"
+                   for k, c in enumerate(cues, 1) if c[campo])
+
+
+def preset_de(e, ruta, x=None, y=None, color=None, rangos=None):
+    """Preset de capcut-cli con todo el estilo (fuente incluida, que no tiene otra vía)."""
+    fuente = AQUI / e["archivo_fuente"] if e.get("archivo_fuente") else None
+    if fuente:
+        instalada = (Path.home() / "Library/Fonts" if sys.platform == "darwin" else
+                     Path(os.environ.get("LOCALAPPDATA", "")) / "Microsoft/Windows/Fonts") / fuente.name
+        fuente = instalada if instalada.exists() else (fuente if fuente.exists() else None)
+    style = {"text_color": color or e["color"], "font_size": e["tamano"], "bold": bool(e.get("negrita")),
+             "letter_spacing": e.get("espaciado", 0)}
+    sombra = e.get("sombra")
+    if isinstance(sombra, dict):
+        style.update(has_shadow=True, shadow_color=sombra["color"], shadow_alpha=sombra["alpha"],
+                     shadow_distance=sombra["distancia"], shadow_smoothing=sombra["difuminado"],
+                     shadow_angle=sombra["angulo"])
+    elif sombra:
+        style.update(has_shadow=True, shadow_alpha=0.6)
+    if e.get("borde"):
+        style.update(has_border=True, border_width=e["borde"], border_color="#000000")
+    if fuente:
+        style.update(font_path=str(fuente), font_name=e["fuente"])
+    preset = {"capcutCliPreset": 1, "style": style}
+    if x is not None:
+        preset["transform"] = {"x": x, "y": y}
+    if rangos:
+        preset["text_ranges"] = rangos
+    escribir_json(ruta, preset)
+
+
+def poner_subtitulos(info, cues, e, d):
+    """Pista de subtítulos de verdad (la de `capcut caption`: sub_type 1), con nuestros tiempos
+    por palabra y nuestro texto; sin Whisper ni nube."""
+    palabras, lineas = [], []
+    for c in cues:
+        ws = c["texto"].split()
+        paso = (c["fin"] - c["ini"]) / len(ws)
+        palabras += [{"word": w, "start": round(c["ini"] + k * paso, 3), "end": round(c["ini"] + (k + 1) * paso, 3)}
+                     for k, w in enumerate(ws)]
+        lineas.append(c["texto"])
+    escribir_json(d / "subtitulos-palabras.json", palabras)
+    (d / "subtitulos-guion.txt").write_text("\n".join(lineas) + "\n", encoding="utf-8")
+    preset_de(e, d / "preset-Subtitulos.json", e.get("x", 0), e.get("y", 0))
+    r = subprocess.run([capcut_bin(), "caption", str(info), "--words", str(d / "subtitulos-palabras.json"),
+                        "--script", str(d / "subtitulos-guion.txt"), "--track-name", "Subtitulos",
+                        "--preset", str(d / "preset-Subtitulos.json")], capture_output=True, text=True)
+    if r.returncode != 0:
+        sys.exit("capcut caption ha fallado: " + (r.stdout + r.stderr)[-800:])
+    return json.loads(r.stdout.splitlines()[0])["cues"]
+
+
+def colocar_pista(destino, pista, x, y):
+    """`capcut caption` deja los subtítulos siempre en y=-0.6 y no hay comando para moverlos:
+    se cambia solo la posición de esa pista en todas las copias que lee CapCut."""
+    mirrors = [f for patron in ("draft_info.json", "draft_content.json", "template-2.tmp")
+               for f in [destino / patron, *destino.glob(f"Timelines/*/{patron}")] if f.exists()]
+    for f in mirrors:
+        try:
+            data = json.loads(f.read_text(encoding="utf-8"))
+        except ValueError:
+            continue
+        for t in data.get("tracks", []):
+            if t.get("type") == "text" and t.get("name") == pista:
+                for seg in t.get("segments", []):
+                    seg.setdefault("clip", {}).setdefault("transform", {}).update(x=x, y=y)
+        f.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+
+
+def alto_linea(est):
+    return est["tamano"] * 0.0052  # tamaño CapCut -> fracción de media pantalla (aprox., ver QA)
+
+
+def caja_titular(t, e, y0):
+    """Caja aproximada (x0, y0, x1, y1 en 0..1 desde arriba-izquierda) que ocupa un titular."""
+    alto = sum(alto_linea(e["clave"] if l["clave"] else e["menor"]) + e.get("hueco", 0.015) for l in t["lineas"])
+    ancho = max(len((l["menor"] + " " + l["texto"]).strip()) * (e["clave"] if l["clave"] else e["menor"])["tamano"]
+                for l in t["lineas"]) * 0.0042
+    x0 = (1 + e["x"]) / 2
+    return x0, (1 - y0) / 2, min(x0 + ancho, 1.0), (1 - (y0 - alto)) / 2
+
+
+def zonas_sin_cara(info, tit, e, d):
+    """Para cada titular, la primera zona (arriba; si tapa una cara, abajo) libre de caras en
+    un fotograma cada 0,3 s de su tiempo. Sin OpenCV se queda arriba. Un falso positivo solo
+    baja el titular; una cara sin detectar es lo que no puede pasar: por eso se mira tanto."""
+    try:
+        import cv2
+    except ImportError:
+        return [e["y"]] * len(tit)
+    proxy = d / "proxy-caras.mp4"
+    subprocess.run([capcut_bin(), "render", str(info), "--out", str(proxy), "--scale", "0.5",
+                    "--ffmpeg-cmd", ffmpeg_bin()], capture_output=True)
+    cap = cv2.VideoCapture(str(proxy))
+    if not cap.isOpened():
+        return [e["y"]] * len(tit)
+    caras = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    perfil = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_profileface.xml")
+    out = []
+    for t in tit:
+        cajas = []
+        n = max(3, int((t["fin"] - t["ini"]) / 0.3))
+        for f in (k / (n - 1) for k in range(n)):
+            cap.set(cv2.CAP_PROP_POS_MSEC, (t["ini"] + f * (t["fin"] - t["ini"]) * 0.98) * 1000)
+            ok, img = cap.read()
+            if not ok:
+                continue
+            g = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            h, w = g.shape
+            for det in (caras, perfil):
+                for (x, y, cw, ch) in det.detectMultiScale(g, 1.1, 5, minSize=(w // 12, w // 12)):
+                    m = 0.15  # margen alrededor de la cara (pelo, barbilla)
+                    cajas.append(((x - m * cw) / w, (y - m * ch) / h, (x + cw * (1 + m)) / w, (y + ch * (1 + m)) / h))
+        elegida = e["y"]
+        for y0 in (e["y"], e.get("y_alternativa", -0.3)):
+            bx = caja_titular(t, e, y0)
+            if not any(bx[0] < c[2] and c[0] < bx[2] and bx[1] < c[3] and c[1] < bx[3] for c in cajas):
+                elegida = y0
+                break
+        t["y"] = elegida
+        out.append(elegida)
+    return out
+
+
+def poner_titulares(info, tit, e, d):
+    """Cada línea es su propio texto: entra con su palabra, todas salen a la vez."""
+    cc, n = capcut_bin(), 0
+    for t in tit:
+        y = t.get("y", e["y"])
+        for k, ln in enumerate(t["lineas"]):
+            est = e["clave"] if ln["clave"] else e["menor"]
+            texto = f"{ln['menor']} {ln['texto']}".strip()
+            rangos = None
+            if ln["menor"] and ln["clave"]:  # "los RINCONES": el artículo pequeño, en la misma línea
+                rangos = [{"start": 0, "end": len(ln["menor"]), "font_size": e["menor"]["tamano"]}]
+            alto = alto_linea(est)
+            y -= alto / 2
+            preset = d / "preset-titular.json"
+            preset_de(est, preset, e["x"], round(y, 4), ln["color"], rangos)
+            subprocess.run([cc, "add-text", str(info), str(round(ln["ini"], 3)), str(round(t["fin"] - ln["ini"], 3)),
+                            texto, "--track-name", f"Titulares {k + 1}", "--preset", str(preset),
+                            "--align", str(e.get("alineacion", 0))], capture_output=True, text=True, check=True)
+            y -= alto / 2 + e.get("hueco", 0.015)
+            n += 1
+    return n
+
+
+def cmd_subtitulos(a):
+    d = TRABAJO / a.pieza
+    trans = leer_json(d / "transcripciones.json")
+    _, _, frases, _ = cargar_pieza(a.pieza)
+    destino = Path(a.proyecto)
+    if not destino.exists():
+        destino = carpeta_borradores() / a.proyecto
+    if not destino.exists():
+        sys.exit(f"No encuentro el proyecto de CapCut «{a.proyecto}».")
+    estilo = leer_json(AQUI / "estilos" / f"{a.estilo}.json")
+    aj_f = d / "subtitulos.json"
+    ajustes = leer_json(aj_f) if aj_f.exists() else {"correcciones": {}, "claves": {}}
+    if not aj_f.exists():
+        escribir_json(aj_f, ajustes)
+    palabras = palabras_en_timeline(d, trans, frases, destino)
+    cues, fixes = construir_cues(palabras, estilo["subtitulos"], ajustes)
+    colores = estilo.get("colores") if estilo.get("colores_nombrados") else None
+    tit = construir_titulares(palabras, estilo["titular"], ajustes, fixes, colores) if estilo.get("titular") else []
+    md = [f"# Subtítulos · {a.pieza} · estilo {a.estilo}", "",
+          f"{len(cues)} bloques · {len(tit)} titulares. Correcciones y claves: `subtitulos.json` "
+          "(\"claves\": {\"F003\": [\"palabra\", ...]} o \"\" para quitar los titulares de esa frase).", "",
+          "## Titulares (cada línea entra con su palabra; salen todas juntas)", ""]
+    for t in tit:
+        md.append(f"- {t['frase']} · sale {tc(t['fin'])} · " + " / ".join(
+            f"{tc(l['ini'])} {(l['menor'] + ' ' + l['texto']).strip()}" + (f" [{l['color']}]" if l["color"] else "")
+            for l in t["lineas"]))
+    md += ["", "## Bloques", ""] + [f"- {tc(c['ini'])}–{tc(c['fin'])} {c['texto']}" for c in cues]
+    (d / "subtitulos.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    escribir_json(d / "subtitulos-cues.json", {"cues": cues, "titulares": tit})
+    print(f"{len(cues)} bloques, {len(tit)} titulares → {d / 'subtitulos.md'}")
+    if a.solo_md:
+        return
+    if capcut_abierto():
+        sys.exit("CapCut está abierto: ciérralo y vuelve a lanzarlo (no se ha escrito nada).")
+    info = destino / "draft_info.json" if (destino / "draft_info.json").exists() else destino
+    r = subprocess.run([capcut_bin(), "tracks", str(info)], capture_output=True, text=True, check=True)
+    textos = [t for t in json.loads(r.stdout) if t["type"] == "text"]
+    if textos and not a.rehacer:
+        sys.exit("El proyecto ya tiene pistas de texto: --rehacer las quita (todas las de texto) y las vuelve a poner.")
+    copia = d / "backups" / f"{destino.name}-{time.strftime('%Y%m%d-%H%M%S')}"
+    shutil.copytree(destino, copia, ignore=shutil.ignore_patterns(".locked"))
+    if textos:  # --rehacer: fuera todos los textos (los de fase 2 y los retoques ya aprendidos)
+        r = subprocess.run([capcut_bin(), "segments", str(info), "--track", "text"],
+                           capture_output=True, text=True, check=True)
+        for seg in json.loads(r.stdout):
+            subprocess.run([capcut_bin(), "remove", str(info), seg["id"], "-q"], check=True, capture_output=True)
+    # solo se AÑADEN pistas de texto: los cortes de vídeo no se tocan
+    n = poner_subtitulos(info, cues, estilo["subtitulos"], d)
+    if tit:
+        zonas = zonas_sin_cara(info, tit, estilo["titular"], d)
+        print(f"  titulares movidos abajo por tapar una cara: {sum(z != estilo['titular']['y'] for z in zonas)}")
+        escribir_json(d / "subtitulos-cues.json", {"cues": cues, "titulares": tit})
+    nl = poner_titulares(info, tit, estilo["titular"], d) if tit else 0
+    if (destino / "Timelines").is_dir():
+        subprocess.run([capcut_bin(), "sync-timelines", str(destino), "--nested", "--apply"],
+                       check=True, capture_output=True)
+    colocar_pista(destino, "Subtitulos", estilo["subtitulos"].get("x", 0), estilo["subtitulos"].get("y", 0))
+    print(f"Añadidos {n} subtítulos y {len(tit)} titulares ({nl} líneas) · copia: {copia}")
+
+
 def cmd_qa(a):
     """Re-transcribe el preview y lo compara con lo que debía quedar: palabras comidas o sobrantes."""
     d, trans, frases, tramos = cargar_pieza(a.pieza)
@@ -749,11 +1131,17 @@ def main():
     mt = sub.add_parser("materiales", help="clips con el vídeo original entero (para alargar en CapCut)")
     mt.add_argument("pieza")
     mt.add_argument("proyecto", help="proyecto de CapCut (nombre o ruta)")
+    st = sub.add_parser("subtitulos", help="fase 2: añade pistas de subtítulos y titulares al proyecto")
+    st.add_argument("pieza")
+    st.add_argument("proyecto", help="proyecto de CapCut (nombre o ruta)")
+    st.add_argument("--estilo", required=True, help="estilos/<cliente>.json")
+    st.add_argument("--solo-md", action="store_true", help="solo subtitulos.md, sin tocar CapCut")
+    st.add_argument("--rehacer", action="store_true", help="quita las pistas de texto de precapcut y las vuelve a poner")
     q = sub.add_parser("qa", help="re-transcribe el preview y busca palabras comidas")
     q.add_argument("pieza")
     q.add_argument("--modelo", default="small")
     a = p.parse_args()
-    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "qa": cmd_qa}[a.cmd](a)
+    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "qa": cmd_qa}[a.cmd](a)
 
 
 if __name__ == "__main__":
