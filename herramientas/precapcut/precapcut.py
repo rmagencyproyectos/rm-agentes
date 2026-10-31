@@ -1435,10 +1435,17 @@ def cmd_recursos(a):
         subprocess.run([capcut_bin(), "remove", str(info), sid, "-q"], check=True, capture_output=True)
     (d / "recursos").mkdir(exist_ok=True)
     env = entorno_capcut()
-    for r in recursos:
+    fin_video = max(seg["target_timerange"]["start"] + seg["target_timerange"]["duration"]
+                    for t in data.get("tracks", []) if t.get("type") == "video" for seg in t.get("segments", [])) / 1e6
+    recursos = [dict(r, fin=round(min(r["fin"], fin_video), 3)) for r in recursos if r["ini"] < fin_video - 0.5]
+    for r in recursos:  # duración en fotogramas enteros (30 fps): la del render y la del clip coinciden
+        r["fin"] = round(r["ini"] + int((r["fin"] - r["ini"]) * 30) / 30, 3)
+    for r in recursos:  # ninguno pasa del final del vídeo (capcut add-video lo rechaza)
         f = render_recurso(r, estilo, d / "recursos" / f"{r['id']}.mov")
-        subprocess.run([capcut_bin(), "add-video", str(info), str(f), str(r["ini"]), str(round(r["fin"] - r["ini"], 3)),
-                        "--track-name", "Recursos"], check=True, capture_output=True, env=env)
+        rr = subprocess.run([capcut_bin(), "add-video", str(info), str(f), str(r["ini"]), str(round(r["fin"] - r["ini"], 3)),
+                             "--track-name", "Recursos"], capture_output=True, text=True, env=env)
+        if rr.returncode != 0:
+            sys.exit(f"capcut add-video {r['id']}: {(rr.stdout + rr.stderr)[-500:]}")
         print(f"  {r['id']} {r['plantilla']} {r.get('texto', '')}")
     if (destino / "Timelines").is_dir():
         subprocess.run([capcut_bin(), "sync-timelines", str(destino), "--nested", "--apply"], check=True, capture_output=True)
