@@ -104,6 +104,12 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
 - CapCut congelado en la **9.5**: la 10 rechaza los proyectos escritos por capcut-cli.
 - Si una palabra sale mal siempre (nombres, marcas), añadirla a `vocabulario.txt`.
 
+## Espacio en disco
+
+`montar` compila contra proxies negros (`<pieza>/proxies/`, pocos KB: mismo nombre, tamaño y duración que el
+original), apunta los materiales a los originales y quita de `assets/` lo que nada usa (`limpiar_assets`; en
+proyectos de Gerard, a la Papelera). **Nunca `capcut lint --fix`**: copia todos los medios dentro del proyecto.
+
 ## Clips que se puedan alargar (ffprobe)
 
 capcut-cli necesita **ffprobe** para saber cuánto dura cada vídeo; sin él, el material de CapCut acaba

@@ -531,6 +531,42 @@ def render_preview(trans, tramos, salida, alto=960):
     subprocess.run(cmd, check=True)
 
 
+def proxy_negro(video, info, carpeta):
+    """Vídeo negro mínimo con el mismo nombre, tamaño y duración que el original. Se compila contra él
+    (capcut-cli copia los medios a assets/: con el original serían cientos de MB por proyecto) y luego
+    apuntar_originales lleva los materiales al original."""
+    carpeta.mkdir(parents=True, exist_ok=True)
+    salida = carpeta / Path(video).name
+    if not salida.exists():
+        w, h, dur = info.get("ancho") or 1080, info.get("alto") or 1920, info.get("duracion") or 1
+        subprocess.run([ffmpeg_bin(), "-v", "error", "-y", "-f", "lavfi", "-i", f"color=c=black:s={w}x{h}:r=1:d={dur}",
+                        "-f", "lavfi", "-i", "anullsrc=r=48000:cl=mono", "-t", str(dur), "-c:v", "libx264",
+                        "-preset", "ultrafast", "-crf", "51", "-c:a", "aac", "-b:a", "8k", "-shortest",
+                        "-movflags", "+faststart", str(salida)], check=True)
+    return salida
+
+
+def limpiar_assets(destino, papelera=False):
+    """Quita de <proyecto>/assets lo que ningún material referencia (raíz, Timelines/ y draft_meta_info).
+    Proxies propios: se borran. En un proyecto de Gerard (papelera=True): a la Papelera, nunca borrado."""
+    usados = set()
+    for f in mirrors_de(destino) + [destino / "draft_meta_info.json"]:
+        if f.exists():
+            usados |= set(re.findall(r"assets/[^\"']+", f.read_text(encoding="utf-8")))
+    libres = 0
+    for f in sorted((destino / "assets").rglob("*")):
+        rel = f.relative_to(destino).as_posix()
+        if not f.is_file() or rel in usados:
+            continue
+        libres += f.stat().st_size
+        if papelera and sys.platform == "darwin":
+            dest = Path.home() / ".Trash" / f"{destino.name} - {f.name}"
+            shutil.move(str(f), str(dest))
+        else:
+            f.unlink()
+    return libres
+
+
 def spec_capcut(nombre, trans, tramos):
     info = trans[0]
     ancho, alto = info.get("ancho") or 1080, info.get("alto") or 1920
@@ -604,6 +640,9 @@ def cmd_montar(a):
     if capcut_abierto():
         sys.exit("CapCut está abierto: ciérralo y vuelve a lanzar `montar` (no se ha escrito nada).")
     spec = spec_capcut(a.nuevo or a.pieza, trans, tramos)
+    for it in spec["tracks"][0]["items"]:  # compilar contra proxies negros, no contra el original
+        t = next(x for x in trans if x["video"] == it["path"])
+        it["path"] = str(proxy_negro(it["path"], t, d / "proxies"))
     escribir_json(d / "spec-fase1.json", spec)
     cmd = [capcut_bin(), "compile", str(d / "spec-fase1.json")]
     marca = d / "capcut-proyecto.txt"  # el proyecto que ya ha llenado precapcut para esta pieza
@@ -637,6 +676,7 @@ def cmd_montar(a):
         pass
     apuntar_originales(destino,
                        {Path(t["video"]).name: t["video"] for t in trans})
+    print(f"assets/ sin usar fuera: {limpiar_assets(destino) / 1e6:.0f} MB")
 
 
 def apuntar_originales(destino, originales):

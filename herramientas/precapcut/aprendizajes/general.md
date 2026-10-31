@@ -60,3 +60,8 @@
   Si hace falta zoom: solo escala ≥ 1, centrada.
 - La copia de la rotoscopia va SIEMPRE muda: clip a volumen 0 y además la pista silenciada; se comprueba en
   cada paso que escribe (`mudar_copias`).
+
+## 2026-10-31 · espacio en disco (Gerard va justo)
+- `montar` compila contra proxies negros mínimos (mismo nombre, tamaño y duración; `proxy_negro`) y luego
+  apunta a los originales: capcut-cli ya no copia cientos de MB a assets/. Después `limpiar_assets`.
+- Nunca `capcut lint --fix` en precapcut (copia medios a assets/ por «media-outside-draft»): lint sin --fix.
