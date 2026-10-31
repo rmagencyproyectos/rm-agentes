@@ -1304,9 +1304,10 @@ def cmd_subtitulos(a):
     info = destino / "draft_info.json" if (destino / "draft_info.json").exists() else destino
     # las pistas de precapcut se reconocen por el nombre; las de Gerard (sin nombre) no se tocan
     data = json.loads(info.read_text(encoding="utf-8"))
+    prefijos = ("Titulares",) if a.solo_titulares else ("Subtitulos", "Titulares", "Exclamaciones")
     nuestras = [seg["id"] for t in data.get("tracks", [])
-                if (t["type"] == "text" and (t.get("name") or "").startswith(("Subtitulos", "Titulares", "Exclamaciones")))
-                or (t["type"] == "video" and "-copy" in (t.get("name") or ""))
+                if (t["type"] == "text" and (t.get("name") or "").startswith(prefijos))
+                or (not a.solo_titulares and t["type"] == "video" and "-copy" in (t.get("name") or ""))
                 for seg in t.get("segments", [])]
     if nuestras and not a.rehacer:
         sys.exit("El proyecto ya tiene textos de precapcut: --rehacer los quita y los vuelve a poner.")
@@ -1314,6 +1315,14 @@ def cmd_subtitulos(a):
     shutil.copytree(destino, copia, ignore=shutil.ignore_patterns(".locked"))
     for sid in nuestras:
         subprocess.run([capcut_bin(), "remove", str(info), sid, "-q"], check=True, capture_output=True)
+    if a.solo_titulares:  # solo los titulares (p. ej. tras cambiar la separación): lo demás no se toca
+        zonas_sin_cara(info, tit, estilo["titular"], d)
+        nl = poner_titulares(info, tit, estilo["titular"], d)
+        if (destino / "Timelines").is_dir():
+            subprocess.run([capcut_bin(), "sync-timelines", str(destino), "--nested", "--apply"], check=True, capture_output=True)
+        fijar_fuentes(destino, estilo)
+        print(f"Titulares rehechos: {len(tit)} ({nl} textos) · copia: {copia}")
+        return
     # solo se AÑADEN pistas de texto: los cortes de vídeo no se tocan
     n = poner_subtitulos(info, cues, estilo["subtitulos"], d)
     if tit:
@@ -1508,6 +1517,7 @@ def main():
     st.add_argument("proyecto", help="proyecto de CapCut (nombre o ruta)")
     st.add_argument("--estilo", required=True, help="estilos/<cliente>.json")
     st.add_argument("--solo-md", action="store_true", help="solo subtitulos.md, sin tocar CapCut")
+    st.add_argument("--solo-titulares", action="store_true", help="con --rehacer: rehace solo las pistas de titulares")
     st.add_argument("--rehacer", action="store_true", help="quita las pistas de texto de precapcut y las vuelve a poner")
     rc = sub.add_parser("recursos", help="fase 2b: motion graphics (o fotos) según lo que se dice")
     rc.add_argument("pieza")

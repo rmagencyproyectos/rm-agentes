@@ -46,3 +46,9 @@
 - Recursos según lo que se dice: motion graphics con el estilo de la marca (no hay pack: se hacen con
   Remotion); si se adjunta carpeta de fotos, se usan las fotos. Mejor de más que de menos.
 - Nunca tapan la cara ni los titulares/subtítulos: van en el tercio de abajo, con fondo transparente.
+
+## 2026-10-31 · Gerard (revisión recursos)
+- Los recursos tienen que EXPLICAR lo que se dice: ilustraciones/diagramas hechos a medida del contenido y
+  coherentes con lo que se ve en pantalla. Nada de emojis ni iconos genéricos («cutres»).
+- Aquí NO vale «mejor de más»: pocos y con sentido (al revés que los titulares). Si no aportan entendimiento,
+  no se ponen. Antes de construirlos: storyboard y OK de Gerard.
