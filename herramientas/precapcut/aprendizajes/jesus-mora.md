@@ -15,3 +15,9 @@
   madera a medida), cajón ordenado, planta de cocina en L (rincón perdido), riñonero girando (rincón
   aprovechado), botón de guardar de IG en el CTA. Tarjeta oscura translúcida en la franja de arriba.
   Son plantillas reutilizables para sus próximos vídeos de cocina/armarios.
+
+## 2026-10-31 (mañana) · Gerard (elige «B» y «C»)
+- Recursos cortos (~2 s), concretos y reconocibles. El cajón animado de 6 s se hacía largo → antes/después
+  en dos mitades que aparece de golpe (`antes_despues`), justo cuando ya no sale la cara.
+- Objeto real > diagrama abstracto: el plano en L era demasiado abstracto → zoom al riñonero real mientras
+  lo enseña (`zoom`: keyframes en el clip) + rótulo «RIÑONERO = rincón aprovechado» (`etiqueta`).

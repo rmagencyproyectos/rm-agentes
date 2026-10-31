@@ -1,11 +1,11 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {Cajon, CajonOrden, Esquina, Guardar, Rinonero} from './Explicativos';
+import {AntesDespues, Cajon, CajonOrden, Esquina, Guardar, Rinonero, Rotulo} from './Explicativos';
 
 // Plantillas de motion graphics de precapcut. Fondo transparente; el elemento va centrado en (x, y)
 // en píxeles de 1080x1920. Colores y fuentes llegan del estilo del cliente.
 export type Props = {
-	plantilla: 'carpeta' | 'icono' | 'contador' | 'check' | 'cruz' | 'lista' | 'flecha' | 'cajon' | 'cajon_orden' | 'esquina' | 'rinonero' | 'guardar';
+	plantilla: 'carpeta' | 'icono' | 'contador' | 'check' | 'cruz' | 'lista' | 'flecha' | 'cajon' | 'cajon_orden' | 'esquina' | 'rinonero' | 'guardar' | 'antes_despues' | 'etiqueta';
 	t1: number;
 	t2: number;
 	texto: string;
@@ -127,6 +127,8 @@ export const Recurso: React.FC<Props> = (p) => {
 		esquina: <Esquina p={p} />,
 		rinonero: <Rinonero p={p} />,
 		guardar: <Guardar p={p} />,
+		antes_despues: <AntesDespues p={p} />,
+		etiqueta: <Rotulo p={p} />,
 	}[p.plantilla];
 	return (
 		<AbsoluteFill style={{backgroundColor: 'transparent'}}>

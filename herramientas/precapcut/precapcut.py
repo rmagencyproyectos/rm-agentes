@@ -1392,13 +1392,37 @@ def render_recurso(r, estilo, salida):
     props = {"plantilla": r["plantilla"], "texto": r.get("texto", ""), "icono": r.get("icono", "✨"),
              "items": r.get("items", []), "numero": r.get("numero", 0), "duracion": round(r["fin"] - r["ini"], 3),
              "t1": r.get("t1", 1.0), "t2": r.get("t2", 2.0),  # segundos (desde que entra) de cada cambio
-             "x": 540, "y": int(r.get("y_px", e.get("y_px", 1400))), "color": e.get("color", "#985e34"),
+             "x": int(r.get("x_px", 540)), "y": int(r.get("y_px", e.get("y_px", 1400))), "color": e.get("color", "#985e34"),
              "colorTexto": e.get("color_texto", "#ffffff"), "fuenteTitulo": "Rubik-Bold.ttf", "fuenteTexto": "Alata-Regular.ttf"}
     remotion = REMOTION / "node_modules" / ".bin" / ("remotion.cmd" if sys.platform == "win32" else "remotion")
     subprocess.run([str(remotion), "render", "src/index.ts", "Recurso", str(salida), "--codec=prores",
                     "--prores-profile=4444", "--pixel-format=yuva444p10le", "--image-format=png",
                     "--props=" + json.dumps(props, ensure_ascii=False)], cwd=REMOTION, check=True, capture_output=True)
     return salida
+
+
+def hacer_zoom(info, data, r):
+    """Zoom sobre lo que se enseña (Gerard 31/10: objeto real > diagrama): keyframes de escala y posición
+    en el clip de vídeo que hay debajo (y en la copia de la rotoscopia si coincide), con entrada suave y,
+    si el clip sigue después, vuelta a 1."""
+    cc = capcut_bin()
+    for t in data.get("tracks", []):
+        if t.get("type") != "video" or not ((t.get("name") or "") == "Cortes" or "-copy" in (t.get("name") or "")):
+            continue
+        for seg in t.get("segments", []):
+            a = seg["target_timerange"]["start"] / 1e6
+            b = a + seg["target_timerange"]["duration"] / 1e6
+            if not (a < r["fin"] and r["ini"] < b):
+                continue
+            t0, t1 = max(r["ini"], a) - a, min(r["fin"], b) - a
+            puntos = [(t0, 1.0, 0.0, 0.0), (min(t0 + 0.5, t1), r.get("escala", 1.3), r.get("x", 0.0), r.get("y", 0.0))]
+            if r["fin"] < b - 0.3:
+                puntos += [(t1 - 0.35, r.get("escala", 1.3), r.get("x", 0.0), r.get("y", 0.0)), (t1, 1.0, 0.0, 0.0)]
+            for tt, esc, x, y in puntos:
+                for prop, v in (("scale", esc), ("position_x", x), ("position_y", y)):
+                    subprocess.run([cc, "keyframe", str(info), seg["id"], prop, f"{tt:.3f}", str(v), "--easing", "ease-in-out", "-q"],
+                                   capture_output=True)
+            print(f"  zoom x{r.get('escala', 1.3)} en {t.get('name')} {tc(max(r['ini'], a))}–{tc(min(r['fin'], b))}")
 
 
 def cmd_recursos(a):
@@ -1450,6 +1474,9 @@ def cmd_recursos(a):
     recursos = [dict(r, fin=round(min(r["fin"], fin_video), 3)) for r in recursos if r["ini"] < fin_video - 0.5]
     for r in recursos:  # duración en fotogramas enteros (30 fps): la del render y la del clip coinciden
         r["fin"] = round(r["ini"] + int((r["fin"] - r["ini"]) * 30) / 30, 3)
+    for r in [r for r in recursos if r["plantilla"] == "zoom"]:  # el objeto real, más cerca
+        hacer_zoom(info, data, r)
+    recursos = [r for r in recursos if r["plantilla"] != "zoom"]
     for r in recursos:  # ninguno pasa del final del vídeo (capcut add-video lo rechaza)
         f = render_recurso(r, estilo, d / "recursos" / f"{r['id']}.mov")
         rr = subprocess.run([capcut_bin(), "add-video", str(info), str(f), str(r["ini"]), str(round(r["fin"] - r["ini"], 3)),

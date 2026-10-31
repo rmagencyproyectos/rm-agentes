@@ -127,3 +127,45 @@ export const Guardar: React.FC<{p: Props}> = ({p}) => {
 		</Tarjeta>
 	);
 };
+
+// Antes / después en dos mitades, de golpe (Gerard 31/10: ~2 s, concreto; elegido «B»).
+const Bandeja: React.FC<{x: number; ancho: number; color: string; huecos: boolean; parpadeo: number}> = ({x, ancho, color, huecos, parpadeo}) => (
+	<g>
+		<rect x={x} y={40} width={250} height={190} rx={12} fill="none" stroke="#fff" strokeWidth={5} />
+		{huecos && [x + 6, x + 125 + ancho / 2].map((hx) => (
+			<rect key={hx} x={hx} y={46} width={(238 - ancho) / 2} height={178} fill={ROJO} opacity={0.5 + 0.4 * parpadeo} />
+		))}
+		<rect x={x + 125 - ancho / 2} y={46} width={ancho} height={178} rx={8} fill={color} />
+		{[1, 2, 3].map((i) => <line key={i} x1={x + 125 - ancho / 2 + (ancho * i) / 4} y1={54} x2={x + 125 - ancho / 2 + (ancho * i) / 4} y2={216} stroke="rgba(255,255,255,0.55)" strokeWidth={4} />)}
+	</g>
+);
+export const AntesDespues: React.FC<{p: Props}> = ({p}) => {
+	const {s} = useT();
+	const parpadeo = Math.sin(s * 10);
+	const derecha = paso(s, p.t1, 0.2);
+	return (
+		<div style={{width: 680, padding: '26px 30px 20px', borderRadius: 44, background: 'rgba(22,16,12,0.62)', boxShadow: '0 20px 50px rgba(0,0,0,0.35)'}}>
+			<svg width={620} height={250} viewBox="0 0 620 250">
+				<Bandeja x={20} ancho={170} color="#9aa0a6" huecos parpadeo={parpadeo} />
+				<line x1={310} y1={30} x2={310} y2={240} stroke="rgba(255,255,255,0.35)" strokeWidth={3} />
+				<g opacity={derecha} transform={`translate(${(1 - derecha) * 20} 0)`}>
+					<Bandeja x={350} ancho={238} color={p.color} huecos={false} parpadeo={0} />
+				</g>
+			</svg>
+			<div style={{display: 'flex', justifyContent: 'space-around', fontFamily: 'Texto', fontSize: 44, color: '#fff'}}>
+				<span>estándar</span><span style={{opacity: derecha}}>a medida</span>
+			</div>
+		</div>
+	);
+};
+
+// Rótulo sobre el objeto real («riñonero = rincón aprovechado»): la palabra en grande y la explicación.
+export const Rotulo: React.FC<{p: Props}> = ({p}) => {
+	const [clave, ...resto] = p.texto.split('=');
+	return (
+		<div style={{padding: '22px 40px', borderRadius: 40, background: 'rgba(22,16,12,0.62)', textAlign: 'center', boxShadow: '0 20px 50px rgba(0,0,0,0.35)'}}>
+			<div style={{fontFamily: 'Titulo', fontSize: 92, color: p.color, lineHeight: 1}}>{clave.trim().toUpperCase()}</div>
+			{resto.length > 0 && <div style={{fontFamily: 'Texto', fontSize: 46, color: '#fff', marginTop: 8}}>= {resto.join('=').trim()}</div>}
+		</div>
+	);
+};
