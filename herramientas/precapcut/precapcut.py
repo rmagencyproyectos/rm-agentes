@@ -1256,9 +1256,26 @@ def ordenar_recortes(destino, exc):
                     seg["track_render_index"] = 99
         tracks = data.get("tracks", [])
         arriba = [t for t in tracks if any(seg["id"] in ids for seg in t.get("segments", []))]
+        for t in arriba:  # muda también la pista: con volumen 0 en el clip Gerard seguía oyéndolo doble
+            t["attribute"] = (t.get("attribute") or 0) | 1
         data["tracks"] = [t for t in tracks if t not in arriba] + arriba
     if ids:
         editar_mirrors(destino, cambio)
+    mudar_copias(destino)
+
+
+def mudar_copias(destino):
+    """Toda copia de rotoscopia («-copy») va sin audio, clip y pista (Gerard 31/10: se oía doble).
+    Se llama al final de cada paso que escribe, para que nada le devuelva el volumen."""
+    def cambio(data):
+        for t in data.get("tracks", []):
+            if t.get("type") == "video" and "-copy" in (t.get("name") or ""):
+                t["attribute"] = (t.get("attribute") or 0) | 1
+                for seg in t.get("segments", []):
+                    seg["volume"] = 0.0
+                    seg["common_keyframes"] = [k for k in seg.get("common_keyframes") or []
+                                               if "volume" not in (k.get("property_type") or "").lower()]
+    editar_mirrors(destino, cambio)
 
 
 def cmd_subtitulos(a):
@@ -1321,6 +1338,7 @@ def cmd_subtitulos(a):
         if (destino / "Timelines").is_dir():
             subprocess.run([capcut_bin(), "sync-timelines", str(destino), "--nested", "--apply"], check=True, capture_output=True)
         fijar_fuentes(destino, estilo)
+        mudar_copias(destino)
         print(f"Titulares rehechos: {len(tit)} ({nl} textos) · copia: {copia}")
         return
     # solo se AÑADEN pistas de texto: los cortes de vídeo no se tocan
@@ -1338,6 +1356,7 @@ def cmd_subtitulos(a):
     a_formato_subtitulo(destino, "Subtitulos", estilo.get("idioma", "es-ES"))
     fijar_fuentes(destino, estilo)
     ordenar_recortes(destino, exc)
+    mudar_copias(destino)
     print(f"Añadidos {n} subtítulos, {len(tit)} titulares ({nl} líneas) y {len(exc)} exclamaciones · copia: {copia}")
 
 
@@ -1415,11 +1434,12 @@ def hacer_zoom(info, data, r):
             if not (a < r["fin"] and r["ini"] < b):
                 continue
             t0, t1 = max(r["ini"], a) - a, min(r["fin"], b) - a
-            puntos = [(t0, 1.0, 0.0, 0.0), (min(t0 + 0.5, t1), r.get("escala", 1.3), r.get("x", 0.0), r.get("y", 0.0))]
+            esc = max(1.0, r.get("escala", 1.2))  # nunca por debajo de 1 ni desplazado: bordes negros (Gerard 31/10)
+            puntos = [(t0, 1.0), (min(t0 + 0.5, t1), esc)]
             if r["fin"] < b - 0.3:
-                puntos += [(t1 - 0.35, r.get("escala", 1.3), r.get("x", 0.0), r.get("y", 0.0)), (t1, 1.0, 0.0, 0.0)]
-            for tt, esc, x, y in puntos:
-                for prop, v in (("scale", esc), ("position_x", x), ("position_y", y)):
+                puntos += [(t1 - 0.35, esc), (t1, 1.0)]
+            for tt, v in puntos:
+                for prop in ("scale",):
                     subprocess.run([cc, "keyframe", str(info), seg["id"], prop, f"{tt:.3f}", str(v), "--easing", "ease-in-out", "-q"],
                                    capture_output=True)
             print(f"  zoom x{r.get('escala', 1.3)} en {t.get('name')} {tc(max(r['ini'], a))}–{tc(min(r['fin'], b))}")
@@ -1486,6 +1506,7 @@ def cmd_recursos(a):
         print(f"  {r['id']} {r['plantilla']} {r.get('texto', '')}")
     if (destino / "Timelines").is_dir():
         subprocess.run([capcut_bin(), "sync-timelines", str(destino), "--nested", "--apply"], check=True, capture_output=True)
+    mudar_copias(destino)
     print(f"Añadidos {len(recursos)} recursos · copia: {copia}")
 
 

@@ -52,3 +52,11 @@
   coherentes con lo que se ve en pantalla. Nada de emojis ni iconos genéricos («cutres»).
 - Aquí NO vale «mejor de más»: pocos y con sentido (al revés que los titulares). Si no aportan entendimiento,
   no se ponen. Antes de construirlos: storyboard y OK de Gerard.
+
+## 2026-10-31 (mañana) · Gerard
+- Recursos SIN texto: solo imagen o animación (el texto ya va en los titulares). Como mucho una palabra si es
+  imprescindible; mejor ninguna. («Guárdalo» del CTA: aprobado tal cual.)
+- Nunca escalar ni mover el vídeo de forma que se vean bordes negros (keyframes de escala < 1 o desplazados).
+  Si hace falta zoom: solo escala ≥ 1, centrada.
+- La copia de la rotoscopia va SIEMPRE muda: clip a volumen 0 y además la pista silenciada; se comprueba en
+  cada paso que escribe (`mudar_copias`).

@@ -152,9 +152,11 @@ export const AntesDespues: React.FC<{p: Props}> = ({p}) => {
 					<Bandeja x={350} ancho={238} color={p.color} huecos={false} parpadeo={0} />
 				</g>
 			</svg>
-			<div style={{display: 'flex', justifyContent: 'space-around', fontFamily: 'Texto', fontSize: 44, color: '#fff'}}>
-				<span>estándar</span><span style={{opacity: derecha}}>a medida</span>
-			</div>
+			{/* sin texto (Gerard 31/10: el texto ya va en los titulares): la imagen se explica sola */}
+			<svg width={620} height={90} viewBox="0 0 620 90">
+				<g transform="translate(145 45)"><circle r={36} fill={ROJO} /><path d="M-15 -15 L15 15 M15 -15 L-15 15" stroke="#fff" strokeWidth={8} strokeLinecap="round" /></g>
+				<g transform="translate(475 45)" opacity={derecha}><circle r={36} fill="#3c8d4f" /><path d="M-17 1 L-5 14 L18 -12" stroke="#fff" strokeWidth={8} strokeLinecap="round" strokeLinejoin="round" fill="none" /></g>
+			</svg>
 		</div>
 	);
 };
