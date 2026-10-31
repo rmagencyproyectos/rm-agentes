@@ -1391,7 +1391,8 @@ def render_recurso(r, estilo, salida):
     e = estilo.get("recursos", {})
     props = {"plantilla": r["plantilla"], "texto": r.get("texto", ""), "icono": r.get("icono", "✨"),
              "items": r.get("items", []), "numero": r.get("numero", 0), "duracion": round(r["fin"] - r["ini"], 3),
-             "x": 540, "y": int(e.get("y_px", 1400)), "color": e.get("color", "#985e34"),
+             "t1": r.get("t1", 1.0), "t2": r.get("t2", 2.0),  # segundos (desde que entra) de cada cambio
+             "x": 540, "y": int(r.get("y_px", e.get("y_px", 1400))), "color": e.get("color", "#985e34"),
              "colorTexto": e.get("color_texto", "#ffffff"), "fuenteTitulo": "Rubik-Bold.ttf", "fuenteTexto": "Alata-Regular.ttf"}
     remotion = REMOTION / "node_modules" / ".bin" / ("remotion.cmd" if sys.platform == "win32" else "remotion")
     subprocess.run([str(remotion), "render", "src/index.ts", "Recurso", str(salida), "--codec=prores",

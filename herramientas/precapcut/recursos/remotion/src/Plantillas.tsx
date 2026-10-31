@@ -1,10 +1,13 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {Cajon, CajonOrden, Esquina, Guardar, Rinonero} from './Explicativos';
 
 // Plantillas de motion graphics de precapcut. Fondo transparente; el elemento va centrado en (x, y)
 // en píxeles de 1080x1920. Colores y fuentes llegan del estilo del cliente.
 export type Props = {
-	plantilla: 'carpeta' | 'icono' | 'contador' | 'check' | 'cruz' | 'lista' | 'flecha';
+	plantilla: 'carpeta' | 'icono' | 'contador' | 'check' | 'cruz' | 'lista' | 'flecha' | 'cajon' | 'cajon_orden' | 'esquina' | 'rinonero' | 'guardar';
+	t1: number;
+	t2: number;
 	texto: string;
 	icono: string;
 	items: string[];
@@ -20,7 +23,7 @@ export type Props = {
 
 export const defaultProps: Props = {
 	plantilla: 'icono', texto: 'riñonero', icono: '🗄️', items: [], numero: 3, duracion: 2,
-	x: 540, y: 1350, color: '#985e34', colorTexto: '#ffffff', fuenteTitulo: 'Rubik-Bold.ttf', fuenteTexto: 'Alata-Regular.ttf',
+	t1: 1, t2: 2, x: 540, y: 1350, color: '#985e34', colorTexto: '#ffffff', fuenteTitulo: 'Rubik-Bold.ttf', fuenteTexto: 'Alata-Regular.ttf',
 };
 
 const fuentes = (p: Props) => `
@@ -119,6 +122,11 @@ export const Recurso: React.FC<Props> = (p) => {
 		cruz: <Marca p={p} ok={false} f={f} />,
 		lista: <Lista p={p} f={f} fps={fps} />,
 		flecha: <Flecha p={p} f={f} />,
+		cajon: <Cajon p={p} />,
+		cajon_orden: <CajonOrden p={p} />,
+		esquina: <Esquina p={p} />,
+		rinonero: <Rinonero p={p} />,
+		guardar: <Guardar p={p} />,
 	}[p.plantilla];
 	return (
 		<AbsoluteFill style={{backgroundColor: 'transparent'}}>

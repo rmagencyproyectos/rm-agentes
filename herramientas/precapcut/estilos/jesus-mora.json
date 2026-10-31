@@ -120,7 +120,7 @@
  "recursos": {
   "color": "#985e34",
   "color_texto": "#ffffff",
-  "y_px": 1400,
-  "zona": "tercio de abajo, centrado (debajo de los subtítulos, encima de la UI de IG)"
+  "y_px": 330,
+  "zona": "franja de arriba (y≈120–520 px): pared y muebles altos; ni cara, ni titulares, ni lo que enseña abajo"
  }
 }

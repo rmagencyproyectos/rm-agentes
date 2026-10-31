@@ -82,9 +82,9 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
 1. `python3 precapcut.py recursos <pieza> "<proyecto>" --estilo <cliente> [--fotos <carpeta>] --solo-md --regenerar`
    → leer **solo** `recursos.md`. Propone un recurso por idea (clave de cada titular) + números (contador),
    negaciones (cruz) y «aquí» (flecha), sin solaparse. Revisar con criterio y editar `recursos.json`:
-   `plantilla` (carpeta · icono · contador · check · cruz · lista · flecha), `texto`, `icono` (emoji),
+   `plantilla` — explicativas (las buenas): `cajon` (bandeja estándar con huecos → madera a medida; t1 = madera, t2 = se estira), `cajon_orden` (se llena de cubiertos ordenados), `esquina` (planta en L con rincón perdido), `rinonero` (bandejas que salen girando; t1 = rincón aprovechado), `guardar` (botón de guardar de Instagram); genéricas solo si explican algo: carpeta · contador · check · cruz · lista · flecha (`icono` con emoji: NO, Gerard 31/10), `texto`, `icono` (emoji),
    `items`, `numero`, o `foto` (ruta; con `--fotos` sale `fotos-hoja.jpg` para elegir por contenido).
-   Contar historia: «NO plástico» (cruz) → «de madera» (check). Mejor de más.
+   Primero storyboard (qué explica cada uno, cómo, dónde) y OK de Gerard; pocos y que expliquen (ver aprendizajes). Las ilustraciones nuevas se añaden a `recursos/remotion/src/Explicativos.tsx`.
 2. Sin `--solo-md` (CapCut cerrado; sin `--regenerar` respeta `recursos.json`): renderiza cada uno con
    Remotion (`recursos/remotion`, ~3 s cada uno; ProRes 4444 con alfa, 1080x1920, el elemento en el tercio
    de abajo: `estilos/<cliente>.json` → `recursos.y_px`) y los AÑADE en la pista `Recursos` (rehacer = solo
