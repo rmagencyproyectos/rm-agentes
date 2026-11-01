@@ -114,8 +114,10 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
 2. Sin `--solo-md` (CapCut cerrado): AÑADE pistas `Sonidos` (y `Sonidos 2…` si se solapan). Rehacer = quitar
    solo esas pistas. Volúmenes por defecto ~-17 dB bajo la voz (`estilos/<cliente>.json` → `sonidos.volumenes`).
 3. QA: mezclar voz + efectos y medir (ebur128): la mezcla no debe subir respecto a la voz sola.
-Librería: `sonidos/generar.py` la crea por síntesis (13 efectos, sin licencias); `sonidos/sonidos.json` es el
-manifiesto (añadir aquí efectos de Mixkit/Pixabay si Gerard los aprueba).
+Librería: efectos REALES de Mixkit (licencia gratuita, uso comercial sin atribución), los que Gerard da por
+validados: `sonidos/descargar.py` los baja y prepara (fuera el silencio inicial, cola entera con fade, -14 LUFS);
+`sonidos/sonidos.json` = manifiesto con fuente y licencia. Los sintetizados quedan en `sonidos/sintetizados/`
+(en desuso). Niveles: pops y efectos a 0 dB (volumen 1.0), whoosh 0.14.
 
 ## Espacio en disco
 

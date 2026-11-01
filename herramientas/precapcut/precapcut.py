@@ -1664,7 +1664,7 @@ def cmd_sonidos(a):
     libre = {}  # pista -> cuándo acaba su último efecto: si se solapan, a la pista siguiente
     for x in sons:  # solo se AÑADEN pistas de sonido
         f = SONIDOS / lib[x["sonido"]]["archivo"]
-        pista = next(n for n in ("Sonidos", "Sonidos 2", "Sonidos 3", "Sonidos 4") if libre.get(n, -1) <= x["t"])
+        pista = next(n for n in ["Sonidos"] + [f"Sonidos {k}" for k in range(2, 9)] if libre.get(n, -1) <= x["t"])
         libre[pista] = x["t"] + lib[x["sonido"]]["duracion"] + 0.04
         r = subprocess.run([capcut_bin(), "add-audio", str(info), str(f), str(x["t"]), str(lib[x["sonido"]]["duracion"]),
                             "--track-name", pista, "--volume", str(x.get("volumen", niveles.get(x["sonido"], 0.16)))],

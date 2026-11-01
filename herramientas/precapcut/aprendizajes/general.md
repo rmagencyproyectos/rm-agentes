@@ -81,3 +81,7 @@
 - Nunca cortar la cola de un efecto: cada archivo acaba en silencio (fade) y se pone entero.
 - Impacto = golpe grave con cola, reconocible; click = clic de ratón (pulsar + soltar).
 - Si Gerard toca y pide «reinicia», se guarda su versión en backups/ y se vuelve a la nuestra.
+
+## 2026-11-01 (3) · Gerard
+- Efectos de sonido: los REALES de Mixkit (validados), no sintetizados. Se bajan con `sonidos/descargar.py`.
+  Con los niveles pedidos (0 dB; whoosh 0.14), el impacto queda por debajo de la voz en los «POR FAVOR».

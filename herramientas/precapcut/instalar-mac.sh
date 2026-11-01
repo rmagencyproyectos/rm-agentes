@@ -9,6 +9,8 @@ python3 -m pip install --user -q -r requirements.txt
 python3 -c "from faster_whisper import WhisperModel; WhisperModel('medium', compute_type='int8')"
 # fuentes de las marcas (estilos/), solo para este usuario
 mkdir -p ~/Library/Fonts && cp -n fuentes/*.ttf ~/Library/Fonts/ || true
+# efectos de sonido (Mixkit): solo descarga los que falten
+python3 sonidos/descargar.py
 command -v ffprobe >/dev/null || echo "Sin ffprobe: se usará ffprobe_pyav.py (normal en este Mac)."
 capcut doctor -H || true
 echo

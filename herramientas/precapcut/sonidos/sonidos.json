@@ -1,119 +1,92 @@
 [
  {
-  "id": "pop",
-  "archivo": "pop.wav",
-  "categoria": "pop",
-  "duracion": 0.12,
-  "cuando": "entrada de un titular o elemento",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
- },
- {
-  "id": "pop_suave",
-  "archivo": "pop_suave.wav",
-  "categoria": "pop",
-  "duracion": 0.11,
-  "cuando": "entrada discreta",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
- },
- {
-  "id": "click",
-  "archivo": "click.wav",
-  "categoria": "click",
-  "duracion": 0.175,
-  "cuando": "botón, tocar algo, «guardar» (clic de ratón)",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
- },
- {
   "id": "whoosh",
   "archivo": "whoosh.wav",
   "categoria": "whoosh",
-  "duracion": 0.35,
-  "cuando": "cambio de plano real (ligero: el grave pesaba, Gerard 01/11)",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
+  "duracion": 2.23,
+  "cuando": "cambio de plano real (ligero)",
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Air woosh» · https://assets.mixkit.co/active_storage/sfx/1489/1489-preview.mp3"
  },
  {
   "id": "whoosh_corto",
   "archivo": "whoosh_corto.wav",
   "categoria": "whoosh",
-  "duracion": 0.25,
-  "cuando": "transición rápida",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
+  "duracion": 1.75,
+  "cuando": "entrada de exclamación / transición rápida",
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Fast whoosh transition» · https://assets.mixkit.co/active_storage/sfx/1490/1490-preview.mp3"
  },
  {
-  "id": "swoosh_bajada",
-  "archivo": "swoosh_bajada.wav",
-  "categoria": "swoosh",
-  "duracion": 0.38,
-  "cuando": "algo que sale o baja",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
+  "id": "pop_suave",
+  "archivo": "pop_suave.wav",
+  "categoria": "pop",
+  "duracion": 0.16,
+  "cuando": "entrada de un titular (uno por idea)",
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Explainer video pops whoosh light pop» · https://assets.mixkit.co/active_storage/sfx/3005/3005-preview.mp3"
+ },
+ {
+  "id": "pop",
+  "archivo": "pop.wav",
+  "categoria": "pop",
+  "duracion": 0.46,
+  "cuando": "entrada de un recurso",
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Long pop» · https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3"
+ },
+ {
+  "id": "click",
+  "archivo": "click.wav",
+  "categoria": "click",
+  "duracion": 1.36,
+  "cuando": "botón, «guardar»",
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Mouse click close» · https://assets.mixkit.co/active_storage/sfx/1113/1113-preview.mp3"
  },
  {
   "id": "impacto",
   "archivo": "impacto.wav",
   "categoria": "impact",
-  "duracion": 1.63,
-  "cuando": "exclamación / golpe de efecto (boom con cola)",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
- },
- {
-  "id": "ding",
-  "archivo": "ding.wav",
-  "categoria": "ding",
-  "duracion": 0.93,
-  "cuando": "acierto, dato bueno",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
+  "duracion": 7.51,
+  "cuando": "exclamación / golpe de efecto",
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Big cinematic impact» · https://assets.mixkit.co/active_storage/sfx/788/788-preview.mp3"
  },
  {
   "id": "check",
   "archivo": "check.wav",
   "categoria": "check",
-  "duracion": 0.65,
-  "cuando": "visto bueno (dos notas que suben)",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
+  "duracion": 1.61,
+  "cuando": "visto bueno, lo bueno",
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Success software tone» · https://assets.mixkit.co/active_storage/sfx/2865/2865-preview.mp3"
  },
  {
   "id": "error",
   "archivo": "error.wav",
   "categoria": "error",
-  "duracion": 0.62,
-  "cuando": "lo que NO hay que hacer (dos notas graves que bajan)",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
- },
- {
-  "id": "riser",
-  "archivo": "riser.wav",
-  "categoria": "riser",
-  "duracion": 1.23,
-  "cuando": "antes de algo importante / CTA",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
- },
- {
-  "id": "obturador",
-  "archivo": "obturador.wav",
-  "categoria": "camera",
-  "duracion": 0.17,
-  "cuando": "foto, «mira esto»",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
+  "duracion": 2.54,
+  "cuando": "lo que NO hay que hacer",
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Wrong answer bass buzzer» · https://assets.mixkit.co/active_storage/sfx/948/948-preview.mp3"
  },
  {
   "id": "notificacion",
   "archivo": "notificacion.wav",
   "categoria": "notification",
-  "duracion": 0.43,
+  "duracion": 1.0,
   "cuando": "aviso suave",
-  "licencia": "propia (sintetizado por generar.py)",
-  "fuente": "generar.py"
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Message pop alert» · https://assets.mixkit.co/active_storage/sfx/2354/2354-preview.mp3"
+ },
+ {
+  "id": "obturador",
+  "archivo": "obturador.wav",
+  "categoria": "camera",
+  "duracion": 0.2,
+  "cuando": "foto, «mira esto»",
+  "licencia": "Mixkit Sound Effects Free License (uso comercial, sin atribución)",
+  "fuente": "https://mixkit.co · «Camera shutter click» · https://assets.mixkit.co/active_storage/sfx/1133/1133-preview.mp3"
  }
 ]
