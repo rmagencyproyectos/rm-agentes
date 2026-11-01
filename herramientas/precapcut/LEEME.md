@@ -8,8 +8,8 @@ así no se descuadran.
 |---|---|---|
 | 1 · Cortes | Transcribe en local con tiempos por palabra, quita tomas falladas, arranques en falso, muletillas y silencios, y lo monta en CapCut | **hecha** |
 | 2 · Subtítulos | 1-2 palabras por bloque desde la misma transcripción + titular (palabra clave grande) por frase, estilo por cliente en `estilos/` | **hecha** (prueba Jesús Mora 30/10) |
-| 2b · Recursos | Motion graphics (Remotion, estilo de marca, fondo transparente) según lo que se dice; fotos si se adjunta carpeta | **hecha** (prueba Jesús 31/10) |
-| 3 · Sonido | Librería RM de efectos (Mixkit/Pixabay) colocados según el contenido | pendiente |
+| 2b · Recursos | Motion graphics (Remotion, estilo de marca, fondo transparente) según lo que se dice; fotos si se adjunta carpeta | en pausa (01/11): se aprende con otro vídeo |
+| 3 · Sonido | Librería RM de efectos (`sonidos/`, sintetizada) colocados según lo que hay en el proyecto | **hecha** (prueba Jesús 01/11) |
 | 4 · Humano | Lo creativo, en CapCut | — |
 
 ## Cómo se pide
@@ -103,6 +103,19 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
 - No se sube audio a ningún servicio (nada de `capcut caption --cloud`).
 - CapCut congelado en la **9.5**: la 10 rechaza los proyectos escritos por capcut-cli.
 - Si una palabra sale mal siempre (nombres, marcas), añadirla a `vocabulario.txt`.
+
+## Fase 3 · Sonidos
+
+1. `python3 precapcut.py sonidos <pieza> "<proyecto>" --estilo <cliente> --solo-md --regenerar` → leer **solo**
+   `sonidos.md`. Propone desde lo que hay DE VERDAD en el proyecto: un pop por titular (primera línea, no
+   cada línea), whoosh corto + impacto en las exclamaciones, error → check en el antes/después, click en
+   «guardar», whoosh solo en cortes con cambio de plano real (histograma de fotogramas). Nada en subtítulos.
+   Ajustar en `sonidos-decisiones.json` (cambiar `sonido`, borrar, `volumen`).
+2. Sin `--solo-md` (CapCut cerrado): AÑADE pistas `Sonidos` (y `Sonidos 2…` si se solapan). Rehacer = quitar
+   solo esas pistas. Volúmenes por defecto ~-17 dB bajo la voz (`estilos/<cliente>.json` → `sonidos.volumenes`).
+3. QA: mezclar voz + efectos y medir (ebur128): la mezcla no debe subir respecto a la voz sola.
+Librería: `sonidos/generar.py` la crea por síntesis (13 efectos, sin licencias); `sonidos/sonidos.json` es el
+manifiesto (añadir aquí efectos de Mixkit/Pixabay si Gerard los aprueba).
 
 ## Espacio en disco
 

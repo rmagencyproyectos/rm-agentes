@@ -1,0 +1,119 @@
+[
+ {
+  "id": "pop",
+  "archivo": "pop.wav",
+  "categoria": "pop",
+  "duracion": 0.11,
+  "cuando": "entrada de un titular o elemento",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "pop_suave",
+  "archivo": "pop_suave.wav",
+  "categoria": "pop",
+  "duracion": 0.1,
+  "cuando": "entrada discreta",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "click",
+  "archivo": "click.wav",
+  "categoria": "click",
+  "duracion": 0.05,
+  "cuando": "botón, tocar algo, «guardar»",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "whoosh",
+  "archivo": "whoosh.wav",
+  "categoria": "whoosh",
+  "duracion": 0.47,
+  "cuando": "cambio de plano real",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "whoosh_corto",
+  "archivo": "whoosh_corto.wav",
+  "categoria": "whoosh",
+  "duracion": 0.27,
+  "cuando": "transición rápida",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "swoosh_bajada",
+  "archivo": "swoosh_bajada.wav",
+  "categoria": "swoosh",
+  "duracion": 0.37,
+  "cuando": "algo que sale o baja",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "impacto",
+  "archivo": "impacto.wav",
+  "categoria": "impact",
+  "duracion": 0.52,
+  "cuando": "exclamación / golpe de efecto",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "ding",
+  "archivo": "ding.wav",
+  "categoria": "ding",
+  "duracion": 0.92,
+  "cuando": "acierto, dato bueno",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "check",
+  "archivo": "check.wav",
+  "categoria": "check",
+  "duracion": 0.46,
+  "cuando": "visto bueno (dos notas que suben)",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "error",
+  "archivo": "error.wav",
+  "categoria": "error",
+  "duracion": 0.44,
+  "cuando": "lo que NO hay que hacer (dos notas que bajan)",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "riser",
+  "archivo": "riser.wav",
+  "categoria": "riser",
+  "duracion": 1.22,
+  "cuando": "antes de algo importante / CTA",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "obturador",
+  "archivo": "obturador.wav",
+  "categoria": "camera",
+  "duracion": 0.16,
+  "cuando": "foto, «mira esto»",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ },
+ {
+  "id": "notificacion",
+  "archivo": "notificacion.wav",
+  "categoria": "notification",
+  "duracion": 0.42,
+  "cuando": "aviso suave",
+  "licencia": "propia (sintetizado por generar.py)",
+  "fuente": "generar.py"
+ }
+]

@@ -549,10 +549,9 @@ def proxy_negro(video, info, carpeta):
 def limpiar_assets(destino, papelera=False):
     """Quita de <proyecto>/assets lo que ningún material referencia (raíz, Timelines/ y draft_meta_info).
     Proxies propios: se borran. En un proyecto de Gerard (papelera=True): a la Papelera, nunca borrado."""
-    usados = set()
-    for f in mirrors_de(destino) + [destino / "draft_meta_info.json"]:
-        if f.exists():
-            usados |= set(re.findall(r"assets/[^\"']+", f.read_text(encoding="utf-8")))
+    usados = set()  # lo que usa el timeline; el panel de medios guarda también lo ya quitado
+    for f in mirrors_de(destino):
+        usados |= set(re.findall(r"assets/[^\"']+", f.read_text(encoding="utf-8")))
     libres = 0
     for f in sorted((destino / "assets").rglob("*")):
         rel = f.relative_to(destino).as_posix()
@@ -564,6 +563,13 @@ def limpiar_assets(destino, papelera=False):
             shutil.move(str(f), str(dest))
         else:
             f.unlink()
+    meta = destino / "draft_meta_info.json"
+    if meta.exists():  # y fuera del panel de medios lo que ya no existe
+        data = json.loads(meta.read_text(encoding="utf-8"))
+        for g in data.get("draft_materials", []):
+            g["value"] = [v for v in g.get("value", []) if "assets/" not in v.get("file_Path", "")
+                          or (destino / v["file_Path"][v["file_Path"].index("assets/"):]).exists()]
+        meta.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     return libres
 
 
@@ -1550,6 +1556,125 @@ def cmd_recursos(a):
     print(f"Añadidos {len(recursos)} recursos · copia: {copia}")
 
 
+# ---------------------------------------------------------------- fase 3: sonidos
+
+SONIDOS = AQUI / "sonidos"
+SON_HUECO = 0.3  # mínimo entre dos efectos: si no, se amontonan
+
+
+def cambio_de_plano(trans, a, b):
+    """¿El corte entre dos clips cambia de plano de verdad (no un jump cut)? Compara el último fotograma
+    del primero con el primero del segundo (histograma de grises, OpenCV)."""
+    try:
+        import cv2
+    except ImportError:
+        return a["label"] != b["label"]
+    def foto(seg):
+        v = next((t["video"] for t in trans if Path(t["video"]).name == seg["label"]), None)
+        cap = cv2.VideoCapture(v)
+        cap.set(cv2.CAP_PROP_POS_MSEC, seg["t_src"] * 1000)
+        ok, img = cap.read()
+        return cv2.calcHist([cv2.cvtColor(cv2.resize(img, (64, 64)), cv2.COLOR_BGR2GRAY)], [0], None, [32], [0, 256]) if ok else None
+    h1, h2 = foto(dict(a, t_src=a["src_fin"] - 0.05)), foto(dict(b, t_src=b["src_ini"] + 0.05))
+    if h1 is None or h2 is None:
+        return False
+    return cv2.compareHist(h1, h2, cv2.HISTCMP_CORREL) < 0.8
+
+
+def proponer_sonidos(data, trans, d):
+    """Desde lo que hay DE VERDAD en el proyecto (Gerard pudo mover cosas): un pop por titular (en su
+    primera línea, no en cada una), impacto en las exclamaciones, pop/click en los recursos y un whoosh
+    solo en los cortes que cambian de plano. Nada en los subtítulos."""
+    mats = {m["id"]: m for m in data["materials"].get("texts", [])}
+    vids = {m["id"]: m for m in data["materials"].get("videos", [])}
+    prop = []
+    pista = {t.get("name") or "": t for t in data.get("tracks", [])}
+    for seg in pista.get("Titulares 1", {}).get("segments", []):
+        txt = json.loads(mats[seg["material_id"]]["content"])["text"]
+        prop.append({"t": seg["target_timerange"]["start"] / 1e6, "sonido": "pop_suave", "motivo": f"titular «{txt}…»"})
+    for seg in pista.get("Exclamaciones", {}).get("segments", []):
+        txt = json.loads(mats[seg["material_id"]]["content"])["text"]
+        t0 = seg["target_timerange"]["start"] / 1e6
+        prop += [{"t": max(0.0, t0 - 0.22), "sonido": "whoosh_corto", "motivo": f"entra «{txt}»"},
+                 {"t": t0, "sonido": "impacto", "motivo": f"exclamación «{txt}»"}]
+    recursos = leer_json(d / "recursos.json") if (d / "recursos.json").exists() else []
+    for seg in pista.get("Recursos", {}).get("segments", []):
+        t0 = seg["target_timerange"]["start"] / 1e6
+        r = min(recursos, key=lambda r: abs(r["ini"] - t0), default={})
+        r = r if r and abs(r["ini"] - t0) < 0.15 else {}
+        if r.get("plantilla") == "antes_despues":  # cuenta la historia: lo malo suena mal, lo bueno bien
+            prop += [{"t": t0, "sonido": "error", "motivo": "antes: huecos"},
+                     {"t": t0 + r.get("t1", 0.35), "sonido": "check", "motivo": "después: a medida"}]
+        elif r.get("plantilla") == "guardar":
+            prop.append({"t": t0 + 0.45, "sonido": "click", "motivo": "se rellena «guardar»"})
+        else:
+            prop.append({"t": t0, "sonido": "pop", "motivo": f"recurso {r.get('plantilla', '')}"})
+    clips = []
+    for seg in pista.get("Cortes", {}).get("segments", []):
+        src = seg["source_timerange"]
+        clips.append({"label": Path(vids[seg["material_id"]]["path"]).name, "ini": seg["target_timerange"]["start"] / 1e6,
+                      "src_ini": src["start"] / 1e6, "src_fin": (src["start"] + src["duration"]) / 1e6})
+    for a, b in zip(clips, clips[1:]):
+        if cambio_de_plano(trans, a, b):
+            prop.append({"t": max(0.0, b["ini"] - 0.2), "sonido": "whoosh", "motivo": f"cambio de plano ({a['label']} → {b['label']})"})
+    out, ultimo = [], -9
+    for x in sorted(prop, key=lambda x: x["t"]):  # sin amontonar: gana el primero
+        if x["t"] - ultimo < SON_HUECO and x["sonido"] not in ("impacto", "check", "click"):
+            continue
+        x["t"] = round(x["t"], 3)
+        out.append(x)
+        ultimo = x["t"]
+    for k, x in enumerate(out, 1):
+        x["id"] = f"S{k:02d}"
+    return out
+
+
+def cmd_sonidos(a):
+    d = TRABAJO / a.pieza
+    trans = leer_json(d / "transcripciones.json")
+    destino = buscar_proyecto(a.proyecto)
+    estilo = leer_json(AQUI / "estilos" / f"{a.estilo}.json")
+    niveles = {"pop": 0.18, "pop_suave": 0.16, "click": 0.22, "whoosh": 0.14, "whoosh_corto": 0.14, "impacto": 0.3}
+    niveles.update(estilo.get("sonidos", {}).get("volumenes", {}))
+    info = destino / "draft_info.json" if (destino / "draft_info.json").exists() else destino
+    data = json.loads(info.read_text(encoding="utf-8"))
+    dj = d / "sonidos-decisiones.json"
+    if dj.exists() and not a.regenerar:  # lo revisado manda
+        sons = leer_json(dj)
+    else:
+        sons = proponer_sonidos(data, trans, d)
+        escribir_json(dj, sons)
+    lib = {x["id"]: x for x in leer_json(SONIDOS / "sonidos.json")}
+    md = [f"# Sonidos · {a.pieza}", "", f"{len(sons)} efectos. Ajustar en `sonidos-decisiones.json` (sonido: "
+          + ", ".join(lib) + "; borrar los que sobren; `volumen` opcional).", ""]
+    md += [f"- {x['id']} {tc(x['t'])} · {x['sonido']} · {x['motivo']}" for x in sons]
+    (d / "sonidos.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    print(f"{len(sons)} sonidos → {d / 'sonidos.md'}")
+    if a.solo_md:
+        return
+    if capcut_abierto():
+        sys.exit("CapCut está abierto: ciérralo y vuelve a lanzarlo (no se ha escrito nada).")
+    copia = d / "backups" / f"{destino.name}-{time.strftime('%Y%m%d-%H%M%S')}"
+    shutil.copytree(destino, copia, ignore=shutil.ignore_patterns(".locked"))
+    for sid in [seg["id"] for t in data.get("tracks", []) if (t.get("name") or "").startswith("Sonidos") for seg in t.get("segments", [])]:
+        subprocess.run([capcut_bin(), "remove", str(info), sid, "-q"], check=True, capture_output=True)
+    env = entorno_capcut()
+    libre = {}  # pista -> cuándo acaba su último efecto: si se solapan, a la pista siguiente
+    for x in sons:  # solo se AÑADEN pistas de sonido
+        f = SONIDOS / lib[x["sonido"]]["archivo"]
+        pista = next(n for n in ("Sonidos", "Sonidos 2", "Sonidos 3", "Sonidos 4") if libre.get(n, -1) <= x["t"])
+        libre[pista] = x["t"] + lib[x["sonido"]]["duracion"] + 0.04
+        r = subprocess.run([capcut_bin(), "add-audio", str(info), str(f), str(x["t"]), str(lib[x["sonido"]]["duracion"]),
+                            "--track-name", pista, "--volume", str(x.get("volumen", niveles.get(x["sonido"], 0.16)))],
+                           capture_output=True, text=True, env=env)
+        if r.returncode != 0:
+            sys.exit(f"capcut add-audio {x['id']}: {(r.stdout + r.stderr)[-400:]}")
+    if (destino / "Timelines").is_dir():
+        subprocess.run([capcut_bin(), "sync-timelines", str(destino), "--nested", "--apply"], check=True, capture_output=True)
+    mudar_copias(destino)
+    print(f"Añadidos {len(sons)} sonidos · copia: {copia}")
+
+
 def cmd_qa(a):
     """Re-transcribe el preview y lo compara con lo que debía quedar: palabras comidas o sobrantes."""
     d, trans, frases, tramos = cargar_pieza(a.pieza)
@@ -1615,11 +1740,17 @@ def main():
     rc.add_argument("--fotos", help="carpeta de fotos del cliente para esta pieza")
     rc.add_argument("--solo-md", action="store_true", help="solo recursos.md, sin tocar CapCut")
     rc.add_argument("--regenerar", action="store_true", help="volver a proponer (pisa recursos.json)")
+    so = sub.add_parser("sonidos", help="fase 3: efectos de sonido según lo que hay en el proyecto")
+    so.add_argument("pieza")
+    so.add_argument("proyecto", help="proyecto de CapCut (nombre o ruta)")
+    so.add_argument("--estilo", required=True, help="estilos/<cliente>.json")
+    so.add_argument("--solo-md", action="store_true", help="solo sonidos.md, sin tocar CapCut")
+    so.add_argument("--regenerar", action="store_true", help="volver a proponer (pisa sonidos-decisiones.json)")
     q = sub.add_parser("qa", help="re-transcribe el preview y busca palabras comidas")
     q.add_argument("pieza")
     q.add_argument("--modelo", default="small")
     a = p.parse_args()
-    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "recursos": cmd_recursos, "qa": cmd_qa}[a.cmd](a)
+    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "recursos": cmd_recursos, "sonidos": cmd_sonidos, "qa": cmd_qa}[a.cmd](a)
 
 
 if __name__ == "__main__":

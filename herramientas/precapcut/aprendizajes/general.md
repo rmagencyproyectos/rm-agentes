@@ -65,3 +65,12 @@
 - `montar` compila contra proxies negros mínimos (mismo nombre, tamaño y duración; `proxy_negro`) y luego
   apunta a los originales: capcut-cli ya no copia cientos de MB a assets/. Después `limpiar_assets`.
 - Nunca `capcut lint --fix` en precapcut (copia medios a assets/ por «media-outside-draft»): lint sin --fix.
+
+## 2026-11-01 · Gerard
+- Fase 2b (recursos/gráficos) en pausa: este vídeo no servía para aprenderla. Se retoma más adelante con otro
+  vídeo; lo aprendido hasta aquí (sin texto, que expliquen, objeto real, ~2 s) sigue valiendo.
+
+## 2026-11-01 · Fase 3 sonidos (Gerard + coordinador)
+- Solo efectos, sin música por ahora. Pop en la entrada de cada titular (uno por idea, no por línea); whoosh
+  solo en cambios de plano reales (no en cada jump cut); impacto en exclamaciones; click en «Guárdalo».
+- Sutiles: muy por debajo de la voz (QA: la mezcla mide lo mismo que la voz sola).
