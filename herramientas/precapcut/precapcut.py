@@ -1634,7 +1634,9 @@ def cmd_sonidos(a):
     trans = leer_json(d / "transcripciones.json")
     destino = buscar_proyecto(a.proyecto)
     estilo = leer_json(AQUI / "estilos" / f"{a.estilo}.json")
-    niveles = {"pop": 0.18, "pop_suave": 0.16, "click": 0.22, "whoosh": 0.14, "whoosh_corto": 0.14, "impacto": 0.3}
+    # volumen de CapCut (1.0 = 0 dB). Gerard 01/11: pops y efectos a 0 dB (a -17 no se oían); whoosh como estaba
+    niveles = {"pop": 1.0, "pop_suave": 1.0, "click": 1.0, "impacto": 1.0, "check": 1.0, "error": 1.0, "ding": 1.0,
+               "whoosh": 0.14, "whoosh_corto": 0.14}
     niveles.update(estilo.get("sonidos", {}).get("volumenes", {}))
     info = destino / "draft_info.json" if (destino / "draft_info.json").exists() else destino
     data = json.loads(info.read_text(encoding="utf-8"))

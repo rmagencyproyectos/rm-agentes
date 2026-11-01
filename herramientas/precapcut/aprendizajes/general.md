@@ -74,3 +74,10 @@
 - Solo efectos, sin música por ahora. Pop en la entrada de cada titular (uno por idea, no por línea); whoosh
   solo en cambios de plano reales (no en cada jump cut); impacto en exclamaciones; click en «Guárdalo».
 - Sutiles: muy por debajo de la voz (QA: la mezcla mide lo mismo que la voz sola).
+
+## 2026-11-01 (2) · Gerard (escucha de sonidos)
+- Los efectos se tienen que OÍR: pops y efectos (impacto, click, check/error) a 0 dB en CapCut (volumen 1.0),
+  no 17 dB por debajo. Los whoosh, ligeros (agudos, cortos) y a volumen bajo (0.14), como estaban.
+- Nunca cortar la cola de un efecto: cada archivo acaba en silencio (fade) y se pone entero.
+- Impacto = golpe grave con cola, reconocible; click = clic de ratón (pulsar + soltar).
+- Si Gerard toca y pide «reinicia», se guarda su versión en backups/ y se vuelve a la nuestra.

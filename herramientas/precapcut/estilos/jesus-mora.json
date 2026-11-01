@@ -122,5 +122,17 @@
   "color_texto": "#ffffff",
   "y_px": 330,
   "zona": "franja de arriba (y≈120–520 px): pared y muebles altos; ni cara, ni titulares, ni lo que enseña abajo"
+ },
+ "sonidos": {
+  "volumenes": {
+   "pop": 1.0,
+   "pop_suave": 1.0,
+   "click": 1.0,
+   "impacto": 1.0,
+   "check": 1.0,
+   "error": 1.0,
+   "whoosh": 0.14,
+   "whoosh_corto": 0.14
+  }
  }
 }
