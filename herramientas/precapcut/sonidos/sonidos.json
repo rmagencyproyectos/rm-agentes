@@ -165,12 +165,12 @@
   "fuente": "RM Dia de trabajo · Clip combinado16 → «Biblioteca sonidos RM» (export 03/11)"
  },
  {
-  "id": "transicion-corta",
+  "id": "riser-corto",
   "n": 16,
-  "archivo": "16-transicion-corta.wav",
-  "categoria": "transicion-corta",
+  "archivo": "16-riser-corto.wav",
+  "categoria": "riser",
   "duracion": 0.406,
-  "cuando": "cambio breve de plano o de idea",
+  "cuando": "intriga corta: pregunta rápida o tensión breve (acaba con la pregunta)",
   "nombre_capcut": "转场 E14 (transición E14)",
   "licencia": "biblioteca de sonidos de CapCut (elegidos por Gerard; para usar en CapCut)",
   "fuente": "RM Dia de trabajo · Clip combinado16 → «Biblioteca sonidos RM» (export 03/11)"
@@ -187,12 +187,12 @@
   "fuente": "RM Dia de trabajo · Clip combinado16 → «Biblioteca sonidos RM» (export 03/11)"
  },
  {
-  "id": "subida",
+  "id": "riser",
   "n": 18,
-  "archivo": "18-subida.wav",
-  "categoria": "subida",
+  "archivo": "18-riser.wav",
+  "categoria": "riser",
   "duracion": 4.073,
-  "cuando": "tensión que sube antes de una revelación o clímax",
+  "cuando": "intriga: tensión inicial, al hacer una pregunta (acaba justo cuando acaba la pregunta)",
   "nombre_capcut": "RISER_01",
   "licencia": "biblioteca de sonidos de CapCut (elegidos por Gerard; para usar en CapCut)",
   "fuente": "RM Dia de trabajo · Clip combinado16 → «Biblioteca sonidos RM» (export 03/11)"

@@ -105,3 +105,8 @@
 - Whisper en catalán «oye» «Gràcies per acompanyar-nos», «i Vimeo», «xavi.com»… sobre habla real mal
   reconocida: no quitar esas palabras a ciegas, casi siempre debajo hay voz.
 - Las fotos que acompañan al vídeo van en una pista «Fotos» (3 s cada una) detrás de «Aparte».
+
+## 2026-11-03 (3) · Gerard
+- Risers (18 `riser`, 16 `riser-corto`): para la tensión inicial / intriga, sobre todo cuando se hace una
+  pregunta; el riser acaba justo cuando acaba la pregunta (empieza la respuesta). 1-2 por vídeo como mucho.
+- Los nombres de los sonidos son genéricos por papel (cuándo usarlos), nunca por el vídeo de muestra.

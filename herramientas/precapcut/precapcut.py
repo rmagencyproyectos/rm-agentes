@@ -1616,7 +1616,7 @@ def cambio_de_plano(trans, a, b):
     return cv2.compareHist(h1, h2, cv2.HISTCMP_CORREL) < 0.8
 
 
-def proponer_sonidos(data, trans, d):
+def proponer_sonidos(data, trans, d, palabras=()):
     """Desde lo que hay DE VERDAD en el proyecto (Gerard pudo mover cosas): un pop por titular (en su
     primera línea, no en cada una), impacto en las exclamaciones, pop/click en los recursos y un whoosh
     solo en los cortes que cambian de plano. Nada en los subtítulos."""
@@ -1651,10 +1651,21 @@ def proponer_sonidos(data, trans, d):
                       "src_ini": src["start"] / 1e6, "src_fin": (src["start"] + src["duration"]) / 1e6})
     for a, b in zip(clips, clips[1:]):
         if cambio_de_plano(trans, a, b):
-            prop.append({"t": max(0.0, b["ini"] - 0.2), "sonido": "transicion-corta", "motivo": f"cambio de plano ({a['label']} → {b['label']})"})
+            prop.append({"t": max(0.0, b["ini"] - 0.2), "sonido": "transicion", "motivo": f"cambio de plano ({a['label']} → {b['label']})"})
+    # preguntas: un riser que acaba justo cuando acaba la pregunta, para forzar la intriga (Gerard 03/11)
+    lib = {x["id"]: x for x in leer_json(SONIDOS / "sonidos.json")}
+    ini_frase = None
+    for k, w in enumerate(palabras):
+        if ini_frase is None or w["frase"] != palabras[k - 1]["frase"]:
+            ini_frase = w["ts"]
+        if w["w"].endswith("?") and sum("riser" in x["sonido"] for x in prop) < 2:  # 1-2 por vídeo, no más
+            largo = lib.get("riser", {}).get("duracion", 4.0)
+            rol = "riser" if w["te"] - largo >= max(0.0, ini_frase - 1.5) else "riser-corto"
+            dur = lib.get(rol, {}).get("duracion", 0.4)
+            prop.append({"t": max(0.0, w["te"] - dur), "sonido": rol, "motivo": f"pregunta «…{w['w']}»"})
     out, ultimo = [], -9
     for x in sorted(prop, key=lambda x: x["t"]):  # sin amontonar: gana el primero
-        if x["t"] - ultimo < SON_HUECO and x["sonido"] not in ("impacto", "check", "click"):
+        if x["t"] - ultimo < SON_HUECO and x["sonido"] not in ("impacto", "correcto", "clic", "riser", "riser-corto"):
             continue
         x["t"] = round(x["t"], 3)
         out.append(x)
@@ -1678,12 +1689,14 @@ def cmd_sonidos(a):
     if dj.exists() and not a.regenerar:  # lo revisado manda
         sons = leer_json(dj)
     else:
-        sons = proponer_sonidos(data, trans, d)
+        _, _, frases, _ = cargar_pieza(a.pieza)
+        sons = proponer_sonidos(data, trans, d, palabras_en_timeline(d, trans, frases, destino))
         escribir_json(dj, sons)
     lib = {x["id"]: x for x in leer_json(SONIDOS / "sonidos.json")}
     # nombres de antes (decisiones ya guardadas) -> papel genérico de la librería de Gerard
     antiguos = {"pop_suave": "pop", "whoosh_corto": "whoosh-corto", "click": "clic", "check": "correcto",
-                "ding": "correcto", "obturador": "foto", "notificacion": "pop", "riser": "subida"}
+                "ding": "correcto", "obturador": "foto", "notificacion": "pop", "subida": "riser",
+                "transicion-corta": "transicion"}  # el 16 ahora es riser-corto: los cortes van con «transicion»
     for x in sons:
         x["sonido"] = antiguos.get(x["sonido"], x["sonido"])
     md = [f"# Sonidos · {a.pieza}", "", f"{len(sons)} efectos. Ajustar en `sonidos-decisiones.json` (sonido: "

@@ -20,9 +20,9 @@ usarlo), no por el vídeo de muestra. Archivos `NN-papel.wav` en esta carpeta.
 | 13 | `dinero` | precio, ahorro, coste, venta | 0.89 s | Money, coin, cash register |
 | 14 | `sorpresa` | revelación, celebración, resultado | 1.02 s | Champagne Pop |
 | 15 | `impacto` | exclamación fuerte, frase clave, titular grande | 6.45 s | Sundon: Impact sound |
-| 16 | `transicion-corta` | cambio breve de plano o de idea | 0.41 s | 转场 E14 (transición E14) |
+| 16 | `riser-corto` | intriga corta: pregunta rápida o tensión breve (acaba con la pregunta) | 0.41 s | 转场 E14 (transición E14) |
 | 17 | `correcto` | solución, lo correcto, check | 1.75 s | Bell ring «ding!» |
-| 18 | `subida` | tensión que sube antes de una revelación o clímax | 4.07 s | RISER_01 |
+| 18 | `riser` | intriga: tensión inicial, al hacer una pregunta (acaba justo cuando acaba la pregunta) | 4.07 s | RISER_01 |
 | 19 | `pop` | cada titular o texto que entra | 0.36 s | pop! (tapping the mouth with a hand) |
 
 Origen: «RM Dia de trabajo» → Clip combinado16 → proyecto «Biblioteca sonidos RM» (19 en fila, 0,5 s
