@@ -28,28 +28,29 @@ Gerard entrega los archivos por separado **en este orden** (01, 02…); al llega
 
 ## Para cortar el archivo que exporta Gerard
 
-Proyecto de CapCut **«Biblioteca sonidos RM»** (creado 03/11): los 19 en una sola pista, en este orden, enteros,
-con **0.5 s de silencio** entre uno y otro. Total 18:23.27 (1103.271 s). Exportar el audio entero
-desde 0:00 y cortarlo con `python3 precapcut.py sonidos-cortar <archivo>` (usa estos tiempos y lo comprueba con los silencios).
+Proyecto de CapCut **«Biblioteca sonidos RM»** (03/11): los 19 en una sola pista, en este orden, con **0.5 s de
+silencio** entre uno y otro. Grillos recortados a 6 s y reloj a 10 s (en el clip combinado estaban enteros); el
+resto entero. Total 1:00.01 (60.014 s). Exportar el audio entero desde 0:00 y cortarlo con
+`python3 precapcut.py sonidos-cortar <archivo>` (usa estos tiempos y comprueba que los cortes caen en silencio).
 
 | Nº | Empieza | Acaba |
 |---|---|---|
 | 01 | 0:00.00 (0.0 s) | 0:00.29 (0.293 s) |
 | 02 | 0:00.79 (0.793 s) | 0:01.56 (1.559 s) |
 | 03 | 0:02.06 (2.059 s) | 0:03.06 (3.057 s) |
-| 04 | 0:03.56 (3.557 s) | 2:42.82 (162.816 s) |
-| 05 | 2:43.32 (163.316 s) | 2:43.76 (163.758 s) |
-| 06 | 2:44.26 (164.258 s) | 2:44.70 (164.7 s) |
-| 07 | 2:45.20 (165.2 s) | 2:46.48 (166.478 s) |
-| 08 | 2:46.98 (166.978 s) | 2:47.96 (167.963 s) |
-| 09 | 2:48.46 (168.463 s) | 3:02.12 (182.123 s) |
-| 10 | 3:02.62 (182.623 s) | 3:03.30 (183.304 s) |
-| 11 | 3:03.80 (183.804 s) | 3:04.33 (184.33 s) |
-| 12 | 3:04.83 (184.83 s) | 18:04.83 (1084.828 s) |
-| 13 | 18:05.33 (1085.328 s) | 18:06.21 (1086.214 s) |
-| 14 | 18:06.71 (1086.714 s) | 18:07.73 (1087.731 s) |
-| 15 | 18:08.23 (1088.231 s) | 18:14.68 (1094.681 s) |
-| 16 | 18:15.18 (1095.181 s) | 18:15.59 (1095.587 s) |
-| 17 | 18:16.09 (1096.087 s) | 18:17.84 (1097.835 s) |
-| 18 | 18:18.34 (1098.335 s) | 18:22.41 (1102.408 s) |
-| 19 | 18:22.91 (1102.908 s) | 18:23.27 (1103.271 s) |
+| 04 | 0:03.56 (3.557 s) | 0:13.56 (13.557 s) |
+| 05 | 0:14.06 (14.057 s) | 0:14.50 (14.499 s) |
+| 06 | 0:15.00 (14.999 s) | 0:15.44 (15.441 s) |
+| 07 | 0:15.94 (15.941 s) | 0:17.22 (17.219 s) |
+| 08 | 0:17.72 (17.719 s) | 0:18.70 (18.704 s) |
+| 09 | 0:19.20 (19.204 s) | 0:32.86 (32.864 s) |
+| 10 | 0:33.36 (33.364 s) | 0:34.05 (34.045 s) |
+| 11 | 0:34.55 (34.545 s) | 0:35.07 (35.071 s) |
+| 12 | 0:35.57 (35.571 s) | 0:41.57 (41.571 s) |
+| 13 | 0:42.07 (42.071 s) | 0:42.96 (42.957 s) |
+| 14 | 0:43.46 (43.457 s) | 0:44.47 (44.474 s) |
+| 15 | 0:44.97 (44.974 s) | 0:51.42 (51.424 s) |
+| 16 | 0:51.92 (51.924 s) | 0:52.33 (52.33 s) |
+| 17 | 0:52.83 (52.83 s) | 0:54.58 (54.578 s) |
+| 18 | 0:55.08 (55.078 s) | 0:59.15 (59.151 s) |
+| 19 | 0:59.65 (59.651 s) | 1:00.01 (60.014 s) |

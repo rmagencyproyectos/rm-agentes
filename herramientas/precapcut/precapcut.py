@@ -276,15 +276,18 @@ def analizar(transcripciones):
         f["motivo"] = ""
         f["quitar_palabras"] = []
 
+    # en catalán "em" es pronombre ("em donava", "em costa"), no muletilla
+    mul = MULETILLAS - ({"em"} if any(t.get("idioma") == "ca" for t in transcripciones) else set())
+
     # 1) tomas repetidas y arranques en falso: gana la ÚLTIMA toma (la buena suele ser la última)
     toks = [[norm(w["w"]) for w in f["palabras"]] for f in frases]
     for i, f in enumerate(frases):
-        a = [x for x in toks[i] if x and x not in MULETILLAS]
+        a = [x for x in toks[i] if x and x not in mul]
         if not a:
             continue
         # la repetición puede estar en el clip siguiente: se suele parar y volver a grabar
         for j in range(i + 1, min(i + 1 + VENTANA_TOMAS, len(frases))):
-            b = [x for x in toks[j] if x and x not in MULETILLAS]
+            b = [x for x in toks[j] if x and x not in mul]
             if not b:
                 continue
             completa = similitud(a, b)
@@ -312,7 +315,7 @@ def analizar(transcripciones):
         if not f["queda"]:
             continue
         quitar = repeticiones_internas(f["palabras"])
-        quitar |= {k for k, x in enumerate(t) if x in MULETILLAS}
+        quitar |= {k for k, x in enumerate(t) if x in mul}
         if len(quitar) >= len(f["palabras"]):
             f["queda"], f["motivo"] = False, "solo muletillas"
         elif quitar:
