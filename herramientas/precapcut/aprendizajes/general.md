@@ -132,3 +132,15 @@
   palabra de duración normal (la voz baja también queda bajo el umbral). Arranques en falso dentro de la frase
   («No…» y vuelve a empezar) se quitan a mano con `quitar_palabras`.
 - Charla con el cámara pegada al guion («tú todo el rato vas grabando…»): fuera con `quitar_palabras`.
+- (03/11, tarde) Gerard: los subtítulos van DENTRO de cada clip combinado (uno por gancho también), y cada combinado
+  se recorta al final de su vídeo principal (nada de negro al final). Hecho con `scripts-sueltos/` (aún no en precapcut.py):
+  `retrans.py` (audio de cada pista del combinado → texto), `dentro.py` (capcut caption en un proyecto temporal SIN textos,
+  si no `caption` añade a la pista de mismo nombre) y `trasplante.py` (mete pistas+materiales en materials.drafts[].draft
+  de todas las copias, incluidas subdraft/*, y ajusta duraciones arriba).
+
+## 2026-11-03 · fase 2 con Crudo (Jesús)
+- Planos abiertos: la cara cae en la zona de titulares (1.er–2.º tercio). Si no cabe de lado sin salirse de la
+  pantalla, el titular sube encima de la cabeza (`y_arriba`), nunca encima de la cara ni abajo (subtítulos).
+- Cada titular se ve al menos 0,8 s: el siguiente espera (si no, «NO es lo MISMO» se perdía).
+- Correcciones de varias palabras en subtitulos.json («y doyles» → «duele», «al mundo» → «al»); las palabras
+  añadidas con «anadir» en fase 1 también llegan a los subtítulos.

@@ -895,6 +895,7 @@ def construir_cues(palabras, estilo, ajustes):
     """Bloques de 1-2 palabras sin partir palabras; las cortas van con la siguiente."""
     fixes = {k.lower(): v for k, v in cargar_vocabulario()[1].items()}
     fixes.update({k.lower(): v for k, v in ajustes.get("correcciones", {}).items()})
+    multi = {k.lower(): v for k, v in ajustes.get("correcciones", {}).items() if " " in k}
     n = estilo.get("palabras_por_bloque", 1)
     cues, i = [], 0
     while i < len(palabras):
@@ -910,6 +911,12 @@ def construir_cues(palabras, estilo, ajustes):
             grupo.pop()  # "de" al final del bloque: mejor empieza el siguiente
         txt = " ".join(limpiar(w["w"], fixes) for w in grupo)
         txt = txt.upper() if estilo.get("mayusculas") else txt.lower()
+        for mal, bien in multi.items():  # correcciones de varias palabras («y doyles» -> «duele»)
+            txt = re.sub(rf"(^| ){re.escape(mal)}($| )", lambda m: f"{m.group(1)}{bien}{m.group(2)}", txt).strip()
+        txt = " ".join(txt.split())
+        if not txt:
+            i += 1
+            continue
         cues.append({"ini": grupo[0]["ts"], "fin": grupo[-1]["te"], "texto": txt,
                      "frase": grupo[0]["frase"], "fin_clip": grupo[-1]["fin_clip"]})
         i += 1
@@ -977,7 +984,12 @@ def construir_titulares(palabras, estilo, ajustes, fixes, colores=None):
             t = titular(ws, k, desde, col, estilo, fixes, fid)
             desde = k + 1
             tit.append(t)
-    for t, sig in zip(tit, tit[1:]):  # no se pisan: el siguiente titular echa al anterior
+    for t, sig in zip(tit, tit[1:]):  # no se pisan: el siguiente titular echa al anterior...
+        minimo = t["lineas"][-1]["ini"] + 0.8  # ...pero cada uno se ve al menos 0,8 s («NO es lo MISMO» se perdía)
+        if sig["ini"] < minimo:
+            for ln in sig["lineas"]:
+                ln["ini"] = max(ln["ini"], minimo)
+            sig["ini"] = sig["lineas"][0]["ini"]
         t["fin"] = min(t["fin"], sig["ini"])
     return tit
 
@@ -1116,7 +1128,7 @@ def alto_linea(tamano):
     return tamano * SEPARACION_LINEAS
 
 
-def maquetar(t, e, x=0.0, ancho_max=ANCHO_SEGURO):
+def maquetar(t, e, x=0.0, ancho_max=ANCHO_SEGURO, y=None):
     """Tamaños de cada línea (encogiendo solo si no cabe) y su caja (x0, y0, x1, y1 en 0..1)."""
     lineas, alto_total, w_max = [], 0, 0
     for ln in t["lineas"]:
@@ -1129,7 +1141,8 @@ def maquetar(t, e, x=0.0, ancho_max=ANCHO_SEGURO):
         alto_total += alto_linea(tam)
         w_max = max(w_max, ancho(est, txt, tam))
     cx = (1 + x) / 2
-    return lineas, (cx - w_max / 2, (1 - e["y"]) / 2, cx + w_max / 2, (1 - (e["y"] - alto_total)) / 2)
+    y = e["y"] if y is None else y
+    return lineas, (cx - w_max / 2, (1 - y) / 2, cx + w_max / 2, (1 - (y - alto_total)) / 2)
 
 
 def zonas_sin_cara(info, tit, e, d):
@@ -1160,15 +1173,18 @@ def zonas_sin_cara(info, tit, e, d):
     except (ImportError, AttributeError):
         pass
     movidos = 0
+    y_arriba = e.get("y_arriba", 0.78)  # encima de la cabeza (planos abiertos: la cara cae en la zona)
     for t, caras in zip(tit, caras_por):
-        for x, amax in ((0.0, ANCHO_SEGURO), (-0.45, 0.5), (0.45, 0.5)):
-            tams, bx = maquetar(t, e, x, amax)
-            if not any(bx[0] < c[2] and c[0] < bx[2] and bx[1] < c[3] and c[1] < bx[3] for c in caras):
+        for x, amax, y in ((0.0, ANCHO_SEGURO, e["y"]), (-0.45, 0.5, e["y"]), (0.45, 0.5, e["y"]),
+                           (0.0, ANCHO_SEGURO, y_arriba)):
+            tams, bx = maquetar(t, e, x, amax, y)
+            fuera = bx[0] < 0.02 or bx[2] > 0.98  # que no se salga de la pantalla
+            if not fuera and not any(bx[0] < c[2] and c[0] < bx[2] and bx[1] < c[3] and c[1] < bx[3] for c in caras):
                 break
         else:
-            x, (tams, bx) = 0.0, maquetar(t, e, 0.0)  # sin hueco libre: centrado (Gerard decide)
-        t["x"], t["tamanos"] = x, tams
-        movidos += x != 0.0
+            x, y, (tams, bx) = 0.0, y_arriba, maquetar(t, e, 0.0, ANCHO_SEGURO, y_arriba)  # lo más lejos de la cara
+        t["x"], t["y"], t["tamanos"] = x, y, tams
+        movidos += (x, y) != (0.0, e["y"])
     return movidos
 
 
@@ -1295,7 +1311,7 @@ def poner_titulares(info, tit, e, d):
                        capture_output=True, text=True, check=True)
 
     for t in tit:
-        y = e["y"]
+        y = t.get("y", e["y"])
         tams = t.get("tamanos") or maquetar(t, e)[0]
         x0 = t.get("x", 0.0)
         for k, (ln, tam) in enumerate(zip(t["lineas"], tams)):
@@ -1400,8 +1416,7 @@ def mudar_copias(destino):
 
 def cmd_subtitulos(a):
     d = TRABAJO / a.pieza
-    trans = leer_json(d / "transcripciones.json")
-    _, _, frases, _ = cargar_pieza(a.pieza)
+    _, trans, frases, _ = cargar_pieza(a.pieza)  # con las palabras añadidas a mano («anadir»)
     destino = buscar_proyecto(a.proyecto)
     estilo = leer_json(AQUI / "estilos" / f"{a.estilo}.json")
     aj_f = d / "subtitulos.json"
@@ -1567,8 +1582,7 @@ def hacer_zoom(info, data, r):
 
 def cmd_recursos(a):
     d = TRABAJO / a.pieza
-    trans = leer_json(d / "transcripciones.json")
-    _, _, frases, _ = cargar_pieza(a.pieza)
+    _, trans, frases, _ = cargar_pieza(a.pieza)  # con las palabras añadidas a mano («anadir»)
     destino = buscar_proyecto(a.proyecto)
     estilo = leer_json(AQUI / "estilos" / f"{a.estilo}.json")
     rj = d / "recursos.json"
