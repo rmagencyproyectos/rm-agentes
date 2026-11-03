@@ -441,6 +441,38 @@ def segmentos(frases, transcripciones, envolventes=None):
             if fin - ini > 0.15:
                 tramos.append({"video": vi, "ini": round(ini, 3), "fin": round(fin, 3),
                                "palabras": [dict(w) for w in g]})
+    # silencios de más de PAUSA_MAX DENTRO de un tramo según el audio (Whisper estira una palabra por
+    # encima de la pausa: «No… es… lo mismo» dejaba 1 s de duda)
+    if envolventes:
+        partidos = []
+        for tr in tramos:
+            db, umbral = envolventes[tr["video"]]
+            k0, k1 = int(tr["ini"] * 100), int(tr["fin"] * 100)
+            cortes, k = [], k0
+            while k < k1:
+                if db[k] < umbral:
+                    j = k
+                    while j < k1 and db[j] < umbral:
+                        j += 1
+                    q0, q1 = k / 100, j / 100
+                    # habla muy baja también queda bajo el umbral: solo se corta si ahí no hay una palabra
+                    # de duración normal (las estiradas sobre la pausa, > 0,6 s, no cuentan)
+                    habla = any(w["e"] - w["s"] < 0.6 and min(w["e"], q1) - max(w["s"], q0) > 0.5 * (w["e"] - w["s"])
+                                for w in tr["palabras"])
+                    if q1 - q0 > PAUSA_MAX and k > k0 and j < k1 and not habla:
+                        cortes.append((q0 + PAD_DESPUES, q1 - PAD_ANTES))
+                    k = j
+                else:
+                    k += 1
+            a = tr["ini"]
+            for c0, c1 in cortes + [(tr["fin"], None)]:
+                b = c0 if c1 is not None else tr["fin"]
+                ws = [w for w in tr["palabras"] if a - 0.05 <= (w["s"] + w["e"]) / 2 <= b + 0.05
+                      or (w["s"] < b and w["e"] > a and c1 is None)]
+                if b - a > 0.15:
+                    partidos.append(dict(tr, ini=round(a, 3), fin=round(b, 3), palabras=ws))
+                a = c1 if c1 is not None else a
+        tramos = partidos
     # posición en la línea de tiempo + palabras ya colocadas (las usa la fase 2)
     t = 0.0
     for tr in tramos:
@@ -508,6 +540,12 @@ def cargar_pieza(pieza):
     decis = {x["id"]: x for x in leer_json(d / "decisiones.json")}
     for f in frases:  # lo que se haya cambiado a mano en decisiones.json manda
         x = decis.get(f["id"])
+        if x and x.get("anadir"):  # palabras que Whisper no puso o puso en otra toma: {"w", "s", "e"}
+            nuevas = [dict(w, p=1.0) for w in x["anadir"]]
+            todas = trans[f["video"]]["palabras"]
+            todas.extend(nuevas)
+            todas.sort(key=lambda w: w["s"])
+            f["palabras"] = sorted(f["palabras"] + nuevas, key=lambda w: w["s"])
         if x:
             f["queda"] = bool(x["queda"])
             f["quitar_palabras"] = x.get("quitar_palabras", f["quitar_palabras"])
@@ -840,7 +878,8 @@ def palabras_en_timeline(d, trans, frases, proyecto):
             ini = borde_sonido(env, w["s"], -1, 0.3, quieto=0.03)
             ini = ini if ini is not None and ini > prev_e else w["s"]
             prev_e = w["e"]
-            if s0 <= medio <= s1 and (vi, w["s"]) in frase_de:
+            solape = min(w["e"], s1) - max(w["s"], s0)
+            if (s0 <= medio <= s1 or solape > 0.5 * (w["e"] - w["s"])) and (vi, w["s"]) in frase_de:
                 out.append({"w": w["w"], "ts": round(t0 + max(ini, s0) - s0, 3),
                             "te": round(t0 + min(w["e"], s1) - s0, 3), "frase": frase_de[(vi, w["s"])],
                             "fin_clip": round(t0 + s1 - s0, 3)})

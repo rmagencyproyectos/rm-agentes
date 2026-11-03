@@ -9,7 +9,7 @@ así no se descuadran.
 | 1 · Cortes | Transcribe en local con tiempos por palabra, quita tomas falladas, arranques en falso, muletillas y silencios, y lo monta en CapCut | **hecha** |
 | 2 · Subtítulos | 1-2 palabras por bloque desde la misma transcripción + titular (palabra clave grande) por frase, estilo por cliente en `estilos/` | **hecha** (prueba Jesús Mora 30/10) |
 | 2b · Recursos | Motion graphics (Remotion, estilo de marca, fondo transparente) según lo que se dice; fotos si se adjunta carpeta | en pausa (01/11): se aprende con otro vídeo |
-| 3 · Sonido | Librería RM de efectos (`sonidos/`, sintetizada) colocados según lo que hay en el proyecto | **hecha** (prueba Jesús 01/11) |
+| 3 · Sonido | Librería de Gerard (`sonidos/`, 19 por papel) colocada según lo que hay en el proyecto | **hecha** (OK de Gerard 03/11) |
 | 4 · Humano | Lo creativo, en CapCut | — |
 
 ## Cómo se pide
@@ -26,6 +26,7 @@ así no se descuadran.
    - Para cambiar algo, editar `decisiones.json` (`queda`: true/false) con un script corto y poner
      `"a_mano": true` en esa frase: así no se pierde si se vuelve a lanzar `fase1`. `montar` reescribe
      `fase1.md` con las decisiones finales.
+     `"anadir": [{"w", "s", "e"}]` en una frase = palabras que Whisper no puso (o puso en otra toma).
 3. `python3 precapcut.py montar <pieza> --en "<proyecto CapCut vacío>"` (o `--nuevo "<nombre>"`).
    **CapCut tiene que estar cerrado.** Hace copia del proyecto en `<pieza>/backups/` antes de escribir.
    Volver a montar sobre el mismo proyecto (el que ya llenó precapcut) lo vacía y lo rellena;

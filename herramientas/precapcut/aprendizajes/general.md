@@ -110,3 +110,25 @@
 - Risers (18 `riser`, 16 `riser-corto`): para la tensión inicial / intriga, sobre todo cuando se hace una
   pregunta; el riser acaba justo cuando acaba la pregunta (empieza la respuesta). 1-2 por vídeo como mucho.
 - Los nombres de los sonidos son genéricos por papel (cuándo usarlos), nunca por el vídeo de muestra.
+
+## 2026-11-03 (4) · Gerard
+- Fase 3 con su librería: «mucho mejor». Se da por buena la configuración actual (pops/efectos 0 dB, whoosh y
+  transiciones bajos, riser en preguntas).
+
+## 2026-11-03 (mediodía) · Gerard (Aprenent fotografia, fase 2)
+- Gerard monta cada día en un clip combinado (materials.drafts[].draft) y apila los ganchos (versiones de Trial
+  Reels) en pistas encima, al principio. Las fotos van DENTRO del combinado, en el momento en que presenta cada una.
+- Subtítulos: re-transcribir el audio del montaje FINAL con contexto (faster-whisper medium, vad, condition_on_previous_text,
+  prompt con vocabulario): mucho más limpio que la transcripción de fase 1 (hecha sin contexto para ver tomas).
+  Una pista de subtítulos para la narración y una por gancho («Subtitulos ganxo dia N-k»).
+- `sync-timelines --nested --apply` reconcilia desde draft_content.json: sincronizar antes de que draft_content quede viejo.
+
+## 2026-11-03 · prueba completa con Crudo.MOV (Jesús)
+- Whisper se equivoca de toma: pone las palabras de la buena en un intento murmurado. Si una frase buena
+  llega sin su principio, re-transcribir la ventana y añadir las palabras con `"anadir"` en decisiones.json.
+- Tomas susurradas o ensayos en voz baja (~25 dB por debajo de la voz normal) no sirven aunque Whisper las
+  transcriba bien: comprobar el nivel antes de elegirlas.
+- Pausas de duda dentro de una frase («No… es… lo mismo»): se cortan por energía, pero solo donde no hay una
+  palabra de duración normal (la voz baja también queda bajo el umbral). Arranques en falso dentro de la frase
+  («No…» y vuelve a empezar) se quitan a mano con `quitar_palabras`.
+- Charla con el cámara pegada al guion («tú todo el rato vas grabando…»): fuera con `quitar_palabras`.
