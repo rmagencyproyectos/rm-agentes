@@ -144,3 +144,10 @@
 - Cada titular se ve al menos 0,8 s: el siguiente espera (si no, «NO es lo MISMO» se perdía).
 - Correcciones de varias palabras en subtitulos.json («y doyles» → «duele», «al mundo» → «al»); las palabras
   añadidas con «anadir» en fase 1 también llegan a los subtítulos.
+
+## 2026-11-03 · recursos con Crudo (Gerard aprueba el storyboard entero)
+- Recursos sin texto aprobados: raya en encimera («delicados»), muestra de color que se apaga («cansan»), pieza
+  de puzle que rebota en una casa («no encajan»), muestrario en abanico («texturas, colores, acabados»), móvil
+  con foto que sale de la pantalla («foto vs delante»). Plantillas: rayado, color_cansa, puzle, muestrario, movil_foto.
+- En planos abiertos con el sujeto en el centro: pequeños en las esquinas de abajo, alternando lado.
+- Los recursos apuntan a su render en <pieza>/recursos/ (no se copian dentro del proyecto).

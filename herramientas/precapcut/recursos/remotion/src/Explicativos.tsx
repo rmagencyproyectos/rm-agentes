@@ -171,3 +171,103 @@ export const Rotulo: React.FC<{p: Props}> = ({p}) => {
 		</div>
 	);
 };
+
+// ---- Recursos sin texto (Gerard 31/10 y 03/11): dibujo reconocible + animación, ~2 s, pequeño en una esquina.
+const Mini: React.FC<{children: React.ReactNode}> = ({children}) => (
+	<div style={{width: 400, height: 300, borderRadius: 36, background: 'rgba(22,16,12,0.55)', boxShadow: '0 16px 40px rgba(0,0,0,0.35)',
+		display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+		<svg width={360} height={260} viewBox="0 0 360 260">{children}</svg>
+	</div>
+);
+
+// «materiales delicados»: encimera brillante, pasa un reflejo y se dibuja una raya con grieta.
+export const Rayado: React.FC<{p: Props}> = ({p}) => {
+	const {s} = useT();
+	const reflejo = interpolate(s, [0, 0.9], [-120, 380], {extrapolateRight: 'clamp'});
+	const raya = paso(s, 0.55, 0.2);
+	return (
+		<Mini>
+			<defs><clipPath id="enc"><rect x={30} y={70} width={300} height={130} rx={12} /></clipPath></defs>
+			<rect x={30} y={70} width={300} height={130} rx={12} fill="#f1ede6" />
+			<g clipPath="url(#enc)"><rect x={reflejo} y={40} width={60} height={200} fill="#fff" opacity={0.7} transform={`skewX(-20)`} /></g>
+			<rect x={30} y={70} width={300} height={130} rx={12} fill="none" stroke="#c9c2b8" strokeWidth={4} />
+			<path d="M70 110 L150 140 L210 128 L290 170" stroke={ROJO} strokeWidth={6} fill="none" strokeLinecap="round"
+				pathLength={1} strokeDasharray={1} strokeDashoffset={1 - raya} />
+			<path d="M150 140 l-10 22 M210 128 l14 -20" stroke={ROJO} strokeWidth={4} fill="none" strokeLinecap="round" opacity={paso(s, 0.75, 0.15)} />
+		</Mini>
+	);
+};
+
+// «colores que cansan»: muestra muy viva que se apaga a gris.
+export const ColorCansa: React.FC<{p: Props}> = () => {
+	const {s} = useT();
+	const k = paso(s, 0.25, 0.6);
+	const mezcla = (a: number[], b: number[]) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`;
+	return (
+		<Mini>
+			{[[255, 112, 40], [0, 196, 180], [255, 214, 0]].map((c, i) => (
+				<rect key={i} x={45 + i * 95} y={60 + Math.sin(s * 3 + i) * 4} width={80} height={140} rx={14}
+					fill={mezcla(c, [128, 128, 126])} transform={`rotate(${(i - 1) * 6} ${85 + i * 95} 130)`} />
+			))}
+		</Mini>
+	);
+};
+
+// «no encajan con el resto de la casa»: pieza de puzle que intenta entrar en la casa y rebota.
+export const Puzle: React.FC<{p: Props}> = ({p}) => {
+	const {s} = useT();
+	const ida = interpolate(s, [0.1, 0.55, 0.75, 1.1], [150, 0, 26, 18], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const giro = interpolate(s, [0.55, 0.75], [0, 14], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const pieza = 'M0 0 h22 a12 12 0 1 1 24 0 h22 v22 a12 12 0 1 0 0 24 v22 h-68 Z';
+	return (
+		<Mini>
+			<path d="M40 120 L130 50 L220 120 V220 H40 Z" fill="none" stroke="#fff" strokeWidth={7} strokeLinejoin="round" />
+			<path d="M96 150 h22 a12 12 0 1 0 24 0 h22 v70 h-68 Z" fill="rgba(255,255,255,0.15)" stroke="#fff" strokeWidth={3} strokeDasharray="8 6" />
+			<g transform={`translate(${190 + ida} 130) rotate(${giro})`}><path d={pieza} fill={ROJO} stroke="#fff" strokeWidth={3} /></g>
+		</Mini>
+	);
+};
+
+// «comparar texturas, colores y acabados»: muestrario que se abre en abanico (madera, mármol, lacado).
+export const Muestrario: React.FC<{p: Props}> = ({p}) => {
+	const {f, fps} = useT();
+	const muestras = [
+		{fill: '#8a5a33', vetas: 'rgba(60,35,15,0.5)'},
+		{fill: '#e9e6e1', vetas: 'rgba(120,120,125,0.55)'},
+		{fill: p.color, vetas: 'rgba(0,0,0,0)'},
+	];
+	return (
+		<Mini>
+			{muestras.map((m, i) => {
+				const v = spring({frame: f - (p.t1 || 0.2) * fps * 0 - i * 0.35 * fps, fps, config: {damping: 12}});
+				return (
+					<g key={i} transform={`rotate(${(i - 1) * 22 * v} 180 230)`}>
+						<rect x={130} y={40} width={100} height={190} rx={12} fill={m.fill} stroke="#fff" strokeWidth={3} />
+						{[0, 1, 2, 3].map((k) => <path key={k} d={`M${140 + k * 22} 50 q 10 80 -4 170`} stroke={m.vetas} strokeWidth={4} fill="none" />)}
+					</g>
+				);
+			})}
+		</Mini>
+	);
+};
+
+// «verlo en una foto que verlo delante tuyo»: móvil con la foto plana; la cocina sale de la pantalla con volumen.
+export const MovilFoto: React.FC<{p: Props}> = ({p}) => {
+	const {f, fps} = useT();
+	const sale = spring({frame: f - 0.6 * fps, fps, config: {damping: 13}});
+	const cocina = (esc: number, dy: number, sombra: boolean) => (
+		<g transform={`translate(180 ${130 + dy}) scale(${esc}) translate(-60 -40)`}>
+			{sombra && <ellipse cx={60} cy={92} rx={70} ry={8} fill="rgba(0,0,0,0.35)" />}
+			<rect x={0} y={0} width={120} height={36} rx={4} fill="#f2f2f0" />
+			<rect x={0} y={44} width={120} height={44} rx={4} fill={p.color} />
+			{[30, 60, 90].map((x) => <line key={x} x1={x} y1={44} x2={x} y2={88} stroke="#fff" strokeWidth={2} />)}
+		</g>
+	);
+	return (
+		<Mini>
+			<rect x={125} y={20} width={110} height={220} rx={18} fill="#1d1d1f" stroke="#fff" strokeWidth={4} />
+			<g opacity={1 - sale}>{cocina(0.75, -10, false)}</g>
+			<g opacity={sale}>{cocina(0.75 + 0.75 * sale, -10 - 10 * sale, true)}</g>
+		</Mini>
+	);
+};

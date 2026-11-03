@@ -1,11 +1,11 @@
 import React from 'react';
 import {AbsoluteFill, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {AntesDespues, Cajon, CajonOrden, Esquina, Guardar, Rinonero, Rotulo} from './Explicativos';
+import {AntesDespues, Cajon, CajonOrden, ColorCansa, Esquina, Guardar, MovilFoto, Muestrario, Puzle, Rayado, Rinonero, Rotulo} from './Explicativos';
 
 // Plantillas de motion graphics de precapcut. Fondo transparente; el elemento va centrado en (x, y)
 // en píxeles de 1080x1920. Colores y fuentes llegan del estilo del cliente.
 export type Props = {
-	plantilla: 'carpeta' | 'icono' | 'contador' | 'check' | 'cruz' | 'lista' | 'flecha' | 'cajon' | 'cajon_orden' | 'esquina' | 'rinonero' | 'guardar' | 'antes_despues' | 'etiqueta';
+	plantilla: 'carpeta' | 'icono' | 'contador' | 'check' | 'cruz' | 'lista' | 'flecha' | 'cajon' | 'cajon_orden' | 'esquina' | 'rinonero' | 'guardar' | 'antes_despues' | 'etiqueta' | 'rayado' | 'color_cansa' | 'puzle' | 'muestrario' | 'movil_foto';
 	t1: number;
 	t2: number;
 	texto: string;
@@ -129,6 +129,11 @@ export const Recurso: React.FC<Props> = (p) => {
 		guardar: <Guardar p={p} />,
 		antes_despues: <AntesDespues p={p} />,
 		etiqueta: <Rotulo p={p} />,
+		rayado: <Rayado p={p} />,
+		color_cansa: <ColorCansa p={p} />,
+		puzle: <Puzle p={p} />,
+		muestrario: <Muestrario p={p} />,
+		movil_foto: <MovilFoto p={p} />,
 	}[p.plantilla];
 	return (
 		<AbsoluteFill style={{backgroundColor: 'transparent'}}>

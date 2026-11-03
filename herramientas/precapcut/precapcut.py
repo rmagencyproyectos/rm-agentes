@@ -776,7 +776,8 @@ def apuntar_originales(destino, originales):
         except ValueError:
             continue
         for m in data.get("materials", {}).get("videos", []):
-            x = largos.get(Path(m.get("path", "")).name)
+            nombre = Path(m.get("path", "")).name  # capcut-cli copia a assets/ como «R01.2589fbf2.mov»
+            x = largos.get(nombre) or largos.get(re.sub(r"\.[0-9a-f]{8}(\.[^.]+)$", r"\1", nombre))
             if x:
                 m["path"] = x[0]
                 m["duration"] = max(m.get("duration") or 0, x[1] or 0)
@@ -787,7 +788,8 @@ def apuntar_originales(destino, originales):
         data = json.loads(meta.read_text(encoding="utf-8"))
         for grupo in data.get("draft_materials", []):
             for it in grupo.get("value", []):
-                x = largos.get(Path(it.get("file_Path", "")).name)
+                nombre = Path(it.get("file_Path", "")).name
+                x = largos.get(nombre) or largos.get(re.sub(r"\.[0-9a-f]{8}(\.[^.]+)$", r"\1", nombre))
                 if x and grupo.get("type") == 0:
                     it["file_Path"] = x[0]
                     it["duration"] = max(it.get("duration") or 0, x[1] or 0)
@@ -1640,6 +1642,9 @@ def cmd_recursos(a):
         print(f"  {r['id']} {r['plantilla']} {r.get('texto', '')}")
     if (destino / "Timelines").is_dir():
         subprocess.run([capcut_bin(), "sync-timelines", str(destino), "--nested", "--apply"], check=True, capture_output=True)
+    # los recursos se quedan donde se renderizaron (<pieza>/recursos/), no copiados dentro del proyecto
+    apuntar_originales(destino, {f"{r['id']}.mov": str(d / "recursos" / f"{r['id']}.mov") for r in recursos if not r.get("foto")})
+    limpiar_assets(destino)
     mudar_copias(destino)
     print(f"Añadidos {len(recursos)} recursos · copia: {copia}")
 
