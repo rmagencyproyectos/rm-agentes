@@ -98,7 +98,9 @@
   "cuando": "foto / «mira esto» / congelar un momento",
   "nombre_capcut": "click (camera shutter sound single shot)",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 0.0,
+  "fin": 0.293
  },
  {
   "id": "g02_transicion",
@@ -109,7 +111,9 @@
   "cuando": "cambio de plano, transición",
   "nombre_capcut": "转场 C10 (transición C10)",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 0.793,
+  "fin": 1.559
  },
  {
   "id": "g03_whoosh",
@@ -120,7 +124,9 @@
   "cuando": "whoosh de aire: entrada de titular grande o cambio de plano",
   "nombre_capcut": "Wind noise used by Youtuber",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 2.059,
+  "fin": 3.057
  },
  {
   "id": "g04_reloj",
@@ -131,7 +137,9 @@
   "cuando": "tiempo / esperar / «rápido» (se recorta al usarlo)",
   "nombre_capcut": "Tick tock second hand of the clock",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 3.557,
+  "fin": 162.816
  },
  {
   "id": "g05_chasquido",
@@ -142,7 +150,9 @@
   "cuando": "«así de fácil», cambio instantáneo, aparece algo",
   "nombre_capcut": "Finger patchon (finger snap E)",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 163.316,
+  "fin": 163.758
  },
  {
   "id": "g06_whoosh_corto",
@@ -153,7 +163,9 @@
   "cuando": "whoosh corto: entrada rápida, swipe",
   "nombre_capcut": "Cut the wind Hew somewhat lower",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 164.258,
+  "fin": 164.7
  },
  {
   "id": "g07_idea",
@@ -164,7 +176,9 @@
   "cuando": "idea / truco / «tip» (bombilla)",
   "nombre_capcut": "Culin. Light bulb mark",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 165.2,
+  "fin": 166.478
  },
  {
   "id": "g08_click",
@@ -175,7 +189,9 @@
   "cuando": "clic: «guardar», botón, seleccionar",
   "nombre_capcut": "Computer-Mouse-Click_PREM11-1148",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 166.978,
+  "fin": 167.963
  },
  {
   "id": "g09_tension",
@@ -186,7 +202,9 @@
   "cuando": "tensión / suspense antes de revelar (se recorta)",
   "nombre_capcut": "Dokudoku tension tense heart beat",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 168.463,
+  "fin": 182.123
  },
  {
   "id": "g10_beep",
@@ -197,7 +215,9 @@
   "cuando": "aviso / censura / error leve",
   "nombre_capcut": "Beep (short)",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 182.623,
+  "fin": 183.304
  },
  {
   "id": "g11_dibujar",
@@ -208,7 +228,9 @@
   "cuando": "rodear / subrayar / marcar algo en pantalla",
   "nombre_capcut": "Pencil write circle add circle",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 183.804,
+  "fin": 184.33
  },
  {
   "id": "g12_grillos",
@@ -219,7 +241,9 @@
   "cuando": "silencio incómodo / humor (se recorta)",
   "nombre_capcut": "Crickets in the countryside",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 184.83,
+  "fin": 1084.828
  },
  {
   "id": "g13_dinero",
@@ -230,7 +254,9 @@
   "cuando": "precio / ahorro / dinero",
   "nombre_capcut": "Money, coin, cash register",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 1085.328,
+  "fin": 1086.214
  },
  {
   "id": "g14_pop",
@@ -241,7 +267,9 @@
   "cuando": "celebración / resultado / entrada con fuerza",
   "nombre_capcut": "Champagne Pop",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 1086.714,
+  "fin": 1087.731
  },
  {
   "id": "g15_impacto",
@@ -252,7 +280,9 @@
   "cuando": "exclamación / golpe de efecto (con cola)",
   "nombre_capcut": "Sundon: Impact sound",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 1088.231,
+  "fin": 1094.681
  },
  {
   "id": "g16_transicion_corta",
@@ -263,7 +293,9 @@
   "cuando": "transición rápida",
   "nombre_capcut": "转场 E14 (transición E14)",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 1095.181,
+  "fin": 1095.587
  },
  {
   "id": "g17_ding",
@@ -274,7 +306,9 @@
   "cuando": "acierto / visto bueno / dato bueno",
   "nombre_capcut": "Bell ring «ding!»",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 1096.087,
+  "fin": 1097.835
  },
  {
   "id": "g18_riser",
@@ -285,7 +319,9 @@
   "cuando": "subida antes de algo importante / CTA",
   "nombre_capcut": "RISER_01",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 1098.335,
+  "fin": 1102.408
  },
  {
   "id": "g19_pop_suave",
@@ -296,6 +332,8 @@
   "cuando": "entrada de titular / elemento (pop de boca)",
   "nombre_capcut": "pop! (tapping the mouth with a hand)",
   "licencia": "biblioteca de CapCut (elegidos por Gerard)",
-  "fuente": "RM Dia de trabajo · Clip combinado16"
+  "fuente": "RM Dia de trabajo · Clip combinado16",
+  "ini": 1102.908,
+  "fin": 1103.271
  }
 ]

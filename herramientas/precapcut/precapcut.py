@@ -1708,6 +1708,28 @@ def cmd_sonidos(a):
     print(f"Añadidos {len(sons)} sonidos · copia: {copia}")
 
 
+def cmd_sonidos_cortar(a):
+    """Corta el archivo que exporta Gerard del proyecto «Biblioteca sonidos RM» (los 19 en fila, con 0,5 s
+    de silencio entre uno y otro) en un .wav por sonido, con los tiempos de sonidos.json; comprueba con la
+    energía que cada corte cae en silencio (si no, avisa: el export no empezó en 0:00 o cambió algo)."""
+    man_f = SONIDOS / "sonidos.json"
+    man = leer_json(man_f)
+    env = envolvente(a.archivo)
+    ff = ffmpeg_bin()
+    avisos = 0
+    for x in [m for m in man if m["id"].startswith("g") and "ini" in m]:
+        for borde in (x["ini"] - 0.15, x["fin"] + 0.15):
+            if borde > 0 and nivel(env, borde) >= env[1]:
+                print(f"  ojo {x['id']}: en {borde:.2f} s no hay silencio")
+                avisos += 1
+        salida = SONIDOS / f"{x['id']}.wav"
+        subprocess.run([ff, "-v", "error", "-y", "-ss", str(x["ini"]), "-t", str(round(x["fin"] - x["ini"], 3)), "-i", a.archivo,
+                        "-af", "afade=t=out:st=%.3f:d=0.02" % max(0, x["fin"] - x["ini"] - 0.02), "-ar", "48000", str(salida)], check=True)
+        x.update(archivo=salida.name, pendiente=False)
+    escribir_json(man_f, man)
+    print(f"Cortados {sum(1 for m in man if m['id'].startswith('g'))} sonidos en {SONIDOS} · avisos de silencio: {avisos}")
+
+
 def cmd_qa(a):
     """Re-transcribe el preview y lo compara con lo que debía quedar: palabras comidas o sobrantes."""
     d, trans, frases, tramos = cargar_pieza(a.pieza)
@@ -1779,11 +1801,13 @@ def main():
     so.add_argument("--estilo", required=True, help="estilos/<cliente>.json")
     so.add_argument("--solo-md", action="store_true", help="solo sonidos.md, sin tocar CapCut")
     so.add_argument("--regenerar", action="store_true", help="volver a proponer (pisa sonidos-decisiones.json)")
+    sc = sub.add_parser("sonidos-cortar", help="corta el audio exportado de «Biblioteca sonidos RM» en un .wav por sonido")
+    sc.add_argument("archivo", help="audio exportado desde CapCut (entero, desde 0:00)")
     q = sub.add_parser("qa", help="re-transcribe el preview y busca palabras comidas")
     q.add_argument("pieza")
     q.add_argument("--modelo", default="small")
     a = p.parse_args()
-    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "recursos": cmd_recursos, "sonidos": cmd_sonidos, "qa": cmd_qa}[a.cmd](a)
+    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "recursos": cmd_recursos, "sonidos": cmd_sonidos, "sonidos-cortar": cmd_sonidos_cortar, "qa": cmd_qa}[a.cmd](a)
 
 
 if __name__ == "__main__":
