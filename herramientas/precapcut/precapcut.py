@@ -671,8 +671,9 @@ def cmd_montar(a):
     # fase1.md con las decisiones finales (las de decisiones.json, también las tocadas a mano)
     (d / "fase1.md").write_text(informe(a.pieza, frases, trans, tramos), encoding="utf-8")
 
-    render_preview(trans, tramos, d / "preview.mp4")
-    print(f"Preview: {d / 'preview.mp4'}")
+    if not a.sin_preview:
+        render_preview(trans, tramos, d / "preview.mp4")
+        print(f"Preview: {d / 'preview.mp4'}")
     if a.sin_capcut:
         return
 
@@ -1781,6 +1782,7 @@ def main():
     m.add_argument("--en", help="proyecto de CapCut vacío (nombre o ruta) donde montar")
     m.add_argument("--nuevo", help="nombre del proyecto nuevo (por defecto, el de la pieza)")
     m.add_argument("--sin-capcut", action="store_true", help="solo preview y EDL")
+    m.add_argument("--sin-preview", action="store_true", help="no renderizar preview.mp4 (solo lo usa el QA)")
     mt = sub.add_parser("materiales", help="clips con el vídeo original entero (para alargar en CapCut)")
     mt.add_argument("pieza")
     mt.add_argument("proyecto", help="proyecto de CapCut (nombre o ruta)")

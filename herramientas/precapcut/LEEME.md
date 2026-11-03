@@ -114,10 +114,12 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
 2. Sin `--solo-md` (CapCut cerrado): AÑADE pistas `Sonidos` (y `Sonidos 2…` si se solapan). Rehacer = quitar
    solo esas pistas. Volúmenes por defecto ~-17 dB bajo la voz (`estilos/<cliente>.json` → `sonidos.volumenes`).
 3. QA: mezclar voz + efectos y medir (ebur128): la mezcla no debe subir respecto a la voz sola.
-Librería: efectos REALES de Mixkit (licencia gratuita, uso comercial sin atribución), los que Gerard da por
-validados: `sonidos/descargar.py` los baja y prepara (fuera el silencio inicial, cola entera con fade, -14 LUFS);
-`sonidos/sonidos.json` = manifiesto con fuente y licencia. Los sintetizados quedan en `sonidos/sintetizados/`
-(en desuso). Niveles: pops y efectos a 0 dB (volumen 1.0), whoosh 0.14.
+Librería: la de Gerard (03/11): 19 sonidos de CapCut que eligió él, en `sonidos/gNN_<categoria>.wav`
+(lista y para qué sirve cada uno: `sonidos/biblioteca-gerard.md`). `sonidos/sonidos.json` los da por papel
+(`pop_suave` = 19, `impacto` = 15, `click` = 08, `check` = 17 ding, `error` = 10 beep, `whoosh` = 03…).
+Para ampliarla: Gerard pone los sonidos en fila en «Biblioteca sonidos RM», exporta, y
+`python3 precapcut.py sonidos-cortar <archivo>`. En desuso: `sonidos/mixkit/` y `sonidos/sintetizados/`.
+Niveles: pops y efectos a 0 dB (volumen 1.0), whoosh 0.14.
 
 ## Espacio en disco
 

@@ -89,3 +89,8 @@
 ## 2026-11-03 · Gerard
 - Biblioteca de sonidos = la de Gerard (19 sonidos de CapCut en «RM Dia de trabajo», Clip combinado16), ver
   `sonidos/biblioteca-gerard.md`. Él entrega los archivos en ese orden; hasta entonces van como `pendiente`.
+
+## 2026-11-03 (2) · Gerard
+- Librería de sonidos lista: sus 19 sonidos de CapCut (export de «Biblioteca sonidos RM» cortado con
+  `sonidos-cortar`). Mixkit y sintetizados fuera de uso. Para elegir sonido, mirar `biblioteca-gerard.md`
+  (cada uno tiene su para qué: idea, dinero, tensión, grillos = silencio incómodo, riser antes del CTA…).
