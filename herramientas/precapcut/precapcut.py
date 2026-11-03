@@ -1626,11 +1626,11 @@ def proponer_sonidos(data, trans, d):
     pista = {t.get("name") or "": t for t in data.get("tracks", [])}
     for seg in pista.get("Titulares 1", {}).get("segments", []):
         txt = json.loads(mats[seg["material_id"]]["content"])["text"]
-        prop.append({"t": seg["target_timerange"]["start"] / 1e6, "sonido": "pop_suave", "motivo": f"titular «{txt}…»"})
+        prop.append({"t": seg["target_timerange"]["start"] / 1e6, "sonido": "pop", "motivo": f"titular «{txt}…»"})
     for seg in pista.get("Exclamaciones", {}).get("segments", []):
         txt = json.loads(mats[seg["material_id"]]["content"])["text"]
         t0 = seg["target_timerange"]["start"] / 1e6
-        prop += [{"t": max(0.0, t0 - 0.22), "sonido": "whoosh_corto", "motivo": f"entra «{txt}»"},
+        prop += [{"t": max(0.0, t0 - 0.22), "sonido": "whoosh-corto", "motivo": f"entra «{txt}»"},
                  {"t": t0, "sonido": "impacto", "motivo": f"exclamación «{txt}»"}]
     recursos = leer_json(d / "recursos.json") if (d / "recursos.json").exists() else []
     for seg in pista.get("Recursos", {}).get("segments", []):
@@ -1638,10 +1638,10 @@ def proponer_sonidos(data, trans, d):
         r = min(recursos, key=lambda r: abs(r["ini"] - t0), default={})
         r = r if r and abs(r["ini"] - t0) < 0.15 else {}
         if r.get("plantilla") == "antes_despues":  # cuenta la historia: lo malo suena mal, lo bueno bien
-            prop += [{"t": t0, "sonido": "error", "motivo": "antes: huecos"},
-                     {"t": t0 + r.get("t1", 0.35), "sonido": "check", "motivo": "después: a medida"}]
+            prop += [{"t": t0, "sonido": "error", "motivo": "antes: lo que está mal"},
+                     {"t": t0 + r.get("t1", 0.35), "sonido": "correcto", "motivo": "después: lo correcto"}]
         elif r.get("plantilla") == "guardar":
-            prop.append({"t": t0 + 0.45, "sonido": "click", "motivo": "se rellena «guardar»"})
+            prop.append({"t": t0 + 0.45, "sonido": "clic", "motivo": "llamada a la acción (guardar)"})
         else:
             prop.append({"t": t0, "sonido": "pop", "motivo": f"recurso {r.get('plantilla', '')}"})
     clips = []
@@ -1651,7 +1651,7 @@ def proponer_sonidos(data, trans, d):
                       "src_ini": src["start"] / 1e6, "src_fin": (src["start"] + src["duration"]) / 1e6})
     for a, b in zip(clips, clips[1:]):
         if cambio_de_plano(trans, a, b):
-            prop.append({"t": max(0.0, b["ini"] - 0.2), "sonido": "whoosh", "motivo": f"cambio de plano ({a['label']} → {b['label']})"})
+            prop.append({"t": max(0.0, b["ini"] - 0.2), "sonido": "transicion-corta", "motivo": f"cambio de plano ({a['label']} → {b['label']})"})
     out, ultimo = [], -9
     for x in sorted(prop, key=lambda x: x["t"]):  # sin amontonar: gana el primero
         if x["t"] - ultimo < SON_HUECO and x["sonido"] not in ("impacto", "check", "click"):
@@ -1670,8 +1670,7 @@ def cmd_sonidos(a):
     destino = buscar_proyecto(a.proyecto)
     estilo = leer_json(AQUI / "estilos" / f"{a.estilo}.json")
     # volumen de CapCut (1.0 = 0 dB). Gerard 01/11: pops y efectos a 0 dB (a -17 no se oían); whoosh como estaba
-    niveles = {"pop": 1.0, "pop_suave": 1.0, "click": 1.0, "impacto": 1.0, "check": 1.0, "error": 1.0, "ding": 1.0,
-               "whoosh": 0.14, "whoosh_corto": 0.14}
+    niveles = {"whoosh": 0.14, "whoosh-corto": 0.14, "transicion-corta": 0.14, "transicion": 0.14}  # el resto, 1.0
     niveles.update(estilo.get("sonidos", {}).get("volumenes", {}))
     info = destino / "draft_info.json" if (destino / "draft_info.json").exists() else destino
     data = json.loads(info.read_text(encoding="utf-8"))
@@ -1682,6 +1681,11 @@ def cmd_sonidos(a):
         sons = proponer_sonidos(data, trans, d)
         escribir_json(dj, sons)
     lib = {x["id"]: x for x in leer_json(SONIDOS / "sonidos.json")}
+    # nombres de antes (decisiones ya guardadas) -> papel genérico de la librería de Gerard
+    antiguos = {"pop_suave": "pop", "whoosh_corto": "whoosh-corto", "click": "clic", "check": "correcto",
+                "ding": "correcto", "obturador": "foto", "notificacion": "pop", "riser": "subida"}
+    for x in sons:
+        x["sonido"] = antiguos.get(x["sonido"], x["sonido"])
     md = [f"# Sonidos · {a.pieza}", "", f"{len(sons)} efectos. Ajustar en `sonidos-decisiones.json` (sonido: "
           + ", ".join(lib) + "; borrar los que sobren; `volumen` opcional).", ""]
     md += [f"- {x['id']} {tc(x['t'])} · {x['sonido']} · {x['motivo']}" for x in sons]
@@ -1702,7 +1706,7 @@ def cmd_sonidos(a):
         pista = next(n for n in ["Sonidos"] + [f"Sonidos {k}" for k in range(2, 9)] if libre.get(n, -1) <= x["t"])
         libre[pista] = x["t"] + lib[x["sonido"]]["duracion"] + 0.04
         r = subprocess.run([capcut_bin(), "add-audio", str(info), str(f), str(x["t"]), str(lib[x["sonido"]]["duracion"]),
-                            "--track-name", pista, "--volume", str(x.get("volumen", niveles.get(x["sonido"], 0.16)))],
+                            "--track-name", pista, "--volume", str(x.get("volumen", niveles.get(x["sonido"], 1.0)))],
                            capture_output=True, text=True, env=env)
         if r.returncode != 0:
             sys.exit(f"capcut add-audio {x['id']}: {(r.stdout + r.stderr)[-400:]}")

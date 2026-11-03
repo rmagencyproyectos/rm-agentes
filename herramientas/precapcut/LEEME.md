@@ -116,7 +116,7 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
 3. QA: mezclar voz + efectos y medir (ebur128): la mezcla no debe subir respecto a la voz sola.
 Librería: la de Gerard (03/11): 19 sonidos de CapCut que eligió él, en `sonidos/gNN_<categoria>.wav`
 (lista y para qué sirve cada uno: `sonidos/biblioteca-gerard.md`). `sonidos/sonidos.json` los da por papel
-(`pop_suave` = 19, `impacto` = 15, `click` = 08, `check` = 17 ding, `error` = 10 beep, `whoosh` = 03…).
+(por papel genérico, `NN-papel.wav`: foto, transicion, whoosh, tiempo, chasquido, whoosh-corto, idea, clic, tension, error, marcar, silencio-incomodo, dinero, sorpresa, impacto, transicion-corta, correcto, subida, pop).
 Para ampliarla: Gerard pone los sonidos en fila en «Biblioteca sonidos RM», exporta, y
 `python3 precapcut.py sonidos-cortar <archivo>`. En desuso: `sonidos/mixkit/` y `sonidos/sintetizados/`.
 Niveles: pops y efectos a 0 dB (volumen 1.0), whoosh 0.14.

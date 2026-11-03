@@ -94,3 +94,14 @@
 - Librería de sonidos lista: sus 19 sonidos de CapCut (export de «Biblioteca sonidos RM» cortado con
   `sonidos-cortar`). Mixkit y sintetizados fuera de uso. Para elegir sonido, mirar `biblioteca-gerard.md`
   (cada uno tiene su para qué: idea, dinero, tensión, grillos = silencio incómodo, riser antes del CTA…).
+
+## 2026-11-03 · Gerard (Aprenent fotografia, días 1 y 2, catalán)
+- Los comentarios sueltos que pueden servir de gancho o para cortar el hilo NO se borran: van a la pista
+  «Aparte», detrás del final del montaje, para que Gerard los coloque. En `decisiones.json`: `"aparte": true`
+  (frase entera) o `"aparte_palabras": [k...]` (solo esas palabras). Las tomas repetidas sí se quitan.
+- Gerard quiere el proyecto en CapCut, no un render: `montar --sin-preview` salta el preview (solo es para el QA).
+- Preview con vídeos 4K: se renderiza por trozos (`-ss` antes de `-i`); el filter_complex único no acababa.
+- Catalán: «em» es pronombre, no muletilla (ya no se quita si el idioma es `ca`).
+- Whisper en catalán «oye» «Gràcies per acompanyar-nos», «i Vimeo», «xavi.com»… sobre habla real mal
+  reconocida: no quitar esas palabras a ciegas, casi siempre debajo hay voz.
+- Las fotos que acompañan al vídeo van en una pista «Fotos» (3 s cada una) detrás de «Aparte».
