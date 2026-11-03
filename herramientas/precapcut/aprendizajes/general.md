@@ -85,3 +85,7 @@
 ## 2026-11-01 (3) · Gerard
 - Efectos de sonido: los REALES de Mixkit (validados), no sintetizados. Se bajan con `sonidos/descargar.py`.
   Con los niveles pedidos (0 dB; whoosh 0.14), el impacto queda por debajo de la voz en los «POR FAVOR».
+
+## 2026-11-03 · Gerard
+- Biblioteca de sonidos = la de Gerard (19 sonidos de CapCut en «RM Dia de trabajo», Clip combinado16), ver
+  `sonidos/biblioteca-gerard.md`. Él entrega los archivos en ese orden; hasta entonces van como `pendiente`.

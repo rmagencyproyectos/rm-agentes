@@ -463,7 +463,8 @@ def informe(pieza, frases, transcripciones, tramos):
         dudosas = [w["w"] for w in f["palabras"] if w["p"] < 0.5]
         motivo = f["motivo"] + (f" · dudoso: {', '.join(dudosas)}" if dudosas else "")
         out.append(f"| {f['id']} | {f['video'] + 1} | {tc(f['palabras'][0]['s'])} | "
-                   f"{'✓' if f['queda'] else '✗'} | {txt} | {motivo} |")
+                   f"{'aparte' if f.get('aparte_palabras') and not f['queda'] else '✓' if f['queda'] else '✗'}"
+                   f"{' (+aparte)' if f.get('aparte_palabras') and f['queda'] else ''} | {txt} | {motivo} |")
     out += ["", "Vídeos:"] + [f"{i + 1}. {Path(t['video']).name}" for i, t in enumerate(transcripciones)]
     return "\n".join(out) + "\n"
 
@@ -508,27 +509,52 @@ def cargar_pieza(pieza):
             f["queda"] = bool(x["queda"])
             f["quitar_palabras"] = x.get("quitar_palabras", f["quitar_palabras"])
             f["motivo"] = x.get("motivo", f["motivo"])
+            # "aparte": comentarios que pueden servir de gancho o para cortar el hilo. No van en el
+            # montaje: van a la pista «Aparte», detrás del final, para que Gerard los coloque él.
+            # `"aparte": true` = la frase entera; `"aparte_palabras": [k...]` = solo esas palabras.
+            ap = list(range(len(f["palabras"]))) if x.get("aparte") else x.get("aparte_palabras", [])
+            f["aparte_palabras"] = sorted(ap)
+            if x.get("aparte"):
+                f["queda"] = False
+            f["quitar_palabras"] = sorted(set(f["quitar_palabras"]) | set(ap))
     return d, trans, frases, segmentos(frases, trans, [envolvente(t["video"]) for t in trans])
 
 
+def tramos_aparte(frases, trans, final, hueco=3.0):
+    """Tramos de la pista «Aparte», uno detrás de otro a partir de `final` + `hueco` segundos."""
+    sueltas = []
+    for f in frases:
+        ap = set(f.get("aparte_palabras") or [])
+        if ap:
+            sueltas.append(dict(f, queda=True,
+                                quitar_palabras=[k for k in range(len(f["palabras"])) if k not in ap]))
+    tramos = segmentos(sueltas, trans, [envolvente(t["video"]) for t in trans])
+    for tr in tramos:
+        tr["tl"] = round(tr["tl"] + final + hueco, 3)
+        for w in tr["palabras"]:
+            w["ts"], w["te"] = round(w["ts"] + final + hueco, 3), round(w["te"] + final + hueco, 3)
+    return tramos
+
+
 def render_preview(trans, tramos, salida, alto=960):
+    """Un trozo por corte (con -ss delante de -i: solo decodifica ese trozo) y luego se juntan.
+    Con un único filter_complex de trims cada rama decodificaba el 4K entero y no acababa nunca."""
     ff = ffmpeg_bin()
-    entradas, filtros = [], []
-    for i, t in enumerate(trans):
-        entradas += ["-i", t["video"]]
+    tmp = Path(salida).with_name("preview-trozos")
+    shutil.rmtree(tmp, ignore_errors=True)
+    tmp.mkdir()
+    lista = []
     for k, tr in enumerate(tramos):
-        v = tr["video"]
-        filtros.append(f"[{v}:v]trim={tr['ini']}:{tr['fin']},setpts=PTS-STARTPTS,"
-                       f"scale=-2:{alto},fps=30[v{k}]")
-        filtros.append(f"[{v}:a]atrim={tr['ini']}:{tr['fin']},asetpts=PTS-STARTPTS[a{k}]")
-    pares = "".join(f"[v{k}][a{k}]" for k in range(len(tramos)))
-    filtros.append(f"{pares}concat=n={len(tramos)}:v=1:a=1[v][a]")
-    script = Path(salida).with_suffix(".filtros.txt")
-    script.write_text(";\n".join(filtros), encoding="utf-8")
-    cmd = [ff, "-y", "-v", "error", *entradas, "-filter_complex_script", str(script),
-           "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast", "-crf", "28",
-           "-c:a", "aac", "-b:a", "128k", str(salida)]
-    subprocess.run(cmd, check=True)
+        trozo = tmp / f"{k:04d}.ts"
+        subprocess.run([ff, "-y", "-v", "error", "-ss", f"{tr['ini']:.3f}", "-i", trans[tr["video"]]["video"],
+                        "-t", f"{tr['fin'] - tr['ini']:.3f}", "-vf", f"scale=-2:{alto},fps=30",
+                        "-c:v", "libx264", "-preset", "veryfast", "-crf", "28",
+                        "-c:a", "aac", "-b:a", "128k", "-ar", "48000", "-ac", "2", str(trozo)], check=True)
+        lista.append(f"file '{trozo}'")
+    (tmp / "lista.txt").write_text("\n".join(lista) + "\n", encoding="utf-8")
+    subprocess.run([ff, "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", str(tmp / "lista.txt"),
+                    "-c", "copy", "-bsf:a", "aac_adtstoasc", str(salida)], check=True)
+    shutil.rmtree(tmp, ignore_errors=True)
 
 
 def proxy_negro(video, info, carpeta):
@@ -573,7 +599,7 @@ def limpiar_assets(destino, papelera=False):
     return libres
 
 
-def spec_capcut(nombre, trans, tramos):
+def spec_capcut(nombre, trans, tramos, aparte=()):
     info = trans[0]
     ancho, alto = info.get("ancho") or 1080, info.get("alto") or 1920
     escala = 1920 / max(ancho, alto)
@@ -581,8 +607,12 @@ def spec_capcut(nombre, trans, tramos):
     items = [{"path": trans[tr["video"]]["video"], "start": tr["tl"],
               "sourceStart": tr["ini"], "duration": round(tr["fin"] - tr["ini"], 3)}
              for tr in tramos]
-    return {"name": nombre, "width": w, "height": h, "fps": 30,
-            "tracks": [{"type": "video", "name": "Cortes", "items": items}]}
+    tracks = [{"type": "video", "name": "Cortes", "items": items}]
+    if aparte:
+        tracks.append({"type": "video", "name": "Aparte", "items": [
+            {"path": trans[tr["video"]]["video"], "start": tr["tl"], "sourceStart": tr["ini"],
+             "duration": round(tr["fin"] - tr["ini"], 3)} for tr in aparte]})
+    return {"name": nombre, "width": w, "height": h, "fps": 30, "tracks": tracks}
 
 
 def carpeta_borradores():
@@ -645,8 +675,9 @@ def cmd_montar(a):
 
     if capcut_abierto():
         sys.exit("CapCut está abierto: ciérralo y vuelve a lanzar `montar` (no se ha escrito nada).")
-    spec = spec_capcut(a.nuevo or a.pieza, trans, tramos)
-    for it in spec["tracks"][0]["items"]:  # compilar contra proxies negros, no contra el original
+    aparte = tramos_aparte(frases, trans, sum(t["fin"] - t["ini"] for t in tramos))
+    spec = spec_capcut(a.nuevo or a.pieza, trans, tramos, aparte)
+    for it in (i for tk in spec["tracks"] for i in tk["items"]):  # proxies negros, no el original
         t = next(x for x in trans if x["video"] == it["path"])
         it["path"] = str(proxy_negro(it["path"], t, d / "proxies"))
     escribir_json(d / "spec-fase1.json", spec)
