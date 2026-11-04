@@ -1860,6 +1860,161 @@ def cmd_sonidos_cortar(a):
     print(f"Cortados {sum(1 for m in man if m['id'].startswith('g'))} sonidos en {SONIDOS} · avisos de silencio: {avisos}")
 
 
+# ---------------------------------------------------------------- clientes (kit de marca)
+
+GUIA = """precapcut · pre-edición de vídeos en CapCut, por fases (con revisión entre una y otra)
+
+  0. Cliente      python3 precapcut.py clientes            (qué clientes hay y si su kit está bien)
+                  python3 precapcut.py cliente <slug>      (revisa su kit de marca punto por punto)
+                  python3 precapcut.py nuevo-cliente <slug> (si es nuevo: crea su kit para rellenar)
+  1. Cortes       fase1 <pieza> <vídeos…>  → revisar fase1.md → montar <pieza> --nuevo "<proyecto>" → qa
+  2. Textos       subtitulos <pieza> "<proyecto>" --estilo <slug> --solo-md → revisar → sin --solo-md
+  2b. Recursos    recursos … --solo-md → storyboard → OK → recursos … (sin --solo-md)
+  3. Sonidos      sonidos <pieza> "<proyecto>" --estilo <slug> --solo-md → revisar → sin --solo-md
+
+Reglas: CapCut cerrado (Cmd+Q) antes de escribir · revisión en CapCut tras cada fase · leer
+aprendizajes/general.md y aprendizajes/<slug>.md antes de empezar. Más en LEEME.md."""
+
+KIT_OBLIGATORIO = [  # (ruta en el json, qué es) para que las fases 2-3 funcionen
+    (("subtitulos", "fuente"), "fuente de los subtítulos"), (("subtitulos", "archivo_fuente"), ".ttf de los subtítulos"),
+    (("subtitulos", "color"), "color de los subtítulos"), (("subtitulos", "tamano"), "tamaño de los subtítulos"),
+    (("titular", "clave", "fuente"), "fuente de la palabra clave del titular"),
+    (("titular", "clave", "archivo_fuente"), ".ttf de la palabra clave"), (("titular", "clave", "color"), "color del titular"),
+    (("titular", "menor", "fuente"), "fuente de las palabras pequeñas del titular"),
+    (("titular", "menor", "archivo_fuente"), ".ttf de las palabras pequeñas"),
+    (("exclamacion", "archivo_fuente"), ".ttf de las exclamaciones"), (("recursos", "color"), "color de los gráficos"),
+]
+
+
+def revisar_kit(slug):
+    """Lista de (ok, texto) del kit de marca de un cliente."""
+    f = AQUI / "estilos" / f"{slug}.json"
+    if not f.exists():
+        return [(False, f"no existe estilos/{slug}.json (cliente nuevo: `nuevo-cliente {slug}`)")]
+    e = leer_json(f)
+    res = []
+    for ruta, que in KIT_OBLIGATORIO:
+        v = e
+        for k in ruta:
+            v = v.get(k) if isinstance(v, dict) else None
+        ok = v not in (None, "", "COMPLETAR") and "COMPLETAR" not in str(v)
+        if ok and ruta[-1] == "archivo_fuente":
+            ok = (AQUI / v).exists()
+            que += f" ({v}{'' if ok else ' NO está en fuentes/'})"
+        if ok and ruta[-1] == "color":
+            ok = bool(re.fullmatch(r"#[0-9a-fA-F]{6}", str(v)))
+        res.append((ok, que + ("" if ok else " · falta o está mal")))
+    fuentes = {v for v in re.findall(r'"archivo_fuente": "([^"]+)"', f.read_text(encoding="utf-8"))}
+    for ff in sorted(fuentes):
+        inst = ruta_fuente_capcut(ff).exists()
+        res.append((inst, f"fuente {Path(ff).name} instalada para CapCut" + ("" if inst else " · falta: bash instalar-mac.sh")))
+    ap = AQUI / "aprendizajes" / f"{slug}.md"
+    res.append((ap.exists(), f"aprendizajes/{slug}.md" + ("" if ap.exists() else " · falta (se crea con nuevo-cliente)")))
+    res.append((bool(e.get("fuente_evidencia")), "de dónde sale el estilo (fuente_evidencia: kit de marca, vídeo de referencia)"))
+    return res
+
+
+EMPEZAR = """CÓMO SE EDITA UN VÍDEO CON PRECAPCUT (para la editora; Claude hace los comandos)
+
+1. CLIENTE · dile a Claude: «quiero editar un vídeo de <cliente>».
+   Claude mira si el cliente existe y si su kit de marca está bien (`clientes`, `cliente <slug>`).
+   · Cliente nuevo o kit incompleto: pásale su kit de marca (carpeta con logo, fuentes .ttf/.otf o sus nombres de
+     Google Fonts, colores en #hex) y, si hay, un vídeo de referencia o un proyecto de CapCut retocado a mano
+     con los textos como deben quedar. Claude lo da de alta (`nuevo-cliente`) y lo revisa.
+2. VÍDEOS · dile dónde están los brutos y en qué orden se grabaron («C0038 a C0041 de <carpeta>»).
+3. FASES · una a una; tras cada una, ábrelo en CapCut, revísalo y di «ok» o qué cambiar.
+   ANTES DE CADA ESCRITURA: CapCut cerrado del todo (Cmd+Q). Claude te avisa si está abierto.
+   a) Cortes   · mira: que no falten frases ni sobren tomas, que no se coma sílabas, sin silencios largos.
+   b) Textos   · mira: subtítulos bien escritos y a tiempo, titulares sin tapar la cara ni salirse.
+   c) Recursos · Claude te propone un storyboard; di cuáles sí. Mira: que expliquen y no tapen nada.
+   d) Sonidos  · mira: que se oigan sin tapar la voz y no suene nada doble.
+4. TOQUE FINAL · lo creativo es tuyo, en CapCut. Si tocas algo, Claude ya no rehace encima: solo añade.
+5. TUS TIPS · cuando algo no te guste, díselo a Claude: lo corrige y lo apunta en los aprendizajes."""
+
+
+def instalar_fuentes(archivos):
+    """Copia las fuentes del kit a las del usuario (CapCut en Mac las ve ahí, por su contenedor)."""
+    destino = (Path.home() / "Library/Fonts" if sys.platform == "darwin" else
+               Path(os.environ.get("LOCALAPPDATA", "")) / "Microsoft/Windows/Fonts")
+    destino.mkdir(parents=True, exist_ok=True)
+    for f in archivos:
+        if not (destino / f.name).exists():
+            shutil.copy2(f, destino / f.name)
+
+
+def cmd_empezar(a):
+    print(EMPEZAR)
+    print("\nClientes con kit:", ", ".join(f.stem for f in sorted((AQUI / "estilos").glob("*.json"))))
+
+
+def cmd_clientes(a):
+    for f in sorted((AQUI / "estilos").glob("*.json")):
+        r = revisar_kit(f.stem)
+        mal = [t for ok, t in r if not ok]
+        print(f"{'✓' if not mal else '✗'} {f.stem}" + (f" · {len(mal)} cosas por revisar" if mal else " · kit completo"))
+    print("\nCliente nuevo: python3 precapcut.py nuevo-cliente <slug>  ·  Detalle: python3 precapcut.py cliente <slug>")
+
+
+def cmd_cliente(a):
+    f = AQUI / "estilos" / f"{a.slug}.json"
+    if f.exists():  # las fuentes del kit que falten se instalan solas
+        instalar_fuentes([AQUI / x for x in re.findall(r'"archivo_fuente": "([^"]+)"', f.read_text(encoding="utf-8"))
+                          if (AQUI / x).exists()])
+    r = revisar_kit(a.slug)
+    print(f"Kit de marca de «{a.slug}»:")
+    for ok, t in r:
+        print(f"  {'✓' if ok else '✗'} {t}")
+    if all(ok for ok, _ in r):
+        print(f"\nTodo bien: se puede empezar con la fase 1 (cortes). Antes, lee aprendizajes/general.md y aprendizajes/{a.slug}.md.")
+    else:
+        print("\nArregla lo que tiene ✗ antes de la fase 2 (la fase 1, cortes, no necesita el kit).")
+
+
+def cmd_nuevo_cliente(a):
+    f = AQUI / "estilos" / f"{a.slug}.json"
+    if f.exists():
+        sys.exit(f"Ya existe estilos/{a.slug}.json: revísalo con `cliente {a.slug}`.")
+    base = leer_json(AQUI / "estilos" / "jesus-mora.json")  # misma estructura que la del cliente de referencia
+
+    def vaciar(x):
+        if isinstance(x, dict):
+            return {k: vaciar(v) for k, v in x.items()}
+        if isinstance(x, str) and (x.startswith("#") or x.endswith(".ttf") or x in ("Alata", "Rubik Bold")):
+            return "COMPLETAR"
+        return x
+    nuevo = vaciar(base)
+    fuentes = []
+    if a.kit:  # carpeta del kit: sus fuentes pasan a fuentes/
+        for f in Path(a.kit).rglob("*"):
+            if f.suffix.lower() in (".ttf", ".otf"):
+                shutil.copy2(f, AQUI / "fuentes" / f.name)
+                fuentes.append(AQUI / "fuentes" / f.name)
+    for nombre in a.google or []:  # solo el nombre: se baja de Google Fonts (fontsource, licencia OFL)
+        slug_f = nombre.lower().replace(" ", "-")
+        for peso in ("400", "700"):
+            url = f"https://cdn.jsdelivr.net/fontsource/fonts/{slug_f}@latest/latin-{peso}-normal.ttf"
+            dest = AQUI / "fuentes" / f"{nombre.replace(' ', '')}-{'Regular' if peso == '400' else 'Bold'}.ttf"
+            try:
+                import urllib.request
+                dest.write_bytes(urllib.request.urlopen(url, timeout=30).read())
+                fuentes.append(dest)
+            except Exception as ex:
+                print(f"  no he podido bajar {nombre} {peso}: {ex}")
+    instalar_fuentes(fuentes)
+    if fuentes:
+        print("Fuentes del kit en fuentes/:", ", ".join(f.name for f in fuentes), "(pon cada una en su sitio del json)")
+    nuevo.update(cliente=a.slug, fuente_evidencia="COMPLETAR: kit de marca + vídeo de referencia", colores_nombrados=False)
+    nuevo.pop("colores", None)
+    escribir_json(f, nuevo)
+    ap = AQUI / "aprendizajes" / f"{a.slug}.md"
+    if not ap.exists():
+        ap.write_text(f"# Aprendizajes · {a.slug}\n\n## {time.strftime('%Y-%m-%d')} · alta del cliente\n- Kit de marca: COMPLETAR.\n",
+                      encoding="utf-8")
+    print(f"Creados estilos/{a.slug}.json (con COMPLETAR donde falta) y aprendizajes/{a.slug}.md.")
+    print("Rellena: fuentes (.ttf en fuentes/ e instaladas), colores (#rrggbb), tamaños y posiciones (copiados del cliente de")
+    print(f"referencia: ajústalos con su vídeo de referencia). Luego: python3 precapcut.py cliente {a.slug}")
+
+
 def cmd_qa(a):
     """Re-transcribe el preview y lo compara con lo que debía quedar: palabras comidas o sobrantes."""
     d, trans, frases, tramos = cargar_pieza(a.pieza)
@@ -1897,7 +2052,15 @@ def cmd_qa(a):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    sub = p.add_subparsers(dest="cmd", required=True)
+    sub = p.add_subparsers(dest="cmd")
+    sub.add_parser("clientes", help="clientes y estado de su kit de marca")
+    cl = sub.add_parser("cliente", help="revisa el kit de marca de un cliente")
+    cl.add_argument("slug")
+    nc = sub.add_parser("nuevo-cliente", help="crea el kit de marca (para rellenar) de un cliente nuevo")
+    nc.add_argument("slug")
+    nc.add_argument("--kit", help="carpeta con el kit de marca (se copian sus fuentes .ttf/.otf)")
+    nc.add_argument("--google", nargs="*", help="nombres de fuentes de Google Fonts para bajar (p. ej. «Rubik» «Alata»)")
+    sub.add_parser("empezar", help="los pasos para editar un vídeo (para quien empieza)")
     f1 = sub.add_parser("fase1", help="transcribir y decidir qué se queda")
     f1.add_argument("pieza")
     f1.add_argument("videos", nargs="+")
@@ -1938,7 +2101,11 @@ def main():
     q.add_argument("pieza")
     q.add_argument("--modelo", default="small")
     a = p.parse_args()
-    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "recursos": cmd_recursos, "sonidos": cmd_sonidos, "sonidos-cortar": cmd_sonidos_cortar, "qa": cmd_qa}[a.cmd](a)
+    if not a.cmd:  # sin nada: los pasos, para quien empieza
+        print(GUIA + "\n\nPara empezar paso a paso: python3 precapcut.py empezar")
+        return
+    {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "recursos": cmd_recursos, "sonidos": cmd_sonidos, "sonidos-cortar": cmd_sonidos_cortar, "qa": cmd_qa,
+     "clientes": cmd_clientes, "cliente": cmd_cliente, "nuevo-cliente": cmd_nuevo_cliente, "empezar": cmd_empezar}[a.cmd](a)
 
 
 if __name__ == "__main__":

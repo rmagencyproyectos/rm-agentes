@@ -172,3 +172,15 @@
 - (04/11, corrección de Gerard) En cada versión: UN solo gancho, integrado en la pista principal al principio (no
   encima), y el vídeo justo detrás sin hueco negro. El arranque del vídeo («Bé, un altre cop estem per aquí») también
   cuenta como gancho: fuera en las demás versiones y con versión propia.
+- (04/11) Música: Gerard deja la canción al final de la pista principal con su velocidad y volumen; se copia DENTRO de
+  cada versión a su duración (mismo inicio, velocidad, volumen) + fundido de salida 1,5 s (`audio_fades`).
+- (04/11) Títulos de capítulo («DIA N / APRENENT FOTOGRAFIA»): como textos sueltos (type "text", no subtítulo) en cada
+  versión, copiando la composición del clip combinado del título; sirven de título y portada del reel.
+  `scripts-sueltos/musica_titulos.py`.
+
+## 2026-11-04 · referencia que pasó Gerard (vídeo «Motion graphics con un solo prompt», Remotion + Claude)
+- Método del vídeo: 1) un prompt que genera un «súper prompt» a partir de la web/marca del cliente; 2) ese súper
+  prompt a Claude Code con las skills de Remotion; 3) correcciones (más tiempo de lectura, motion blur, entradas
+  con blur, que la música no acabe cortada) y adaptar formato (vertical/cuadrado).
+- Ideas aplicables a la fase 2b (pendiente de que Gerard diga cuáles): brief visual por cliente a partir de su
+  web + kit de marca; skills oficiales de Remotion; motion blur y transiciones más finas en las plantillas.

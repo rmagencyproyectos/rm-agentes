@@ -12,6 +12,13 @@ así no se descuadran.
 | 3 · Sonido | Librería de Gerard (`sonidos/`, 19 por papel) colocada según lo que hay en el proyecto | **hecha** (OK de Gerard 03/11) |
 | 4 · Humano | Lo creativo, en CapCut | — |
 
+## Primeros pasos (quien empieza)
+
+`python3 precapcut.py empezar` explica el flujo para la editora. Antes de las fases: `clientes` (lista y estado del
+kit), `cliente <slug>` (revisa el kit punto por punto e instala las fuentes que falten) y, si es nuevo,
+`nuevo-cliente <slug> [--kit <carpeta>] [--google "Fuente"]` (crea el kit para rellenar a partir del de jesus-mora).
+La skill `editar-video` es el punto de entrada para Claude: cliente → kit → vídeos → fases con revisión.
+
 ## Cómo se pide
 
 «Pre-edita los vídeos C0038 a C0041 de `<carpeta>` en el proyecto de CapCut «X»». Claude sigue esto:
