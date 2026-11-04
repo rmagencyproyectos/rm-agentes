@@ -51,6 +51,23 @@ La skill `editar-video` es el punto de entrada para Claude: cliente → kit → 
 Leer `aprendizajes/general.md` y `aprendizajes/<cliente>.md`. Cada tip nuevo de Gerard, Andrea o Jaume se
 apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `estilos/<cliente>.json`.
 
+## Cortes en fotogramas y QA obligatoria (Gerard 04/11)
+
+Reglas de corte (montar y todo lo que corte o re-temporice): 1) microsegundos ENTEROS, nunca segundos con decimales;
+2) cada punto de corte al borde de clip real si está a ≤ 2 fotogramas, si no al fotograma: round(t/(1e6/fps))·(1e6/fps);
+3) si un rango cubre un clip salvo < 0,1 s, se quita entero; 4) ripple en TODAS las pistas a la vez (lo que cruza el
+corte se acorta, y en vídeo/audio también su source_timerange = duración × velocidad); 5) texto con más de la mitad
+dentro del corte → fuera entero; 6) cortes de final a principio; 7) compactar la pista principal (cada clip empieza
+donde acaba el anterior); 8) duración = fin del último clip principal; la música se ajusta a ella.
+`montar` ya construye así (`en_fotogramas`: tramos de un número entero de fotogramas, contiguos, ≥ 0,1 s).
+
+**Antes de entregar**: `python3 precapcut.py qa-capcut "<proyecto>" --version "D1 V3"` (solo lee). Comprueba: restos
+< 0,1 s (vídeo/audio = fallo, texto = revisar), huecos en la principal, solapes, inicios y duraciones en fotograma
+(±1 ms), origen = destino × velocidad y sin pasar del final del archivo, música/vídeo acaban juntos, nada negro al
+final, cortes que entran o salen con voz, todas las copias que lee CapCut iguales y `capcut lint` sin errores.
+Si algo falla: arreglar y repetir; **nunca se entrega con fallos**. Formato: «D1 V3 · principal · resto de 0,033 s en 17,767».
+CapCut cerrado, copia completa antes de cada escritura y nunca rehacer encima de lo que tocó la editora.
+
 ## Fase 2 · Subtítulos
 
 1. Estilo del cliente en `estilos/<cliente>.json` (ver `estilos/LEEME.md`). Si no existe: sacarlo del vídeo
@@ -90,14 +107,14 @@ apunta ahí (con fecha y autor, sin borrar nada) y, si es medible, también en `
 1. `python3 precapcut.py recursos <pieza> "<proyecto>" --estilo <cliente> [--fotos <carpeta>] --solo-md --regenerar`
    → leer **solo** `recursos.md`. Propone un recurso por idea (clave de cada titular) + números (contador),
    negaciones (cruz) y «aquí» (flecha), sin solaparse. Revisar con criterio y editar `recursos.json`:
-   `plantilla` — explicativas (las buenas): `cajon` (bandeja estándar con huecos → madera a medida; t1 = madera, t2 = se estira), `cajon_orden` (se llena de cubiertos ordenados), `esquina` (planta en L con rincón perdido), `rinonero` (bandejas que salen girando; t1 = rincón aprovechado), `guardar` (botón de guardar de Instagram), `antes_despues` (dos mitades, ~2 s; t1 = aparece la buena), `zoom` (no se renderiza: keyframe de escala ≥ 1 centrada en el clip de debajo; nunca desplazar ni bajar de 1: bordes negros). Sin texto en los recursos (Gerard 31/10): `etiqueta` no se usa; `x_px`/`y_px` por recurso para esquivar la cara; genéricas solo si explican algo: carpeta · contador · check · cruz · lista · flecha (`icono` con emoji: NO, Gerard 31/10), `texto`, `icono` (emoji),
+   `plantilla` — **en 3D (las mejores, Gerard 04/11)**: `rayado_3d`, `color_cansa_3d`, `puzle_3d`, `muestrario_3d`, `movil_foto_3d` (`recursos/remotion/src/Explicativos3D.tsx`: Three.js, luz de estudio, mármol/madera/lacado de la marca, sin tarjeta de fondo; las nuevas se hacen así, con las skills oficiales `remotion-markup`/`remotion-best-practices`). Todas entran enfocándose desde blur, salen desenfocándose y llevan motion blur en el render. Explicativas 2D: `cajon` (bandeja estándar con huecos → madera a medida; t1 = madera, t2 = se estira), `cajon_orden` (se llena de cubiertos ordenados), `esquina` (planta en L con rincón perdido), `rinonero` (bandejas que salen girando; t1 = rincón aprovechado), `guardar` (botón de guardar de Instagram), `antes_despues` (dos mitades, ~2 s; t1 = aparece la buena), `zoom` (no se renderiza: keyframe de escala ≥ 1 centrada en el clip de debajo; nunca desplazar ni bajar de 1: bordes negros). Sin texto en los recursos (Gerard 31/10): `etiqueta` no se usa; `x_px`/`y_px` por recurso para esquivar la cara; genéricas solo si explican algo: carpeta · contador · check · cruz · lista · flecha (`icono` con emoji: NO, Gerard 31/10), `texto`, `icono` (emoji),
    `items`, `numero`, o `foto` (ruta; con `--fotos` sale `fotos-hoja.jpg` para elegir por contenido).
    Primero storyboard (qué explica cada uno, cómo, dónde) y OK de Gerard; pocos y que expliquen (ver aprendizajes). Las ilustraciones nuevas se añaden a `recursos/remotion/src/Explicativos.tsx`.
 2. Sin `--solo-md` (CapCut cerrado; sin `--regenerar` respeta `recursos.json`): renderiza cada uno con
    Remotion (`recursos/remotion`, ~3 s cada uno; ProRes 4444 con alfa, 1080x1920, el elemento en el tercio
    de abajo: `estilos/<cliente>.json` → `recursos.y_px`) y los AÑADE en la pista `Recursos` (rehacer = solo
-   esa pista). `recursos/remotion/node_modules` es un enlace a `proyectos/remotion-video/node_modules`
-   (en otro ordenador: `npm i` dentro de `recursos/remotion`).
+   esa pista). `recursos/remotion` tiene su propio `node_modules` (Remotion 4.0.540 + three; `npm i` dentro
+   de la carpeta). Sin tarjeta de fondo, el 3D no debe pegarse a la cara ni a las manos: mover `x_px`/`y_px`.
 3. QA: fotogramas con el recurso encima (alfa, sitio, que no tape cara ni subtítulos) y `capcut lint`.
 
 ## Reglas

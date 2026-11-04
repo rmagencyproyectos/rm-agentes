@@ -32,3 +32,12 @@ Deja en CapCut el vídeo de un cliente hablando a cámara ya cortado: sin tomas 
 - CapCut está congelado en la 9.5, porque la 10 rechaza estos proyectos.
 - Los nombres que salgan mal se añaden a `vocabulario.txt`.
 - Para material POV sin voz (resumen de mejores momentos), esta fase no sirve. Eso se hace eligiendo planos con hojas de contacto.
+
+## Cortes exactos y QA obligatoria (Gerard 04/11)
+- Los cortes van en microsegundos enteros y en fotogramas exactos; cada clip empieza donde acaba el anterior (montar
+  ya lo hace). Si alguna vez hay que cortar un proyecto existente: reglas de «Cortes en fotogramas y QA» del LEEME
+  (borde de clip a ≤ 2 fotogramas, ripple en todas las pistas, cortes de final a principio, compactar).
+- **Antes de entregar**: `python3 precapcut.py qa-capcut "<proyecto>" --version "<versión>"`. Si sale algún fallo
+  (restos < 0,1 s, huecos, solapes, fuera de fotograma, cortes con voz, copias distintas, lint con errores), se
+  arregla y se repite. **Nunca se entrega con fallos.** Informa cada fallo así: «D1 V3 · principal · resto de 0,033 s en 17,767».
+- CapCut cerrado (Cmd+Q) y copia completa antes de cada escritura; nunca rehacer encima de lo tocado a mano.

@@ -10,8 +10,8 @@ python3 -m pip install --user -q -r requirements.txt
 python3 -c "from faster_whisper import WhisperModel; WhisperModel('medium', compute_type='int8')"
 # fuentes de las marcas (estilos/), solo para este usuario
 mkdir -p ~/Library/Fonts && cp -n fuentes/*.ttf ~/Library/Fonts/ || true
-# plantillas de gráficos (fase 2b): Remotion. En el Mac de Gerard es un enlace; en los demás se instala.
-[ -e recursos/remotion/node_modules ] || (cd recursos/remotion && npm i --no-audit --no-fund --silent)
+# plantillas de gráficos (fase 2b): Remotion 4.0.540 + three (gráficos 3D).
+[ -e recursos/remotion/node_modules/three ] || (cd recursos/remotion && npm i --no-audit --no-fund --silent)
 command -v ffprobe >/dev/null || echo "Sin ffprobe: se usará ffprobe_pyav.py (normal en este Mac)."
 capcut doctor -H || true
 echo

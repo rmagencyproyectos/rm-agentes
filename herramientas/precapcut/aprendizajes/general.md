@@ -184,3 +184,21 @@
   con blur, que la música no acabe cortada) y adaptar formato (vertical/cuadrado).
 - Ideas aplicables a la fase 2b (pendiente de que Gerard diga cuáles): brief visual por cliente a partir de su
   web + kit de marca; skills oficiales de Remotion; motion blur y transiciones más finas en las plantillas.
+- (04/11) Música: cuando Gerard ajusta una versión «para que pongas como esa todas», copiar de esa versión velocidad Y
+  volumen (y el resto de ajustes del clip de audio). No dar por hecho que la velocidad se queda igual.
+
+## 2026-11-04 · Gerard: recursos en 3D (skills oficiales de Remotion)
+- Las animaciones 2D planas se veían «sosillas». Aprobado: recursos en 3D (Three.js con `@remotion/three`):
+  volumen, luz de estudio y materiales reales (mármol, madera con veta, lacado del color de la marca), sin texto
+  y sin tarjeta de fondo. Plantillas `*_3d` en `recursos/remotion/src/Explicativos3D.tsx`; las nuevas, igual.
+- Entran enfocándose desde blur y salen desenfocándose; motion blur (`CameraMotionBlur`) solo en el render final.
+- Más tiempo de lectura: cada recurso dura 1,8–3 s (antes 1,2–2,6) si hay hueco hasta el siguiente.
+- Sin tarjeta, que no se peguen a la cara ni a las manos del que habla (mover `x_px`/`y_px`).
+- (04/11) ERROR mío: cortes en onda con tiempos redondeados a centésimas dejaron restos de 1 fotograma y un hueco en la
+  pista principal (Gerard: «clips de mierda de 0,01 s»). Los cortes se ajustan SIEMPRE a los bordes reales de los clips
+  (o a fotograma, 1/30 s) y después se comprueba: ningún clip < 0,1 s ni hueco en la principal (`limpiar_restos.py`).
+
+## 2026-11-04 · Gerard (fallos de cortes en «Aprenent fotografia»)
+- Cortes en microsegundos enteros y en fotogramas exactos (con segundos a 2 decimales quedaban restos de 1
+  fotograma y huecos negros). Reglas completas y QA obligatoria en LEEME («Cortes en fotogramas y QA»).
+- Antes de entregar cualquier versión: `qa-capcut`. Con un fallo no se entrega.

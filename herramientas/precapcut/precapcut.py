@@ -640,14 +640,30 @@ def limpiar_assets(destino, papelera=False):
     return libres
 
 
+def fotograma_us(k, fps):
+    return round(k * 1_000_000 / fps)
+
+
+def en_fotogramas(tramos, fps=30):
+    """Cortes en microsegundos ENTEROS y en fotogramas exactos (Gerard 04/11: segundos con 2-3 decimales dejaban
+    restos de 1 fotograma y huecos negros). Cada tramo dura un número entero de fotogramas; el siguiente empieza
+    justo donde acaba el anterior. Devuelve [(start_us, dur_us, source_us)]."""
+    out, k = [], 0
+    for tr in tramos:
+        n = max(3, round((tr["fin"] - tr["ini"]) * fps))  # nunca un resto de menos de 0,1 s (3 fotogramas)
+        ini_us, fin_us = fotograma_us(k, fps), fotograma_us(k + n, fps)
+        out.append((ini_us, fin_us - ini_us, round(tr["ini"] * 1_000_000)))
+        k += n
+    return out
+
+
 def spec_capcut(nombre, trans, tramos, aparte=()):
     info = trans[0]
     ancho, alto = info.get("ancho") or 1080, info.get("alto") or 1920
     escala = 1920 / max(ancho, alto)
     w, h = round(ancho * escala / 2) * 2, round(alto * escala / 2) * 2
-    items = [{"path": trans[tr["video"]]["video"], "start": tr["tl"],
-              "sourceStart": tr["ini"], "duration": round(tr["fin"] - tr["ini"], 3)}
-             for tr in tramos]
+    items = [{"path": trans[tr["video"]]["video"], "start": st / 1e6, "sourceStart": src / 1e6, "duration": du / 1e6}
+             for tr, (st, du, src) in zip(tramos, en_fotogramas(tramos, 30))]
     tracks = [{"type": "video", "name": "Cortes", "items": items}]
     if aparte:
         tracks.append({"type": "video", "name": "Aparte", "items": [
@@ -930,7 +946,14 @@ def construir_cues(palabras, estilo, ajustes):
             else max(c["fin"], c["ini"] + CUE_MIN)
     for a, b in zip(cues, cues[1:]):
         a["fin"] = min(a["fin"], b["ini"])
-    return cues, fixes
+    limpios = []  # ningún bloque de menos de 0,1 s (Gerard 04/11): su texto se junta con el anterior
+    for c in cues:
+        if c["fin"] - c["ini"] < 0.1 and limpios and c["frase"] == limpios[-1]["frase"]:
+            limpios[-1]["texto"] = f"{limpios[-1]['texto']} {c['texto']}"
+            limpios[-1]["fin"] = c["fin"]
+        elif c["fin"] - c["ini"] >= 0.1 or not limpios:
+            limpios.append(c)
+    return limpios, fixes
 
 
 def colores_de(ws, colores):
@@ -1505,7 +1528,7 @@ NUMEROS = {"uno": 1, "una": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5, "se
 ICONOS = {"cocina": "🍳", "cajon": "🗄️", "cuberteros": "🍴", "cubertero": "🍴", "madera": "🪵", "plastico": "🧴",
           "armario": "🚪", "puerta": "🚪", "rincones": "📐", "rincon": "📐", "hueco": "📦", "ideas": "💡",
           "video": "🎬", "organizado": "✅", "luz": "💡", "precio": "💶", "tiempo": "⏱️", "casa": "🏠"}
-RECURSO_MIN, RECURSO_MAX, RECURSO_HUECO = 1.2, 2.6, 1.0
+RECURSO_MIN, RECURSO_MAX, RECURSO_HUECO = 1.8, 3.0, 1.0  # que dé tiempo a leerlos (Gerard 04/11)
 
 
 def proponer_recursos(palabras, tit):
@@ -1549,10 +1572,11 @@ def render_recurso(r, estilo, salida):
              "items": r.get("items", []), "numero": r.get("numero", 0), "duracion": round(r["fin"] - r["ini"], 3),
              "t1": r.get("t1", 1.0), "t2": r.get("t2", 2.0),  # segundos (desde que entra) de cada cambio
              "x": int(r.get("x_px", 540)), "y": int(r.get("y_px", e.get("y_px", 1400))), "color": e.get("color", "#985e34"),
-             "colorTexto": e.get("color_texto", "#ffffff"), "fuenteTitulo": "Rubik-Bold.ttf", "fuenteTexto": "Alata-Regular.ttf"}
+             "colorTexto": e.get("color_texto", "#ffffff"), "fuenteTitulo": "Rubik-Bold.ttf", "fuenteTexto": "Alata-Regular.ttf",
+             "desenfoque": True}  # motion blur: solo aquí, en el render final
     remotion = REMOTION / "node_modules" / ".bin" / ("remotion.cmd" if sys.platform == "win32" else "remotion")
     subprocess.run([str(remotion), "render", "src/index.ts", "Recurso", str(salida), "--codec=prores",
-                    "--prores-profile=4444", "--pixel-format=yuva444p10le", "--image-format=png",
+                    "--prores-profile=4444", "--pixel-format=yuva444p10le", "--image-format=png", "--gl=angle",
                     "--props=" + json.dumps(props, ensure_ascii=False)], cwd=REMOTION, check=True, capture_output=True)
     return salida
 
@@ -2015,6 +2039,101 @@ def cmd_nuevo_cliente(a):
     print(f"referencia: ajústalos con su vídeo de referencia). Luego: python3 precapcut.py cliente {a.slug}")
 
 
+def qa_proyecto(destino, version=""):
+    """QA obligatoria antes de entregar (Gerard 04/11). Devuelve la lista de fallos «versión · pista · problema en t».
+    Solo lee el proyecto."""
+    fallos, MS = [], 1000
+    info = destino / "draft_info.json"
+    d = json.loads(info.read_text(encoding="utf-8"))
+    fps = d.get("fps") or 30
+    fr = 1_000_000 / fps
+    t = lambda us: f"{us / 1e6:.3f}".replace(".", ",")
+    mats = {}
+    for k, arr in d.get("materials", {}).items():
+        if isinstance(arr, list):
+            for x in arr:
+                if isinstance(x, dict) and "id" in x:
+                    mats[x["id"]] = x
+    principal = next((tr for tr in d["tracks"] if tr["type"] == "video" and tr.get("name") in ("Cortes", "")), None) \
+        or next((tr for tr in d["tracks"] if tr["type"] == "video"), None)
+    for tr in d["tracks"]:
+        nombre = tr.get("name") or tr["type"]
+        segs = sorted(tr["segments"], key=lambda s: s["target_timerange"]["start"])
+        for s in segs:
+            st, du = s["target_timerange"]["start"], s["target_timerange"]["duration"]
+            if du < 100_000:
+                fallos.append(f"{version} · {nombre} · resto de {t(du)} s en {t(st)}"
+                              + (" (texto: revisar)" if tr["type"] == "text" else ""))
+            for etiqueta, v in (("inicio", st), ("duración", du)):
+                if abs(v - round(v / fr) * fr) > MS:
+                    fallos.append(f"{version} · {nombre} · {etiqueta} fuera de fotograma ({t(v)} s) en {t(st)}")
+            src = s.get("source_timerange")
+            m = mats.get(s.get("material_id"), {})
+            if src and tr["type"] in ("video", "audio"):
+                vel = s.get("speed") or 1
+                if abs(src["duration"] - du * vel) > MS:
+                    fallos.append(f"{version} · {nombre} · origen {t(src['duration'])} s ≠ destino×velocidad en {t(st)}")
+                if m.get("duration") and src["start"] + src["duration"] > m["duration"] + MS:
+                    fallos.append(f"{version} · {nombre} · el origen pasa del final del archivo en {t(st)}")
+        for a, b in zip(segs, segs[1:]):
+            fin_a = a["target_timerange"]["start"] + a["target_timerange"]["duration"]
+            hueco = b["target_timerange"]["start"] - fin_a
+            if hueco < -MS:
+                fallos.append(f"{version} · {nombre} · solape de {t(-hueco)} s en {t(b['target_timerange']['start'])}")
+            elif tr is principal and hueco > MS:
+                fallos.append(f"{version} · {nombre} · hueco negro de {t(hueco)} s en {t(fin_a)}")
+    if principal and principal["segments"]:
+        fin_p = max(s["target_timerange"]["start"] + s["target_timerange"]["duration"] for s in principal["segments"])
+        for tr in d["tracks"]:
+            if tr["type"] == "audio" and re.search(r"m[uú]sica|music", tr.get("name") or "", re.I) and tr["segments"]:
+                fin_m = max(s["target_timerange"]["start"] + s["target_timerange"]["duration"] for s in tr["segments"])
+                if abs(fin_m - fin_p) > fr:
+                    fallos.append(f"{version} · {tr.get('name')} · la música acaba en {t(fin_m)} y el vídeo en {t(fin_p)}")
+        if d.get("duration") and d["duration"] - fin_p > fr:
+            fallos.append(f"{version} · proyecto · {t(d['duration'] - fin_p)} s en negro al final")
+        # cortes a mitad de palabra: el borde no puede caer con voz (energía de su archivo)
+        envs = {}
+        for s in principal["segments"]:
+            m = mats.get(s["material_id"], {})
+            ruta = (m.get("path") or "").replace("##_draftpath_placeholder_0E685133-18CE-45ED-8CB8-2904A212EC80_##", str(destino))
+            if not ruta or not Path(ruta).exists():
+                continue
+            env = envs.setdefault(ruta, envolvente(ruta))
+            src = s["source_timerange"]
+            for lado, us in (("entra", src["start"]), ("sale", src["start"] + src["duration"])):
+                if nivel(env, us / 1e6) >= env[1] + 6:
+                    fallos.append(f"{version} · {principal.get('name') or 'principal'} · el corte {lado} con voz en "
+                                  f"{t(s['target_timerange']['start'])} ({Path(ruta).name} {us / 1e6:.2f} s)")
+    # todas las copias que lee CapCut con el mismo timeline
+    firma = lambda dd: [(tr.get("name"), [(s["target_timerange"]["start"], s["target_timerange"]["duration"]) for s in tr["segments"]])
+                        for tr in dd["tracks"]]
+    ref = firma(d)
+    for f in [destino / "template-2.tmp", *destino.glob("Timelines/*/draft_info.json"), *destino.glob("subdraft/*/draft_info.json")]:
+        try:
+            otra = json.loads(f.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            continue
+        if "tracks" in otra and firma(otra) != ref and not f.parent.parent.name == "subdraft":
+            fallos.append(f"{version} · copias · {f.relative_to(destino)} no coincide con draft_info.json")
+    r = subprocess.run([capcut_bin(), "lint", str(info)], capture_output=True, text=True)
+    try:
+        for i in json.loads(r.stdout).get("issues", []):
+            if i["severity"] == "error" and not (i["code"] == "missing-file" and "_draftpath_placeholder_" in i["message"]
+                                                 and Path(i["message"].split("_##")[-1].strip()).name):
+                fallos.append(f"{version} · lint · {i['code']}: {i['message'][:90]}")
+    except ValueError:
+        pass
+    return fallos
+
+
+def cmd_qa_capcut(a):
+    destino = buscar_proyecto(a.proyecto)
+    fallos = qa_proyecto(destino, a.version or destino.name)
+    print("\n".join(fallos) if fallos else f"QA OK · {destino.name}: sin restos, huecos, solapes ni cortes con voz; copias iguales.")
+    if fallos:
+        sys.exit(1)
+
+
 def cmd_qa(a):
     """Re-transcribe el preview y lo compara con lo que debía quedar: palabras comidas o sobrantes."""
     d, trans, frases, tramos = cargar_pieza(a.pieza)
@@ -2097,6 +2216,9 @@ def main():
     so.add_argument("--regenerar", action="store_true", help="volver a proponer (pisa sonidos-decisiones.json)")
     sc = sub.add_parser("sonidos-cortar", help="corta el audio exportado de «Biblioteca sonidos RM» en un .wav por sonido")
     sc.add_argument("archivo", help="audio exportado desde CapCut (entero, desde 0:00)")
+    qc = sub.add_parser("qa-capcut", help="QA obligatoria del proyecto de CapCut antes de entregar (solo lee)")
+    qc.add_argument("proyecto")
+    qc.add_argument("--version", help="nombre corto de la versión para el informe (p. ej. D1 V3)")
     q = sub.add_parser("qa", help="re-transcribe el preview y busca palabras comidas")
     q.add_argument("pieza")
     q.add_argument("--modelo", default="small")
@@ -2105,7 +2227,8 @@ def main():
         print(GUIA + "\n\nPara empezar paso a paso: python3 precapcut.py empezar")
         return
     {"fase1": cmd_fase1, "montar": cmd_montar, "materiales": cmd_materiales, "subtitulos": cmd_subtitulos, "recursos": cmd_recursos, "sonidos": cmd_sonidos, "sonidos-cortar": cmd_sonidos_cortar, "qa": cmd_qa,
-     "clientes": cmd_clientes, "cliente": cmd_cliente, "nuevo-cliente": cmd_nuevo_cliente, "empezar": cmd_empezar}[a.cmd](a)
+     "clientes": cmd_clientes, "cliente": cmd_cliente, "nuevo-cliente": cmd_nuevo_cliente, "empezar": cmd_empezar,
+     "qa-capcut": cmd_qa_capcut}[a.cmd](a)
 
 
 if __name__ == "__main__":

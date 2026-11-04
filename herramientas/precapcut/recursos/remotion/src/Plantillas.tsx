@@ -1,11 +1,13 @@
 import React from 'react';
+import {CameraMotionBlur} from '@remotion/motion-blur';
 import {AbsoluteFill, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {AntesDespues, Cajon, CajonOrden, ColorCansa, Esquina, Guardar, MovilFoto, Muestrario, Puzle, Rayado, Rinonero, Rotulo} from './Explicativos';
+import {ColorCansa3D, MovilFoto3D, Muestrario3D, Puzle3D, Rayado3D} from './Explicativos3D';
 
 // Plantillas de motion graphics de precapcut. Fondo transparente; el elemento va centrado en (x, y)
 // en píxeles de 1080x1920. Colores y fuentes llegan del estilo del cliente.
 export type Props = {
-	plantilla: 'carpeta' | 'icono' | 'contador' | 'check' | 'cruz' | 'lista' | 'flecha' | 'cajon' | 'cajon_orden' | 'esquina' | 'rinonero' | 'guardar' | 'antes_despues' | 'etiqueta' | 'rayado' | 'color_cansa' | 'puzle' | 'muestrario' | 'movil_foto';
+	plantilla: 'carpeta' | 'icono' | 'contador' | 'check' | 'cruz' | 'lista' | 'flecha' | 'cajon' | 'cajon_orden' | 'esquina' | 'rinonero' | 'guardar' | 'antes_despues' | 'etiqueta' | 'rayado' | 'color_cansa' | 'puzle' | 'muestrario' | 'movil_foto' | 'rayado_3d' | 'color_cansa_3d' | 'puzle_3d' | 'muestrario_3d' | 'movil_foto_3d';
 	t1: number;
 	t2: number;
 	texto: string;
@@ -19,25 +21,28 @@ export type Props = {
 	colorTexto: string;
 	fuenteTitulo: string;
 	fuenteTexto: string;
+	desenfoque: boolean; // motion blur: solo en el render final (en Studio va lento)
 };
 
 export const defaultProps: Props = {
 	plantilla: 'icono', texto: 'riñonero', icono: '🗄️', items: [], numero: 3, duracion: 2,
-	t1: 1, t2: 2, x: 540, y: 1350, color: '#985e34', colorTexto: '#ffffff', fuenteTitulo: 'Rubik-Bold.ttf', fuenteTexto: 'Alata-Regular.ttf',
+	t1: 1, t2: 2, x: 540, y: 1350, color: '#985e34', colorTexto: '#ffffff', fuenteTitulo: 'Rubik-Bold.ttf', fuenteTexto: 'Alata-Regular.ttf', desenfoque: false,
 };
 
 const fuentes = (p: Props) => `
 @font-face {font-family: Titulo; src: url(${staticFile(p.fuenteTitulo)});}
 @font-face {font-family: Texto; src: url(${staticFile(p.fuenteTexto)});}`;
 
-// Entrada con muelle, respiración suave mientras está y salida rápida al final.
+// Entrada con muelle que llega enfocándose (blur → nítido), respiración suave y salida que se desenfoca.
+const SALIDA = 9;
 const useAnim = () => {
 	const f = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
-	const entra = spring({frame: f, fps, config: {damping: 12, stiffness: 160}});
-	const sale = interpolate(f, [durationInFrames - 6, durationInFrames - 1], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
-	const respira = 1 + 0.02 * Math.sin(f / 8);
-	return {f, fps, escala: entra * sale * respira, opacidad: Math.min(1, entra * 1.5) * sale};
+	const entra = spring({frame: f, fps, config: {damping: 14, stiffness: 140}});
+	const sale = interpolate(f, [durationInFrames - SALIDA, durationInFrames - 1], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+	const respira = 1 + 0.015 * Math.sin(f / 8);
+	const blur = Math.max(0, 1 - entra) * 18 + (1 - sale) * 14;
+	return {f, fps, escala: (0.85 + 0.15 * entra) * (0.92 + 0.08 * sale) * respira, opacidad: Math.min(1, entra * 1.6) * sale, blur};
 };
 
 const Etiqueta: React.FC<{p: Props; texto: string; tam?: number}> = ({p, texto, tam = 54}) => (
@@ -113,7 +118,7 @@ const Flecha: React.FC<{p: Props; f: number}> = ({p, f}) => (
 );
 
 export const Recurso: React.FC<Props> = (p) => {
-	const {f, fps, escala, opacidad} = useAnim();
+	const {f, fps, escala, opacidad, blur} = useAnim();
 	const cuerpo = {
 		carpeta: <Carpeta p={p} />,
 		icono: <Icono p={p} />,
@@ -134,13 +139,20 @@ export const Recurso: React.FC<Props> = (p) => {
 		puzle: <Puzle p={p} />,
 		muestrario: <Muestrario p={p} />,
 		movil_foto: <MovilFoto p={p} />,
+		rayado_3d: <Rayado3D p={p} />,
+		color_cansa_3d: <ColorCansa3D p={p} />,
+		puzle_3d: <Puzle3D p={p} />,
+		muestrario_3d: <Muestrario3D p={p} />,
+		movil_foto_3d: <MovilFoto3D p={p} />,
 	}[p.plantilla];
-	return (
+	const capa = (
 		<AbsoluteFill style={{backgroundColor: 'transparent'}}>
 			<style>{fuentes(p)}</style>
-			<div style={{position: 'absolute', left: p.x, top: p.y, transform: `translate(-50%, -50%) scale(${escala})`, opacity: opacidad}}>
+			<div style={{position: 'absolute', left: p.plantilla.endsWith('_3d') ? Math.min(Math.max(p.x, 270), 810) : p.x, top: p.y, transform: `translate(-50%, -50%) scale(${escala})`, opacity: opacidad,
+				filter: blur > 0.05 ? `blur(${blur}px)` : undefined}}>
 				{cuerpo}
 			</div>
 		</AbsoluteFill>
 	);
+	return p.desenfoque ? <CameraMotionBlur shutterAngle={180} samples={8}>{capa}</CameraMotionBlur> : capa;
 };
