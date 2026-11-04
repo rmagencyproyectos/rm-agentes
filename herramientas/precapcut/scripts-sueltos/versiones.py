@@ -5,13 +5,18 @@ PROY = Path.home() / "Movies/CapCut/User Data/Projects/com.lveditor.draft/Aprene
 UUID = re.compile(r'^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$')
 US = 1_000_000
 D1, D2 = '848C66AF-68B3-4E5F-B446-6EDF03181C74', '8555D535-9B8E-47F3-9C90-F83CCB4749D3'
-# gancho: (fuente del clip del gancho, pistas de texto del gancho [(índice, solo los que empiezan antes de s)])
-G = {D1: {'tolls': ([801.70], [(5, 3)]), 'episodi': ([367.667], [(6, 99)])},
-     D2: {'number one': ([466.667], [(7, 4.5), (10, 99)]), 'creatiu': ([385.70], [(8, 99)]), 'zoom': ([114.233], [(9, 99)])}}
+# gancho: fuente del clip del gancho (None = el arranque del vídeo principal, día 1 «Bé, un altre cop…»),
+# y sus textos: [(pista, solo los que empiezan antes de s)]
+G = {D1: {'tolls': (801.70, [(5, 3)]), 'episodi': (367.667, [(6, 99)]), 'be': (None, [(4, 2.5)])},
+     D2: {'number one': (466.667, [(7, 4.5), (10, 99)]), 'creatiu': (385.70, [(8, 99)]), 'zoom': (114.233, [(9, 99)])}}
+# texto duplicado de un gancho que se quita aunque sea el elegido (number one tenía dos copias)
+DUP = {D2: {'number one': [(10, 99)]}}
+V2_D1 = [(18.47, 28.33), (59.23, 64.60), (89.13, 93.97)]
 VERSIONES = [
     (D1, 'D1 V1 tolls', 'tolls', []),
-    (D1, 'D1 V2 episodi', 'episodi', [(18.47, 28.33), (59.23, 64.60), (89.13, 93.97)]),
-    (D1, 'D1 V3 tolls curta', 'tolls', [(18.47, 28.33), (52.37, 64.60), (69.63, 73.63), (81.67, 110.20)]),
+    (D1, 'D1 V2 episodi', 'episodi', V2_D1),
+    (D1, 'D1 V3 be', 'be', V2_D1 + [(52.37, 59.23), (69.63, 73.63)]),
+    (D1, 'D1 V4 tolls curta', 'tolls', [(18.47, 28.33), (52.37, 64.60), (69.63, 73.63), (81.67, 110.20)]),
     (D2, 'D2 V1 number one', 'number one', []),
     (D2, 'D2 V2 creatiu', 'creatiu', [(24.70, 28.57), (68.83, 82.93), (122.93, 135.40)]),
     (D2, 'D2 V3 zoom curta', 'zoom', [(12.93, 16.27), (24.70, 28.57), (42.57, 48.23), (68.83, 82.93), (93.43, 101.53),
@@ -41,21 +46,50 @@ def remap(o, m):
 
 def fin(s): return s['target_timerange']['start'] + s['target_timerange']['duration']
 
-def gancho(inner, did, elegido):
+def ganchos_de(inner, did):
+    """{nombre: [segmentos de vídeo del gancho]} (los de encima y, día 1, el arranque del principal)."""
     vids = {m['id']: m for m in inner['materials']['videos']}
-    for nombre, (fuentes, textos) in G[did].items():
-        for ti, t in enumerate(inner['tracks']):
-            if t['type'] == 'video' and ti > 0:
-                for s in list(t['segments']):
-                    src = (s.get('source_timerange') or {}).get('start', 0) / US
-                    if s['target_timerange']['start'] < 0.5 * US and any(abs(src - f) < 0.05 for f in fuentes) \
-                            and str(vids.get(s['material_id'], {}).get('path', '')).lower().endswith('.mp4'):
-                        if nombre == elegido: s['visible'] = True
-                        else: t['segments'].remove(s)
-        if nombre != elegido:
-            for ti, hasta in textos:
-                t = inner['tracks'][ti]
-                t['segments'] = [s for s in t['segments'] if s['target_timerange']['start'] >= hasta * US]
+    out = {}
+    for nombre, (fuente, _) in G[did].items():
+        if fuente is None:
+            out[nombre] = [s for s in inner['tracks'][0]['segments'] if s['target_timerange']['start'] < 0.1 * US]
+            continue
+        out[nombre] = [s for ti, t in enumerate(inner['tracks']) if t['type'] == 'video' and ti > 0 for s in t['segments']
+                       if s['target_timerange']['start'] < 0.5 * US
+                       and abs((s.get('source_timerange') or {}).get('start', 0) / US - fuente) < 0.05
+                       and str(vids.get(s['material_id'], {}).get('path', '')).lower().endswith('.mp4')]
+    return out
+
+def gancho(inner, did, elegido):
+    """Deja un solo gancho, metido al principio de la pista principal, y el vídeo justo detrás (sin hueco)."""
+    gs = ganchos_de(inner, did)
+    todos = [id(s) for v in gs.values() for s in v]
+    for t in inner['tracks']:  # fuera todos los clips de gancho (el elegido se vuelve a poner en la principal)
+        t['segments'] = [s for s in t['segments'] if id(s) not in todos]
+    textos = set()
+    for nombre, (_, pistas) in G[did].items():
+        quitar = pistas if nombre != elegido else DUP.get(did, {}).get(nombre, [])
+        for ti, hasta in quitar:
+            inner['tracks'][ti]['segments'] = [s for s in inner['tracks'][ti]['segments'] if s['target_timerange']['start'] >= hasta * US]
+    for ti, hasta in G[did][elegido][1]:
+        if (ti, hasta) not in DUP.get(did, {}).get(elegido, []):
+            textos |= {id(s) for s in inner['tracks'][ti]['segments'] if s['target_timerange']['start'] < hasta * US}
+    h = gs[elegido][0]
+    main = inner['tracks'][0]
+    m0 = min(s['target_timerange']['start'] for s in main['segments'])  # donde empieza el vídeo sin gancho
+    dur = h['target_timerange']['duration']
+    for t in inner['tracks']:
+        for s in t['segments']:
+            if id(s) not in textos:
+                s['target_timerange']['start'] += dur - m0
+    ref = main['segments'][0]
+    h = copy.deepcopy(h)
+    h['target_timerange']['start'] = 0; h['visible'] = True
+    for k in ('render_index', 'track_render_index', 'track_attribute'):
+        if k in ref: h[k] = ref[k]
+    main['segments'].insert(0, h)
+    inner['duration'] = max(fin(s) for t in inner['tracks'] for s in t['segments'])
+    return dur - m0
 
 def recortar(inner, rangos):
     for x, y in sorted(rangos, reverse=True):
@@ -102,7 +136,7 @@ for did, nombre, elegido, rangos in VERSIONES:
     m = {i: nuevo() for i in ids_de(e0, set()) | set(refs) | {s0['id'], e0['combination_id']}}
     e = remap(copy.deepcopy(e0), m); inner = e['draft']
     inner['name'] = nombre
-    gancho(inner, did, elegido); recortar(inner, rangos)
+    recortar(inner, rangos); gancho(inner, did, elegido)
     dur = inner['duration']
     s = remap(copy.deepcopy(s0), m)
     s['target_timerange'] = {'start': pos, 'duration': dur}; s['source_timerange'] = {'start': 0, 'duration': dur}

@@ -169,3 +169,6 @@
 
 ## 2026-11-04 · Gerard: OK a la prueba completa con Crudo (cortes → textos → recursos → sonidos)
 - Primer vídeo hecho de punta a punta con precapcut y aprobado. La configuración actual es la referencia.
+- (04/11, corrección de Gerard) En cada versión: UN solo gancho, integrado en la pista principal al principio (no
+  encima), y el vídeo justo detrás sin hueco negro. El arranque del vídeo («Bé, un altre cop estem per aquí») también
+  cuenta como gancho: fuera en las demás versiones y con versión propia.

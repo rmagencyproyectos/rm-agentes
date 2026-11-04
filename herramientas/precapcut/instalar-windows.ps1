@@ -14,5 +14,6 @@ foreach ($f in Get-ChildItem fuentes\*.ttf) {
     New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Fonts" -Name "$($f.BaseName) (TrueType)" -Value "$fuentes\$($f.Name)" -PropertyType String -Force | Out-Null
 }
 if (-not (Get-Command ffprobe -ErrorAction SilentlyContinue)) { Write-Host "Falta ffprobe: winget install Gyan.FFmpeg (sin él no se pueden alargar los clips en CapCut)" }
+if (-not (Test-Path recursos\remotion\node_modules)) { Push-Location recursos\remotion; npm i --no-audit --no-fund --silent; Pop-Location }
 capcut doctor -H
 Write-Host "IMPORTANTE: probado con CapCut 9.5. NO actualices a la 10 (rechaza estos proyectos)."
