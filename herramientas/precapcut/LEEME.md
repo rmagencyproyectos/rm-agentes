@@ -8,7 +8,7 @@ así no se descuadran.
 |---|---|---|
 | 1 · Cortes | Transcribe en local con tiempos por palabra, quita tomas falladas, arranques en falso, muletillas y silencios, y lo monta en CapCut | **hecha** |
 | 2 · Subtítulos | 1-2 palabras por bloque desde la misma transcripción + titular (palabra clave grande) por frase, estilo por cliente en `estilos/` | **hecha** (prueba Jesús Mora 30/10) |
-| 2b · Recursos | Motion graphics (Remotion, estilo de marca, fondo transparente) según lo que se dice; fotos si se adjunta carpeta | en pausa (01/11): se aprende con otro vídeo |
+| 2b · Recursos | Animaciones sin texto (Remotion, estilo de marca, fondo transparente) que explican lo que se dice, tras storyboard aprobado; fotos si se adjunta carpeta | **hecha** (OK de Gerard 04/11, Crudo) |
 | 3 · Sonido | Librería de Gerard (`sonidos/`, 19 por papel) colocada según lo que hay en el proyecto | **hecha** (OK de Gerard 03/11) |
 | 4 · Humano | Lo creativo, en CapCut | — |
 

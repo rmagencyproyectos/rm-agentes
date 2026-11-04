@@ -166,3 +166,6 @@
   mantenga (`nivel_efectos`). Crudo tiene la voz muy baja (-26 LUFS) → efectos x0,26.
 - Cada recurso con su sonido: rayado → marcar, puzle → error, muestrario → chasquido, móvil → sorpresa.
 - Los sonidos los copia capcut-cli dentro del proyecto (assets/): CapCut los lee.
+
+## 2026-11-04 · Gerard: OK a la prueba completa con Crudo (cortes → textos → recursos → sonidos)
+- Primer vídeo hecho de punta a punta con precapcut y aprobado. La configuración actual es la referencia.
