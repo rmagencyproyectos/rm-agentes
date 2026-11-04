@@ -1715,8 +1715,9 @@ def proponer_sonidos(data, trans, d, palabras=()):
                      {"t": t0 + r.get("t1", 0.35), "sonido": "correcto", "motivo": "después: lo correcto"}]
         elif r.get("plantilla") == "guardar":
             prop.append({"t": t0 + 0.45, "sonido": "clic", "motivo": "llamada a la acción (guardar)"})
-        else:
-            prop.append({"t": t0, "sonido": "pop", "motivo": f"recurso {r.get('plantilla', '')}"})
+        else:  # cada recurso con el sonido que le pega (biblioteca de Gerard, por papel)
+            son = {"rayado": "marcar", "puzle": "error", "movil_foto": "sorpresa", "muestrario": "chasquido", "lista": "marcar"}.get(r.get("plantilla"), "pop")
+            prop.append({"t": t0, "sonido": son, "motivo": f"recurso {r.get('plantilla', '')}"})
     clips = []
     for seg in pista.get("Cortes", {}).get("segments", []):
         src = seg["source_timerange"]
@@ -1748,6 +1749,39 @@ def proponer_sonidos(data, trans, d, palabras=()):
     return out
 
 
+def lufs(archivo):
+    r = subprocess.run([ffmpeg_bin(), "-hide_banner", "-i", str(archivo), "-af", "ebur128", "-f", "null", "-"],
+                       capture_output=True, text=True)
+    i = re.findall(r"I:\s+(-?[\d.]+) LUFS", r.stderr)
+    return float(i[-1]) if i else None
+
+
+def nivel_efectos(d, sons, lib, niveles, margen=-4.0):
+    """Factor para que los efectos queden con la voz de ESTE vídeo como en Jesús 26-10, que Gerard aprobó
+    («mucho mejor», 03/11): ahí, con sus sonidos a 0 dB, los efectos miden ~4 LU POR ENCIMA de la voz
+    (-12,1 / -16,0 LUFS, mono). Así suenan igual de presentes con una voz alta o baja (Crudo: -26 LUFS)."""
+    prev = d / "preview.mp4"
+    if not prev.exists() or not sons:
+        return 1.0
+    tmp = d / "cache"
+    tmp.mkdir(exist_ok=True)
+    ff = ffmpeg_bin()
+    subprocess.run([ff, "-v", "error", "-y", "-i", str(prev), "-vn", "-ac", "1", "-ar", "48000", str(tmp / "voz.wav")], check=True)
+    ins, fil = [], []
+    for k, x in enumerate(sons):
+        ins += ["-i", str(SONIDOS / lib[x["sonido"]]["archivo"])]
+        fil.append(f"[{k}:a]aresample=48000,aformat=channel_layouts=mono,volume={x.get('volumen', niveles.get(x['sonido'], 1.0))},"
+                   f"adelay={int(x['t'] * 1000)}:all=1[s{k}]")
+    fil.append("".join(f"[s{k}]" for k in range(len(sons))) + f"amix=inputs={len(sons)}:normalize=0:duration=longest[o]")
+    subprocess.run([ff, "-v", "error", "-y", *ins, "-filter_complex", ";".join(fil), "-map", "[o]", str(tmp / "sfx.wav")], check=True)
+    voz, sfx = lufs(tmp / "voz.wav"), lufs(tmp / "sfx.wav")
+    if voz is None or sfx is None:
+        return 1.0
+    ajuste = min(1.0, 10 ** ((voz - margen - sfx) / 20))
+    print(f"  voz {voz:.1f} LUFS · efectos {sfx:.1f} LUFS → x{ajuste:.2f}")
+    return ajuste
+
+
 def cmd_sonidos(a):
     d = TRABAJO / a.pieza
     trans = leer_json(d / "transcripciones.json")
@@ -1756,6 +1790,7 @@ def cmd_sonidos(a):
     # volumen de CapCut (1.0 = 0 dB). Gerard 01/11: pops y efectos a 0 dB (a -17 no se oían); whoosh como estaba
     niveles = {"whoosh": 0.14, "whoosh-corto": 0.14, "transicion-corta": 0.14, "transicion": 0.14}  # el resto, 1.0
     niveles.update(estilo.get("sonidos", {}).get("volumenes", {}))
+    ajuste = None  # se calcula abajo (nivel_efectos): misma relación voz/efectos que aprobó Gerard
     info = destino / "draft_info.json" if (destino / "draft_info.json").exists() else destino
     data = json.loads(info.read_text(encoding="utf-8"))
     dj = d / "sonidos-decisiones.json"
@@ -1781,6 +1816,7 @@ def cmd_sonidos(a):
         return
     if capcut_abierto():
         sys.exit("CapCut está abierto: ciérralo y vuelve a lanzarlo (no se ha escrito nada).")
+    ajuste = nivel_efectos(d, sons, lib, niveles)
     copia = d / "backups" / f"{destino.name}-{time.strftime('%Y%m%d-%H%M%S')}"
     shutil.copytree(destino, copia, ignore=shutil.ignore_patterns(".locked"))
     for sid in [seg["id"] for t in data.get("tracks", []) if (t.get("name") or "").startswith("Sonidos") for seg in t.get("segments", [])]:
@@ -1792,7 +1828,7 @@ def cmd_sonidos(a):
         pista = next(n for n in ["Sonidos"] + [f"Sonidos {k}" for k in range(2, 9)] if libre.get(n, -1) <= x["t"])
         libre[pista] = x["t"] + lib[x["sonido"]]["duracion"] + 0.04
         r = subprocess.run([capcut_bin(), "add-audio", str(info), str(f), str(x["t"]), str(lib[x["sonido"]]["duracion"]),
-                            "--track-name", pista, "--volume", str(x.get("volumen", niveles.get(x["sonido"], 1.0)))],
+                            "--track-name", pista, "--volume", str(round(x.get("volumen", niveles.get(x["sonido"], 1.0)) * ajuste, 3))],
                            capture_output=True, text=True, env=env)
         if r.returncode != 0:
             sys.exit(f"capcut add-audio {x['id']}: {(r.stdout + r.stderr)[-400:]}")

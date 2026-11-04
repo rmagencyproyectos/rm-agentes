@@ -155,3 +155,14 @@
 ## 2026-11-04 · Gerard («se ha perdido la ruta de los gráficos»)
 - CapCut (Mac, sandbox) no lee ~/rmagency: los recursos renderizados van DENTRO del proyecto
   (`<proyecto>/precapcut-recursos/`). Los vídeos grandes siguen fuera (en el disco o ~/Movies).
+- (04/11) Versiones para Trial Reels: Gerard pide varias versiones por capítulo, una por gancho y cada una más corta,
+  como clips combinados NUEVOS copiados de los suyos (los originales no se tocan). `scripts-sueltos/versiones.py`:
+  copia el combinado con ids nuevos (+ carpeta subdraft), deja visible solo el gancho elegido y sus textos y hace
+  cortes en onda (ripple) en todas las pistas; un texto con la mitad dentro del corte se quita entero.
+
+## 2026-11-04 · sonidos con Crudo
+- El nivel de los efectos depende de la voz de cada vídeo: se toma la relación que aprobó Gerard en Jesús
+  26-10 (sus sonidos a 0 dB → efectos ~4 LU por encima de la voz, medido en mono) y se escala para que se
+  mantenga (`nivel_efectos`). Crudo tiene la voz muy baja (-26 LUFS) → efectos x0,26.
+- Cada recurso con su sonido: rayado → marcar, puzle → error, muestrario → chasquido, móvil → sorpresa.
+- Los sonidos los copia capcut-cli dentro del proyecto (assets/): CapCut los lee.
