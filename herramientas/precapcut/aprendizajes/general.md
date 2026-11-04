@@ -151,3 +151,7 @@
   con foto que sale de la pantalla («foto vs delante»). Plantillas: rayado, color_cansa, puzle, muestrario, movil_foto.
 - En planos abiertos con el sujeto en el centro: pequeños en las esquinas de abajo, alternando lado.
 - Los recursos apuntan a su render en <pieza>/recursos/ (no se copian dentro del proyecto).
+
+## 2026-11-04 · Gerard («se ha perdido la ruta de los gráficos»)
+- CapCut (Mac, sandbox) no lee ~/rmagency: los recursos renderizados van DENTRO del proyecto
+  (`<proyecto>/precapcut-recursos/`). Los vídeos grandes siguen fuera (en el disco o ~/Movies).

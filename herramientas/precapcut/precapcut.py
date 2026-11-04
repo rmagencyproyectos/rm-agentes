@@ -1582,6 +1582,20 @@ def hacer_zoom(info, data, r):
             print(f"  zoom x{r.get('escala', 1.3)} en {t.get('name')} {tc(max(r['ini'], a))}–{tc(min(r['fin'], b))}")
 
 
+def poner_recursos_en_proyecto(destino, d, recursos):
+    carpeta = destino / "precapcut-recursos"
+    carpeta.mkdir(exist_ok=True)
+    rutas = {}
+    for r in recursos:
+        if r.get("foto"):
+            continue
+        src = d / "recursos" / f"{r['id']}.mov"
+        if src.exists():
+            shutil.copy2(src, carpeta / src.name)
+        rutas[src.name] = str(carpeta / src.name)
+    apuntar_originales(destino, rutas)
+
+
 def cmd_recursos(a):
     d = TRABAJO / a.pieza
     _, trans, frases, _ = cargar_pieza(a.pieza)  # con las palabras añadidas a mano («anadir»)
@@ -1642,8 +1656,9 @@ def cmd_recursos(a):
         print(f"  {r['id']} {r['plantilla']} {r.get('texto', '')}")
     if (destino / "Timelines").is_dir():
         subprocess.run([capcut_bin(), "sync-timelines", str(destino), "--nested", "--apply"], check=True, capture_output=True)
-    # los recursos se quedan donde se renderizaron (<pieza>/recursos/), no copiados dentro del proyecto
-    apuntar_originales(destino, {f"{r['id']}.mov": str(d / "recursos" / f"{r['id']}.mov") for r in recursos if not r.get("foto")})
+    # los recursos van DENTRO del proyecto (<proyecto>/precapcut-recursos/): CapCut va en sandbox y no lee
+    # ~/rmagency/work (Gerard 04/11: «se ha perdido la ruta»). Son pequeños; los vídeos grandes siguen fuera.
+    poner_recursos_en_proyecto(destino, d, recursos)
     limpiar_assets(destino)
     mudar_copias(destino)
     print(f"Añadidos {len(recursos)} recursos · copia: {copia}")
